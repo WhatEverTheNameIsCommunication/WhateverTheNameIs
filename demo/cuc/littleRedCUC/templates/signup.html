@@ -22,25 +22,26 @@
         {% endif %}
         {% endwith %}
         {# Render the login form. #}
-        <form action="signup" method="post">
+        <form action="/auth/signup" method="post">
             <div class="form-group">
                 {{ form.email.label }}
                 {{ form.email(class_="form-control") }}
             </div>
-
             <div class="form-group">
-                {{ form.password.label }}
-                {{ form.password(class_="form-control") }}
-                
+                {{form.name.label}}
+                {{form.name(class_="form-control")}}
             </div>
             <div class="form-group">
                 {{ form.password.label }}
                 {{ form.password(class_="form-control") }}
-                
+            </div>
+            <div class="form-group">
+                {{ form.comfirm.label }}
+                {{ form.comfirm(class_="form-control") }}
             </div>
             {{ form.csrf_token }}
 
-            <input class="btn btn-primary" type="submit" value="注册"> 
+            <input class="btn btn-primary" type="submit" value="注册">
         </form>
         <!-- <form><input  class="btn btn-primary" type="submit" value="注册"></form> -->
         
