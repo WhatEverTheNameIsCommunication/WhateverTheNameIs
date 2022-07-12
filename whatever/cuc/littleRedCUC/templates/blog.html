@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+
+{% block page_name %}Blog{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <!-- START: Filter -->
+            <div class="nk-pagination nk-pagination-nobg nk-pagination-center">
+                <a href="#nk-toggle-filter">
+                    <span class="nk-icon-squares"></span>
+                </a>
+            </div>
+            
+            <!-- END: Filter -->
+
+            <!-- START: Posts List -->
+            <div class="nk-blog-isotope nk-isotope nk-isotope-gap nk-isotope-1-cols">
+
+
+                <!-- START: Post -->
+                <div class="nk-isotope-item" data-filter="Nature">
+                    <div class="nk-blog-post">
+                        <div class="nk-post-thumb">
+                            <a href="{{url_for('page')}}">
+                                <img src="static/assets/images/post1-mid.jpg" alt="" class="nk-img-stretch">
+                            </a>
+                            <div class="nk-post-category"><a href="#">The Only One</a></div>
+                        </div>
+                        <h2 class="nk-post-title h4"><a href="{{url_for('page')}}">README | Something I want to tell you</a></h2>
+
+                        <div class="nk-post-date">
+                            June 14,2021
+                        </div>
+
+                        <div class="nk-post-text">
+                            <p>Actually, it is something I want to talk to Anjing.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- END: Post -->
+
+            </div>
+            <!-- END: Posts List -->
+        </div>
+    </div>
+
+    <div class="nk-gap-4"></div>
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+{% endblock %}
