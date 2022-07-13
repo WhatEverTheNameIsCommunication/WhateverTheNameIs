@@ -39,10 +39,10 @@ class User(db.Model, UserMixin):
     created_time = db.Column(db.DateTime, default=datetime.now)
 
 
-    def __init__(self,email,password,role=UserRole.USERS):
-        self.email = email.lower()
-        self._password(password)
-        self.role=role
+    # def __init__(self,email,password,role=UserRole.USERS):
+    #     self.email = email.lower()
+    #     self._password(password)
+    #     self.role=role
 
 
 

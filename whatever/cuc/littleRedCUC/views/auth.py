@@ -32,7 +32,7 @@ def login():
         else:
             return redirect(url_for('auth.login'))
     
-    return render_template('auth/login.html', form=form)
+    return render_template('login.html', form=form)
     # return redirect(url_for('auth.layout'))
     
 

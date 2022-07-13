@@ -1,6 +1,7 @@
 
 
-from flask import redirect, render_template, send_from_directory, current_app,request,flash,url_for
+from flask import redirect, render_template, send_from_directory, current_app,request,flash,url_for,logging
+import flask
 from flask_login import login_required
 from littleRedCUC.forms import SignUpForm
 from littleRedCUC.db_models import User,db
@@ -14,6 +15,7 @@ def home():
 
 @anony.route('/posts',methods=['GET', 'POST'])
 def force_to_login():
+    
     return render_template('/auth/login.html')
 
 
@@ -21,12 +23,11 @@ def force_to_login():
 def signup():
     form = SignUpForm(request.form)
     if request.method == 'POST' :
-        print(22222)
     # and form.validate():
-        user=User(form.email.data,form.password.data)
+        user=User(email=form.email.data,_password=form.password.data)
         db.session.add(user)
         flash('welcome to littleRedCUC')
-        return redirect(url_for('auth.layout'))
+        return redirect(url_for('auth.login'))
     return render_template('signup.html',form=form)
 
 
