@@ -1,0 +1,90 @@
+{% extends 'layout.html' %}
+
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='/assets/css/my_css.css') }}">
+
+{% endblock %}
+
+{% block page_name %}README{% endblock %}
+
+{% block content %}
+<div class="nk-main">
+
+    <!-- START: Header Title -->
+    <div class="nk-header-title nk-header-title-lg">
+        <div class="bg-image">
+            <div id=my_css1></div>
+            <!-- <div style="background-image: url('static/assets/images/post-6.jpg');"></div> -->
+
+        </div>
+        <div class="nk-header-table">
+            <div class="nk-header-table-cell">
+                <div class="container">
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- END: Header Title -->
+
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <div class="nk-gap-4"></div>
+
+                <!-- START: Post -->
+                <div class="nk-blog-post nk-blog-post-single">
+                    <h1 class="display-4">Something I Want to Tell You</h1>
+
+                    <div class="nk-post-meta">
+                        <div class="nk-post-date">August 14, 2016</div>
+                        <div class="nk-post-category"><a href="#">Design</a></div>
+
+                    </div>
+
+                    <!-- START: Post Text -->
+                    <div class="nk-post-text">
+                        <p>In fact, this is a 'README' but not a 'README.md'.</p>
+                        <p> </p>
+                        <p>I find that I can't absorb what I have learnt. And I want to find the answer my self. However, sometimes it just gets into a mess,
+                            which truly drives me mad...... And I am not a gentle man.
+                        </p>
+
+                        <blockquote>
+                            <em>So I wonder if you can render some suggestions to excel during the summer vacation.</em>
+                        </blockquote>
+
+                        <p></p>
+
+                    </div>
+                    <!-- END: Post Text -->
+
+           
+                </div>
+                <!-- END: Post -->
+
+                <div class="nk-gap-3"></div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+{% endblock %}
