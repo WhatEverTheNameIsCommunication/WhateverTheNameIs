@@ -34,7 +34,10 @@
             </div>
             {{ form.csrf_token }}
 
-            <input class="btn btn-primary" type="submit" value="登录"> 
+            <input class="btn btn-primary" type="submit" value="登录">
+            {% if form.errors %}
+            {{ form.errors }}
+            {% endif %}
         </form>
         <!-- <form><input  class="btn btn-primary" type="submit" value="注册"></form> -->
         <a href="{{ url_for('anony.signup') }}">还没有账号，点击注册！</a>

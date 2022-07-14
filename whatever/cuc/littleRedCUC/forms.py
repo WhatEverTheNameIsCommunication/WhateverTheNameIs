@@ -33,6 +33,7 @@ class SignUpForm(FlaskForm):
         validators.EqualTo('confirm',message='Passwords must match')
     ])
     confirm = PasswordField('Repeat Password')
+    user_name = StringField('user_name')
 
 
 
