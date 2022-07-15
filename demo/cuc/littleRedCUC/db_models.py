@@ -31,21 +31,15 @@ class User(db.Model, UserMixin):
     __table_args__ = {'mysql_collate': 'utf8_general_ci'}
 
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(100), unique=True, nullable=True)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    email_confirmed = db.Column(db.Boolean, nullable=False)
     name = db.Column(db.String(100), nullable=False)
-    role = db.Column(db.Enum(UserRole), default=UserRole.USERS)
+    role = db.Column(db.Enum(UserRole), nullable=False)
     _password = db.Column(db.String(128), nullable=False)
     created_time = db.Column(db.DateTime, default=datetime.now)
 
 
-    # def __init__(self,email,password,role=UserRole.USERS):
-    #     self.email = email.lower()
-    #     # self._password(password)
-    #     self.role=role
-
-
-
-
+    # def post():
         
 
 
@@ -56,9 +50,6 @@ class User(db.Model, UserMixin):
     @password.setter
     def password(self, plaintext):
         self._password = bcrypt.generate_password_hash(plaintext)
-
-
-
 
     def is_correct_password(self, plaintext):
         return bcrypt.check_password_hash(self._password, plaintext)

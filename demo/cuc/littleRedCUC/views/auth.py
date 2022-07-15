@@ -1,5 +1,6 @@
-from flask import render_template, redirect, url_for, request,send_from_directory,current_app
 
+from flask import render_template, redirect, url_for, request,send_from_directory,current_app
+from flask_login import LoginManager as login_manager
 from flask_login import login_required, login_user, logout_user
 
 from littleRedCUC.forms import SignInForm
@@ -7,7 +8,6 @@ from littleRedCUC.forms import SignInForm
 from littleRedCUC.blueprints import auth
 from littleRedCUC.db_models import User,Post
 from littleRedCUC.extensions import login_manager
-
 
 
 
@@ -24,15 +24,21 @@ def login():
         user = User.query.filter_by(email=form.email.data).first_or_404()
         if user.is_correct_password(form.password.data):
             login_user(user)
+
             next = request.args.get('next')
             return redirect(next or url_for('auth.layout'))
         else:
             return redirect(url_for('auth.login'))
+    
+    return render_template('auth/login.html', form=form)
+    # return redirect(url_for('auth.layout'))
+    
 
-    return render_template('login.html', form=form)
 
 @auth.route('/layout')
 def layout():
+    # posts=Post.query.all()
+    # img = images(posts.)
     return render_template('layout.html')
 
 @auth.route('/logout')
@@ -52,6 +58,3 @@ def images(image_name):
                                    path=image_name)
     except FileNotFoundError:
         abort(404)
-
-
-
