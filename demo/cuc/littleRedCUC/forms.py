@@ -27,11 +27,13 @@ class SignInForm(FlaskForm):
 
 class SignUpForm(FlaskForm):
     email = StringField('Email  Adress', validators=[DataRequired(), Email(),Unique(User,User.email)])
-    password = PasswordField('Password', [
+    password = PasswordField('Password', validators=
+    [
         validators.DataRequired(),
         validators.EqualTo('confirm',message='Passwords must match')
     ])
     confirm = PasswordField('Repeat Password')
+    user_name = StringField('user_name')
 
 
 

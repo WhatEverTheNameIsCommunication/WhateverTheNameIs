@@ -61,7 +61,7 @@ def create_app():
     
     def create_admin(email, name, password):
         user = User(email=email,
-                    email_confirmed=True,
+                    # email_confirmed=True,
                     name=name,
                     role=UserRole.ADMIN)
         user.password = password
