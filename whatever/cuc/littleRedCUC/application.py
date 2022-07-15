@@ -6,7 +6,7 @@ from flask.cli import AppGroup
 import click
 from pathlib import Path
 
-from littleRedCUC.flask_adminlte import AdminLTE
+# from littleRedCUC.flask_adminlte import AdminLTE
 from flask import Flask
 
 from importlib import import_module
@@ -22,7 +22,7 @@ from config import config
 
 def create_app():
     flask_app = Flask(__name__, instance_relative_config=True)
-    AdminLTE(flask_app)
+    # AdminLTE(flask_app)
     flask_app.config['SECRET_KEY']='littleRedCUC'
     config_name = os.getenv('FLASK_CONFIG', 'default')
     flask_app.config.from_object(config[config_name])
