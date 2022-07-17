@@ -24,7 +24,7 @@ class SignInForm(FlaskForm):
     email = StringField('Email  Adress', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     emailway=SubmitField('Email')
-    goole=SubmitField('Goole') 
+    goole=SubmitField('Google') 
 
 
 class SignUpForm(FlaskForm):
