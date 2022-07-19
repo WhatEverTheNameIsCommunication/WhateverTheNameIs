@@ -24,7 +24,7 @@ def create_app():
     flask_app = Flask(__name__, instance_relative_config=True)
     # AdminLTE(flask_app)
     flask_app.config['SECRET_KEY']='littleRedCUC'
-    flask_app.config['SERVER_NAME']='WhateverItIs.cuc.edu.cn:5000'
+    # flask_app.config['SERVER_NAME']='WhateverItIs.cuc.edu.cn:5000'
     config_name = os.getenv('FLASK_CONFIG', 'default')
     flask_app.config.from_object(config[config_name])
     flask_app.config.from_pyfile('app.cfg', silent=True)
@@ -76,4 +76,4 @@ def create_app():
 
 if __name__ == "__main__":
     flask_app = create_app()
-    flask_app.run(host='0.0.0.0',port=5000, debug=True,ssl_context=("../self-signed/self-signed-key.pem", '../self-signed/key.pem'))
+    flask_app.run(host='0.0.0.0',port=5000, debug=True,ssl_context=("./x.509/intermediate/certs/whateveritis.cuc.edu.cn.cert.crt", './x.509/intermediate/private/whateveritis.cuc.edu.cn.key.pem'))

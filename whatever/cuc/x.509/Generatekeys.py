@@ -3,7 +3,7 @@ from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.backends import default_backend
 import os
 # Generate our key
-def generate_key(path,default=None):
+def generate_key(path):
     if path==None:
         path='./'
     dir = os.path.join(path) 

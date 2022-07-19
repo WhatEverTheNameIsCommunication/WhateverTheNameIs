@@ -5,4 +5,4 @@ from littleRedCUC import create_app
 app = create_app()
 
 if __name__ == '__main__':
-    app.run(debug=True,ssl_context=("./x.509/self-signed/self-signed-key.pem", './x.509/self-signed/key.pem'))
+    app.run(debug=True,ssl_context=("./x.509/intermediate/certs/whateveritis.cuc.edu.cn.cert.crt", './x.509/intermediate/private/whateveritis.cuc.edu.cn.key.pem'))
