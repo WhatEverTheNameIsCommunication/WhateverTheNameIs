@@ -56,4 +56,4 @@ class ChangepasswdForm(FlaskForm):
 suffix=['jpeg','jpg','png','bmp','gif','doc','docx','ppt','pptx','xls','xlsx','pdf']
 class PostForm(FlaskForm):
     text=TextAreaField('描述文本',validators=[DataRequired()])
-    file=FileField('上传文件',validators=[DataRequired(),FileSize(1024*1024,0,message='过大'),FileAllowed(suffix,'非法文件')])
+    file=FileField('上传文件',validators=[DataRequired(),FileSize(1024*1024*10,0,message='过大'),FileAllowed(suffix,'非法文件')])
