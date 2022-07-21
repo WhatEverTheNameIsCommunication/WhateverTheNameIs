@@ -36,6 +36,8 @@ class User(db.Model, UserMixin):
     role = db.Column(db.Enum(UserRole), default=UserRole.USERS)
     _password = db.Column(db.String(128), nullable=False)
     created_time = db.Column(db.DateTime, default=datetime.now)
+    PK = db.Column(db.String(128), nullable=False) # 哈希值
+    SK = db.Column(db.String(128), nullable=False)
 
 
     # def __init__(self,email,password,role=UserRole.USERS):

@@ -1,12 +1,21 @@
-
+from email import message
+from random import paretovariate
 from flask import redirect, render_template, send_from_directory, current_app ,request ,flash ,url_for ,logging
 import flask
 from flask_login import login_required
-from littleRedCUC.forms import SignUpForm,ChangepasswdForm
+from littleRedCUC.forms import SignUpForm,ChangepasswdForm,VertifyForm,FindForm
 from littleRedCUC.db_models import User, db,  UserRole
-from littleRedCUC.blueprints import anony
+from littleRedCUC.blueprints import anony,auth
 from littleRedCUC.extensions import bcrypt
 import re
+from littleRedCUC import TotpFactory
+from littleRedCUC.emailway import generateToken,sendMail,vertifToken
+from littleRedCUC.DigitalSignature import generateSPK
+import csv
+import os
+import pandas as pd
+import numpy as np
+
 @anony.route('/')
 def home():
     return render_template('layout.html')
@@ -63,10 +72,14 @@ def signup():
             if threshold<3:
                 flash("请使用强密码")
                 return render_template('signup.html',form=form)
-        
-            user =User(email=form.email.data, name=form.user_name.data,_password=bcrypt.generate_password_hash(form.password.data))
+            # 分配公私钥对，用户密码生成公私钥对
+            listkey=generateSPK(form.email.data) # 返回哈希值
+            privateK=listkey[0]
+            publicK=listkey[1]
+            user =User(email=form.email.data, name=form.user_name.data,_password=bcrypt.generate_password_hash(form.password.data),SK=privateK,PK=publicK)
             db.session.add(user)
             db.session.commit()
+            print(user.PK)
             flash('welcome to littleRedCUC')
             return redirect(url_for('auth.login'))
             
