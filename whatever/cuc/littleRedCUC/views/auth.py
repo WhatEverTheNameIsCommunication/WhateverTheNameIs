@@ -1,8 +1,8 @@
 from email import message
 from flask import render_template, redirect, url_for, request,send_from_directory,current_app,flash
-from flask_restful import reqparse
+# from flask_restful import reqparse
 from flask_login import login_required, login_user, logout_user,current_user
-from werkzeug.datastructures import FileStorage
+# from werkzeug.datastructures import FileStorage
 from littleRedCUC.forms import SignInForm,VertifyForm,FindForm,ChangepasswdForm,PostForm
 from littleRedCUC.db_models import User, db,  UserRole,Post
 from littleRedCUC.blueprints import auth
@@ -15,8 +15,6 @@ import pandas as pd
 import numpy as np
 import re
 from littleRedCUC.extensions import bcrypt
-# from littleRedCUC.db_models import PostSchema
-from datetime import datetime
 from werkzeug.utils import secure_filename
 
 
@@ -197,7 +195,6 @@ def uploads():
         if form.validate_on_submit():
             filename=secure_filename(file.filename)
             file.save('instance/upload/'+filename)
-            flash('上传成功')
             post = Post(user_id=current_user.id,
                         user_name=current_user.name,
                         text=text,
@@ -205,6 +202,7 @@ def uploads():
 
             db.session.add(post)
             db.session.commit()
+            flash('上传成功')
             return render_template('upload.html',form=form)
         else:
             flash('请注意您上传文件的有效性。')
@@ -213,3 +211,7 @@ def uploads():
     flash('文件类型仅允许普通文件和Microsoft文档,大小限制在10M以内')
     return render_template('upload.html',form=form)
 
+@auth.route('/index',methods=['GET','POST'])
+def index():
+    file = Post.query.filter(Post.user_id==current_user.id).all()
+    return render_template('index.html',file=file)
