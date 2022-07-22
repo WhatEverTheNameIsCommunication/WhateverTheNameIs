@@ -91,201 +91,269 @@ class Post_File(db.Model):
     file = db.Column(db.String(255), nullable=False)
     if_pub = db.Column(db.Boolean, default=False)
     key = db.Column(db.String,nullable=False)   # 这是用系统公钥加密过的用来加密文件的对称密钥
+    # text = db.Column(db.String(300))
 
 
-class PostSchema(marshmallow.SQLAlchemyAutoSchema):
+# class PostSchema(marshmallow.SQLAlchemyAutoSchema):
+#
+#     id = marshmallow.Int(dump_only=True)
+#
+#     class Meta:
+#         model = Post_File
+#         sql_session = db.session
+#
+#
+#
+# class PostResource(Resource):
+#     def get(self, post_id):
+#         schema = PostSchema()
+#         post = Post_File.query.get_or_404(post_id)
+#         return {"post": schema.dump(User).data}
+#
+#     def put(self, post_id):
+#         schema = PostSchema(partial=True)
+#         post = Post_File.query.get_or_404(post_id)
+#         post, errors = schema.load(request.json, instance=post)
+#         if errors:
+#             return errors, 422
+#
+#         db.session.commit()
+#
+#         return {"msg": "post updated", "post": schema.dump(post).data}
+#
+#
+#     def delete(self, post_id):
+#         post = Post_File.query.get_or_404(post_id)
+#         db.session.delete(post)
+#         db.session.commit()
+#
+#         return {"msg": "post deleted"}
+#
+#
+# post_parser = reqparse.RequestParser()
+# # post_parser.add_argument('text', type=str, location='form')
+# post_parser.add_argument('file', type=FileStorage, location='files')
+#
+#
+# class PostList(Resource):
+#     def get(self):
+#         schema = PostSchema(many=True)
+#         query = Post_File.query
+#         return paginate(query, schema)
+#
+#
+#
+#
+#
+#
+#     # 用系统公钥加密对称密钥，self.key
+#
+#     # 再来
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#     # 之前的
+#     # def generate_key(cls):
+#     #     return base64.urlsafe_b64encode(os.urandom(32))
+#     # def encrypt(self, data):
+#     #     return self.encrypt_at_time(data, int(time.time()))
+#     #
+#     # def encrypt_at_time(self, data, current_time):
+#     #     iv = os.urandom(16)
+#     #     return self._encrypt_from_parts(data, current_time, iv)
+#     #
+#     #
+#     #
+#     # def _encrypt_from_parts(self, data, current_time, iv):
+#     #     utils._check_bytes("data", data)
+#     #
+#     #     padder = padding.PKCS7(algorithms.AES.block_size).padder()  # 设定填充模式为 PKCS7
+#     #     padded_data = padder.update(data) + padder.finalize()  # 使用PKCS对数据进行填充
+#     #     encryptor = Cipher(
+#     #         algorithms.AES(self._encryption_key), modes.CBC(iv), self._backend
+#     #     ).encryptor()
+#     #     ciphertext = encryptor.update(padded_data) + encryptor.finalize()
+#     #
+#     #     basic_parts = (b"\x80" + struct.pack(">Q", current_time) + iv + ciphertext)
+#     #     # 把current_time、iv、ciphertext三者合并得到一个basic_parts**
+#     #
+#     #     h = HMAC(self._signing_key, hashes.SHA256(), backend=self._backend)
+#     #     h.update(basic_parts)
+#     #     hmac = h.finalize()
+#     #     return base64.urlsafe_b64encode(basic_parts + hmac)
+#     #
+#     # def decrypt(self, token, ttl=None):
+#     #     timestamp, data = Fernet._get_unverified_token_data(token)
+#     #     return self._decrypt_data(data, timestamp, ttl, int(time.time()))
+#     #
+#     # def decrypt_at_time(self, token, ttl, current_time):
+#     #     if ttl is None:
+#     #         raise ValueError(
+#     #             "decrypt_at_time() can only be used with a non-None ttl"
+#     #         )
+#     #     timestamp, data = Fernet._get_unverified_token_data(token)
+#     #     return self._decrypt_data(data, timestamp, ttl, current_time)
+#     #
+#     # def extract_timestamp(self, token):
+#     #     timestamp, data = Fernet._get_unverified_token_data(token)
+#     #     # Verify the token was not tampered with.
+#     #     self._verify_signature(data)
+#     #     return timestamp
+#     #
+#     # @staticmethod
+#     # def _get_unverified_token_data(token):
+#     #     utils._check_bytes("token", token)
+#     #     try:
+#     #         data = base64.urlsafe_b64decode(token)
+#     #     except (TypeError, binascii.Error):
+#     #         raise InvalidToken
+#     #
+#     #     if not data or six.indexbytes(data, 0) != 0x80:
+#     #         raise InvalidToken
+#     #
+#     #     try:
+#     #         (timestamp,) = struct.unpack(">Q", data[1:9])
+#     #     except struct.error:
+#     #         raise InvalidToken
+#     #     return timestamp, data
+#     #
+#     # def _verify_signature(self, data):
+#     #     h = HMAC(self._signing_key, hashes.SHA256(), backend=self._backend)
+#     #     h.update(data[:-32])
+#     #     try:
+#     #         h.verify(data[-32:])
+#     #     except InvalidSignature:
+#     #         raise InvalidToken
+#     #
+#     # def _decrypt_data(self, data, timestamp, ttl, current_time):
+#     #     if ttl is not None:
+#     #         if timestamp + ttl < current_time:
+#     #             raise InvalidToken
+#     #
+#     #         if current_time + _MAX_CLOCK_SKEW < timestamp:
+#     #             raise InvalidToken
+#     #
+#     #     self._verify_signature(data)
+#     #
+#     #     iv = data[9:25]
+#     #     ciphertext = data[25:-32]
+#     #     decryptor = Cipher(
+#     #         algorithms.AES(self._encryption_key), modes.CBC(iv), self._backend
+#     #     ).decryptor()
+#     #     plaintext_padded = decryptor.update(ciphertext)
+#     #     try:
+#     #         plaintext_padded += decryptor.finalize()
+#     #     except ValueError:
+#     #         raise InvalidToken
+#     #     unpadder = padding.PKCS7(algorithms.AES.block_size).unpadder()
+#     #
+#     #     unpadded = unpadder.update(plaintext_padded)
+#     #     try:
+#     #         unpadded += unpadder.finalize()
+#     #     except ValueError:
+#     #         raise InvalidToken
+#     #     return unpadded
+#
+#
+#
+#
+#    #  使用底层api ，先放放，感觉还可以弄
+#
+#
+#     def generate_key(self):
+#         user = User.query.filter_by(id=current_user.id).first()
+#         k = user.password + datetime.now()
+#         from cryptography.hazmat.primitives.ciphers import algorithms
+#         from cryptography.hazmat.primitives.kdf.kbkdf import (
+#             CounterLocation, KBKDFCMAC, Mode
+#         )
+#
+#         label = base64.urlsafe_b64encode(user.id)
+#         context = base64.urlsafe_b64encode(user.email)
+#         kdf = KBKDFCMAC(
+#             algorithm=algorithms.AES,
+#             mode=Mode.CounterMode,
+#             length=32,
+#             rlen=4,
+#             llen=4,
+#             location=CounterLocation.BeforeFixed,
+#             label=label,
+#             context=context,
+#             fixed=None,
+#         )
+#         key = kdf.derive(base64.urlsafe_b64encode(k))
+#         return key
+#
+#     def encrypt(self,plaintext):
+#         iv = os.urandom(12)
+#         key = self.generate_key()
+#         encryptor = Cipher(
+#             algorithms.AES(key=key),
+#             modes.GCM(iv),
+#         ).encryptor()
+#
+#         ciphertext = encryptor.update(plaintext)+encryptor.finalize()
+#         return ciphertext
+#
+#
+#
+#
+#
+#     def post(self):
+#         schema = PostSchema()
+#
+#         args = post_parser.parse_args()
+#         # 这里可以用来做文件限制
+#         # text = args.get('text')
+#         # if text is None:
+#         #     text = ''
+#         #
+#         # image = args.get('image')
+#         # if image is None:
+#         #     return {'msg': 'you must post file.'}, 422
+#
+#
+#         file = args.get('file','rb')
+#
+#         cipher_file = self.encrypt(self,file)
+#         file_name = str(int(datetime.now().timestamp() *1000)) + '-' + secure_filename(file.filename)
+#
+#
+#
+#         cipher_file.save(str(Path(current_app.config['UPLOAD_FOLDER']) / file_name))
+#         try:
+#             post = Post_File(user_id=current_user.id,
+#                         user_name=current_user.name,
+#                         file=file_name)
+#
+#             db.session.add(post)
+#             db.session.commit()
+#             return redirect(url_for('auth.layout'))
+#             # return {"msg": "post created", "post": schema.dump(post)}, 201
+#         except:
+#             return redirect(url_for('auth.login'))
 
-    id = marshmallow.Int(dump_only=True)
-
-    class Meta:
-        model = Post_File
-        sql_session = db.session
 
 
 
-class PostResource(Resource):
-    def get(self, post_id):
-        schema = PostSchema()
-        post = Post_File.query.get_or_404(post_id)
-        return {"post": schema.dump(User).data}
-
-    def put(self, post_id):
-        schema = PostSchema(partial=True)
-        post = Post_File.query.get_or_404(post_id)
-        post, errors = schema.load(request.json, instance=post)
-        if errors:
-            return errors, 422
-
-        db.session.commit()
-        
-        return {"msg": "post updated", "post": schema.dump(post).data}
-
-    
-    def delete(self, post_id):
-        post = Post_File.query.get_or_404(post_id)
-        db.session.delete(post)
-        db.session.commit()
-
-        return {"msg": "post deleted"}
-    
-
-post_parser = reqparse.RequestParser()
-# post_parser.add_argument('text', type=str, location='form')
-post_parser.add_argument('file', type=FileStorage, location='files')
-
-
-class PostList(Resource):
-    def get(self):
-        schema = PostSchema(many=True)
-        query = Post_File.query
-        return paginate(query, schema)
-
-    # 用系统公钥加密对称密钥，self.key
-    def generate_key(cls):
-        return base64.urlsafe_b64encode(os.urandom(32))
-    def encrypt(self, data):
-        return self.encrypt_at_time(data, int(time.time()))
-
-    def encrypt_at_time(self, data, current_time):
-        iv = os.urandom(16)
-        return self._encrypt_from_parts(data, current_time, iv)
 
 
 
-    def _encrypt_from_parts(self, data, current_time, iv):
-        utils._check_bytes("data", data)
-
-        padder = padding.PKCS7(algorithms.AES.block_size).padder()  # 设定填充模式为 PKCS7
-        padded_data = padder.update(data) + padder.finalize()  # 使用PKCS对数据进行填充
-        encryptor = Cipher(
-            algorithms.AES(self._encryption_key), modes.CBC(iv), self._backend
-        ).encryptor()
-        ciphertext = encryptor.update(padded_data) + encryptor.finalize()
-
-        basic_parts = (b"\x80" + struct.pack(">Q", current_time) + iv + ciphertext)
-        # 把current_time、iv、ciphertext三者合并得到一个basic_parts**
-
-        h = HMAC(self._signing_key, hashes.SHA256(), backend=self._backend)
-        h.update(basic_parts)
-        hmac = h.finalize()
-        return base64.urlsafe_b64encode(basic_parts + hmac)
-
-    def decrypt(self, token, ttl=None):
-        timestamp, data = Fernet._get_unverified_token_data(token)
-        return self._decrypt_data(data, timestamp, ttl, int(time.time()))
-
-    def decrypt_at_time(self, token, ttl, current_time):
-        if ttl is None:
-            raise ValueError(
-                "decrypt_at_time() can only be used with a non-None ttl"
-            )
-        timestamp, data = Fernet._get_unverified_token_data(token)
-        return self._decrypt_data(data, timestamp, ttl, current_time)
-
-    def extract_timestamp(self, token):
-        timestamp, data = Fernet._get_unverified_token_data(token)
-        # Verify the token was not tampered with.
-        self._verify_signature(data)
-        return timestamp
-
-    @staticmethod
-    def _get_unverified_token_data(token):
-        utils._check_bytes("token", token)
-        try:
-            data = base64.urlsafe_b64decode(token)
-        except (TypeError, binascii.Error):
-            raise InvalidToken
-
-        if not data or six.indexbytes(data, 0) != 0x80:
-            raise InvalidToken
-
-        try:
-            (timestamp,) = struct.unpack(">Q", data[1:9])
-        except struct.error:
-            raise InvalidToken
-        return timestamp, data
-
-    def _verify_signature(self, data):
-        h = HMAC(self._signing_key, hashes.SHA256(), backend=self._backend)
-        h.update(data[:-32])
-        try:
-            h.verify(data[-32:])
-        except InvalidSignature:
-            raise InvalidToken
-
-    def _decrypt_data(self, data, timestamp, ttl, current_time):
-        if ttl is not None:
-            if timestamp + ttl < current_time:
-                raise InvalidToken
-
-            if current_time + _MAX_CLOCK_SKEW < timestamp:
-                raise InvalidToken
-
-        self._verify_signature(data)
-
-        iv = data[9:25]
-        ciphertext = data[25:-32]
-        decryptor = Cipher(
-            algorithms.AES(self._encryption_key), modes.CBC(iv), self._backend
-        ).decryptor()
-        plaintext_padded = decryptor.update(ciphertext)
-        try:
-            plaintext_padded += decryptor.finalize()
-        except ValueError:
-            raise InvalidToken
-        unpadder = padding.PKCS7(algorithms.AES.block_size).unpadder()
-
-        unpadded = unpadder.update(plaintext_padded)
-        try:
-            unpadded += unpadder.finalize()
-        except ValueError:
-            raise InvalidToken
-        return unpadded
-    # 使用底层api ，先放放，感觉还可以弄
-    # def generate_key_objection(self,filename):
-    #     iv = b'filename'
-    #     encryptor = Cipher(
-    #         algorithms.AES(key=256),
-    #         modes.GCM(iv),
-    #     ).encryptor()
-    #     return  encryptor
-    #
-    # def get_key(self,encryptor):
-    #
-    #
-    # def encry_file(self,file,key):
-
-
-    def post(self):
-        schema = PostSchema()
-
-        args = post_parser.parse_args()
-        # 这里可以用来做文件限制
-        # text = args.get('text')
-        # if text is None:
-        #     text = ''
-        #
-        # image = args.get('image')
-        # if image is None:
-        #     return {'msg': 'you must post file.'}, 422
-
-
-        file = args.get('file')
-
-        file = self._encrypt_from_parts(self,b'file',datetime,iv)
-        file_name = str(int(datetime.now().timestamp() *1000)) + '-' + secure_filename(file.filename)
-
-
-
-        file.save(str(Path(current_app.config['UPLOAD_FOLDER']) / file_name))
-        try:
-            post = Post_File(user_id=current_user.id,
-                        user_name=current_user.name,
-                        file=file_name)
-
-            db.session.add(post)
-            db.session.commit()
-            return redirect(url_for('auth.layout'))
-            # return {"msg": "post created", "post": schema.dump(post)}, 201
-        except:
-            return redirect(url_for('auth.login'))

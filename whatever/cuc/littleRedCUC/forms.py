@@ -3,7 +3,8 @@ from email import message
 from wsgiref.validate import validator
 from xml.dom import ValidationErr
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField,validators,SubmitField
+from flask_wtf.file import FileSize, FileAllowed
+from wtforms import StringField, PasswordField,validators,SubmitField,TextAreaField,FileField
 from wtforms.validators import DataRequired, Email,Length,EqualTo
 from littleRedCUC.db_models import User
 
@@ -53,3 +54,9 @@ class ChangepasswdForm(FlaskForm):
     password = PasswordField('密码', validators=[DataRequired(),Length(min=8,max=36)])
     confirm=PasswordField('确认密码',validators=[DataRequired(),EqualTo('password',message='必须和密码已输入密码相同')])
 
+
+
+suffix=['jpeg','jpg','png','bmp','gif','doc','docx','ppt','pptx','xls','xlsx','pdf']
+class PostForm(FlaskForm):
+    text=TextAreaField('描述文本',validators=[DataRequired()])
+    file=FileField('上传文件',validators=[DataRequired(),FileSize(1024*1024*10,0,message='过大'),FileAllowed(suffix,'非法文件')])

@@ -14,7 +14,7 @@ from littleRedCUC.blueprints import all_blueprints
 
 
 from littleRedCUC.blueprints import all_blueprints
-from littleRedCUC.views.resources import api_bp
+# from littleRedCUC.views.resources import api_bp
 from littleRedCUC.extensions import login_manager,db,bcrypt,migrate
 
 from littleRedCUC.db_models import User,UserRole
@@ -51,9 +51,10 @@ def create_app():
     for bp in all_blueprints:
         import_module(bp.import_name)
         flask_app.register_blueprint(bp)
-    flask_app.register_blueprint(api_bp)
+    # flask_app.register_blueprint(api_bp)
 
     user_cli = AppGroup('user')
+
 
     @user_cli.command('create-admin')
     @click.argument('email')

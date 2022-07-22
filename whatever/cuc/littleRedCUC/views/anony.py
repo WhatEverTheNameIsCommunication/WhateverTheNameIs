@@ -1,4 +1,5 @@
-
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import ed25519
 from flask import redirect, render_template, send_from_directory, current_app ,request ,flash ,url_for ,logging
 import flask
 from flask_login import login_required
@@ -7,6 +8,10 @@ from littleRedCUC.db_models import User, db,  UserRole
 from littleRedCUC.blueprints import anony
 from littleRedCUC.extensions import bcrypt
 import re
+
+from littleRedCUC.DigitalSignature import Encode_SK
+
+
 @anony.route('/')
 def home():
     return render_template('layout.html')
@@ -63,8 +68,38 @@ def signup():
             if threshold<3:
                 flash("请使用强密码")
                 return render_template('signup.html',form=form)
-        
-            user =User(email=form.email.data, name=form.user_name.data,_password=bcrypt.generate_password_hash(form.password.data))
+
+            # ========= 添加公私钥对的分界线 =========
+
+
+
+
+
+            # 生成公私钥对
+            private_key = ed25519.Ed25519PrivateKey.generate()
+            private_bytes = private_key.private_bytes(
+                encoding=serialization.Encoding.Raw,
+                format=serialization.PrivateFormat.Raw,
+                encryption_algorithm=serialization.NoEncryption()
+            )
+            print(private_bytes)
+            new_private_bytes = Encode_SK(private_bytes)
+            # loaded_private_key = ed25519.Ed25519PrivateKey.from_private_bytes(private_bytes)
+            public_key = private_key.public_key()
+            public_bytes = public_key.public_bytes(
+                encoding=serialization.Encoding.Raw,
+                format=serialization.PublicFormat.Raw
+            )
+
+
+
+            user =User(
+                email=form.email.data,
+                name=form.user_name.data,
+                _password=bcrypt.generate_password_hash(form.password.data),
+                pub_key=public_bytes,
+                sec_key=new_private_bytes
+            )
             db.session.add(user)
             db.session.commit()
             flash('welcome to littleRedCUC')

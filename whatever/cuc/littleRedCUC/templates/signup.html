@@ -123,7 +123,15 @@
         <!-- /.form-box -->
     </div>
     <!-- /.register-box -->
+    <div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
 
+</div>
     <!-- jQuery 2.2.3 -->
     <!-- Bootstrap 3.3.6 -->
     <!-- iCheck -->
