@@ -1,30 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e3026d91-848a-4f80-8e97-bdd46f5f6c19" name="变更" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ae59e1c1-403f-483c-810f-5e4e151dbd17.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/ae59e1c1-403f-483c-810f-5e4e151dbd17.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/data-dev.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/data-dev.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1-202-2021.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1-2020.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1-testcuc.docx" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/instance/upload/1-testcuc.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657246508764-" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657246580593-1111.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657246716104-1111output.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657247002543-09-4output.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657263905704-" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657264030543-" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657264121325-666output.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657265716378-999output.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657265818064-" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657280469653-6699output.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657597598561-2022-07-06_050313.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657597609662-" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657597636395-20220708143130.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/db_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/db_models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/views/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/views/auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/migrations/versions/f372312191f1_.py" beforeDir="false" />
-    </list>
+    <list default="true" id="e3026d91-848a-4f80-8e97-bdd46f5f6c19" name="变更" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -65,7 +42,7 @@
       <option name="presentableId" value="Default" />
       <updated>1658480846587</updated>
       <workItem from="1658480848216" duration="3245000" />
-      <workItem from="1658484199178" duration="21004000" />
+      <workItem from="1658484199178" duration="21386000" />
     </task>
     <servers />
   </component>
