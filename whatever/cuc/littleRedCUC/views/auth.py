@@ -205,74 +205,6 @@ def display_file():
 
 @auth.route('/file_upload', methods=['GET', 'POST'])
 def upload_file():
-    # def generate_key():
-    #     try:
-    #         user = User.query.filter_by(id=current_user.id).first()
-    #
-    #         k = base64.urlsafe_b64encode(bytes(user.password + str(int(time.time(),'utf-8'))))
-    #         k = k[:16]
-    #         label = base64.urlsafe_b64encode(bytes(user.id,'utf-8'))
-    #         context = base64.urlsafe_b64encode(bytes(user.email,'utf-8'))
-    #         kdf = KBKDFCMAC(
-    #             algorithm=algorithms.AES,
-    #             mode=Mode.CounterMode,
-    #             length=32,
-    #             rlen=4,
-    #             llen=4,
-    #             location=CounterLocation.BeforeFixed,
-    #             label=label,
-    #             context=context,
-    #             fixed=None,
-    #         )
-    #         key = kdf.derive(base64.urlsafe_b64encode(k))
-    #         current_app.logger.info('=========================')
-    #         print(key)
-    #         return str(key)
-    #     except:
-    #         flash('Please login first.')
-    #         return redirect(url_for('auth.login'))
-
-    # def encrypt(plaintext):
-    #     try:
-    #         user = User.query.filter_by(id=current_user.id).first()
-    #
-    #         k = base64.urlsafe_b64encode(bytes(user.password + str(int(time.time(), 'utf-8'))))
-    #         k = k[:16]
-    #         label = base64.urlsafe_b64encode(bytes(user.id, 'utf-8'))
-    #         context = base64.urlsafe_b64encode(bytes(user.email, 'utf-8'))
-    #         kdf = KBKDFCMAC(
-    #             algorithm=algorithms.AES,
-    #             mode=Mode.CounterMode,
-    #             length=32,
-    #             rlen=4,
-    #             llen=4,
-    #             location=CounterLocation.BeforeFixed,
-    #             label=label,
-    #             context=context,
-    #             fixed=None,
-    #         )
-    #         key = kdf.derive(base64.urlsafe_b64encode(k))
-    #         current_app.logger.info('=========================')
-    #         # print(key)
-    #         # return str(key)
-    #     except:
-    #         flash('Please login first.')
-    #         return redirect(url_for('auth.login'))
-    #
-    #     iv = os.urandom(12)
-    #     # key = generate_key()
-    #     print(key)
-    #     encryptor = Cipher(
-    #         algorithms.AES(key=key),
-    #         modes.GCM(iv),
-    #     ).encryptor()
-    #
-    #     ciphertext = encryptor.update(plaintext) + encryptor.finalize()
-    #     return ciphertext
-
-
-
-    # cipher_file = encrypt(file)
     try:
         user = User.query.filter_by(id=current_user.id).first()
         print(current_user.id)
@@ -286,8 +218,6 @@ def upload_file():
     ki = str(user.password)+tstmp
     ki = bytes(ki,'utf-8')
     ki = base64.urlsafe_b64encode(ki)
-
-    # k = base64.urlsafe_b64encode(bytes(str(user.password) + str(int(time.time()), 'utf-8')))
     ki = ki[:16]
     label = base64.urlsafe_b64encode(bytes(str(user.id), 'utf-8'))
     context = base64.urlsafe_b64encode(bytes(user.email, 'utf-8'))
@@ -309,45 +239,32 @@ def upload_file():
 
 
     iv = os.urandom(12)
-    # key = generate_key()
-    print(key)
+    # print(key)
     encryptor = Cipher(
         algorithms.AES(key=key),
         modes.GCM(iv),
     ).encryptor()
-
-
-
-
 
     form = PostForm()
     file = form.file.data
     text = form.text.data
     if request.method == 'POST':
         if form.validate_on_submit():
-
-            # post_parser = reqparse.RequestParser()
-            # args = post_parser.parse_args()
-            # file = args.get('file')
-            print(file)
-
             file_bytes=file.read()
             # print(file_bytes)
             cipher_bytes = encryptor.update(file_bytes) + encryptor.finalize()
-            print(secure_filename(file.filename))
+            # print(secure_filename(file.filename))
             file_name = str(user.id) + '-' + secure_filename(file.filename)
             file_path = str(Path(current_app.config['UPLOAD_FOLDER']) /file_name)
             file_object = open(file_path, 'wb')
             file_object.write(cipher_bytes)
             file_object.close()
             # print(cipher_bytes)
-            print(file.filename)
-            print(file_name)
-            # file.save('instance/upload/'+filename)
-            # cipher_bytes.save(str(Path(current_app.config['UPLOAD_FOLDER']) / file_name))
+            # print(file.filename)
+            # print(file_name)
             post = Post_File(user_id=current_user.id,
                              user_name=current_user.name,
-                             # text=text,
+                             text=text,
                              file=file_name,
                              key = key)
 

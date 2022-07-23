@@ -2,30 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e3026d91-848a-4f80-8e97-bdd46f5f6c19" name="变更" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0786beb4-82f8-4d54-979c-40e30cba1966.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/other.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/whatever.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/whatever.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/data-dev.sqlite" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/application.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ae59e1c1-403f-483c-810f-5e4e151dbd17.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/ae59e1c1-403f-483c-810f-5e4e151dbd17.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/data-dev.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/data-dev.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1-202-2021.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1-2020.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1-testcuc.docx" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/instance/upload/1-testcuc.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657246508764-" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657246580593-1111.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657246716104-1111output.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657247002543-09-4output.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657263905704-" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657264030543-" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657264121325-666output.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657265716378-999output.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657265818064-" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657280469653-6699output.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657597598561-2022-07-06_050313.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657597609662-" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1657597636395-20220708143130.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/db_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/db_models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/templates/layout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/templates/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/templates/signup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/views/anony.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/views/anony.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/views/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/views/auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/views/resources.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/views/resources.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/migrations/README" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/migrations/alembic.ini" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/migrations/env.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/migrations/script.py.mako" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/migrations/versions/e562bf9185a0_.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/migrations/versions/f372312191f1_.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +65,7 @@
       <option name="presentableId" value="Default" />
       <updated>1658480846587</updated>
       <workItem from="1658480848216" duration="3245000" />
-      <workItem from="1658484199178" duration="18954000" />
+      <workItem from="1658484199178" duration="21004000" />
     </task>
     <servers />
   </component>

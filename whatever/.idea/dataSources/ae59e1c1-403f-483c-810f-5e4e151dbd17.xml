@@ -1352,92 +1352,96 @@
       <NotNull>1</NotNull>
       <Position>7</Position>
     </column>
-    <key id="493" parent="482">
+    <column id="493" parent="482" name="text">
+      <DataType>VARCHAR(300)|0s</DataType>
+      <Position>8</Position>
+    </column>
+    <key id="494" parent="482">
       <ColNames>file_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="494" parent="483" name="version_num">
+    <column id="495" parent="483" name="version_num">
       <DataType>VARCHAR(32)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <index id="495" parent="483" name="sqlite_autoindex_alembic_version_1">
+    <index id="496" parent="483" name="sqlite_autoindex_alembic_version_1">
       <ColNames>version_num</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <key id="496" parent="483" name="alembic_version_pkc">
+    <key id="497" parent="483" name="alembic_version_pkc">
       <ColNames>version_num</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>sqlite_autoindex_alembic_version_1</UnderlyingIndexName>
     </key>
-    <column id="497" parent="484" name="type">
+    <column id="498" parent="484" name="type">
       <DataType>TEXT|0s</DataType>
       <Position>1</Position>
     </column>
-    <column id="498" parent="484" name="name">
+    <column id="499" parent="484" name="name">
       <DataType>TEXT|0s</DataType>
       <Position>2</Position>
     </column>
-    <column id="499" parent="484" name="tbl_name">
+    <column id="500" parent="484" name="tbl_name">
       <DataType>TEXT|0s</DataType>
       <Position>3</Position>
     </column>
-    <column id="500" parent="484" name="rootpage">
+    <column id="501" parent="484" name="rootpage">
       <DataType>INT|0s</DataType>
       <Position>4</Position>
     </column>
-    <column id="501" parent="484" name="sql">
+    <column id="502" parent="484" name="sql">
       <DataType>TEXT|0s</DataType>
       <Position>5</Position>
     </column>
-    <column id="502" parent="485" name="id">
+    <column id="503" parent="485" name="id">
       <DataType>INTEGER|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="503" parent="485" name="email">
+    <column id="504" parent="485" name="email">
       <DataType>VARCHAR(100)|0s</DataType>
       <Position>2</Position>
     </column>
-    <column id="504" parent="485" name="name">
+    <column id="505" parent="485" name="name">
       <DataType>VARCHAR(100)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="505" parent="485" name="role">
+    <column id="506" parent="485" name="role">
       <DataType>VARCHAR(5)|0s</DataType>
       <Position>4</Position>
     </column>
-    <column id="506" parent="485" name="_password">
+    <column id="507" parent="485" name="_password">
       <DataType>VARCHAR(128)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="507" parent="485" name="created_time">
+    <column id="508" parent="485" name="created_time">
       <DataType>DATETIME|0s</DataType>
       <Position>6</Position>
     </column>
-    <column id="508" parent="485" name="pub_key">
+    <column id="509" parent="485" name="pub_key">
       <DataType>VARCHAR|0s</DataType>
       <NotNull>1</NotNull>
       <Position>7</Position>
     </column>
-    <column id="509" parent="485" name="sec_key">
+    <column id="510" parent="485" name="sec_key">
       <DataType>VARCHAR|0s</DataType>
       <NotNull>1</NotNull>
       <Position>8</Position>
     </column>
-    <index id="510" parent="485" name="sqlite_autoindex_users_1">
+    <index id="511" parent="485" name="sqlite_autoindex_users_1">
       <ColNames>email</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <key id="511" parent="485">
+    <key id="512" parent="485">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="512" parent="485">
+    <key id="513" parent="485">
       <ColNames>email</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_users_1</UnderlyingIndexName>
     </key>
