@@ -5,18 +5,13 @@ from flask import Flask, redirect, url_for
 from flask.cli import AppGroup
 import click
 from pathlib import Path
-
 # from littleRedCUC.flask_adminlte import AdminLTE
 from flask import Flask
-
 from importlib import import_module
 from littleRedCUC.blueprints import all_blueprints
-
-
 from littleRedCUC.blueprints import all_blueprints
 # from littleRedCUC.views.resources import api_bp
 from littleRedCUC.extensions import login_manager,db,bcrypt,migrate
-
 from littleRedCUC.db_models import User,UserRole
 from config import config
 
@@ -62,12 +57,14 @@ def create_app():
     @click.argument('password')
     
     def create_admin(email, name, password):
+        PK = '../SystemPK.pem'
+        SK = '../SystemSK.pem'
         user = User(email=email,
-                    # email_confirmed=True,
                     name=name,
-                    role=UserRole.ADMIN)
-        user.password = password
-
+                    role=UserRole.ADMIN,
+                    password=password,
+                    pub_key=PK,
+                    sec_key=SK)
         db.session.add(user)
         db.session.commit()
 
