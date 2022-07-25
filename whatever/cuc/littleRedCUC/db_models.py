@@ -2,12 +2,10 @@ from flask_login import UserMixin
 from sqlalchemy.ext.hybrid import hybrid_property
 from cryptography.hazmat.primitives.asymmetric import rsa
 from datetime import datetime
-from littleRedCUC.extensions import db,marshmallow
+from littleRedCUC.extensions import db, marshmallow
 from littleRedCUC.extensions import bcrypt
 
 import enum
-
-
 
 sys_private_key = rsa.generate_private_key(
     public_exponent=65537,
@@ -21,10 +19,9 @@ class UserRole(enum.Enum):
     ADMIN = 'Administrator'
     USERS = 'Normal users'
 
+
 # user models
 class User(db.Model, UserMixin):
-
-
     __tablename__ = "users"
     __table_args__ = {'mysql_collate': 'utf8_general_ci'}
 
@@ -37,8 +34,6 @@ class User(db.Model, UserMixin):
     pub_key = db.Column(db.String, nullable=False)
     sec_key = db.Column(db.String, nullable=False)
 
-
-
     @hybrid_property
     def password(self):
         return self._password
@@ -46,9 +41,6 @@ class User(db.Model, UserMixin):
     @password.setter
     def password(self, plaintext):
         self._password = bcrypt.generate_password_hash(plaintext)
-
-
-
 
     def is_correct_password(self, plaintext):
         return bcrypt.check_password_hash(self._password, plaintext)
@@ -66,15 +58,18 @@ class Post_File(db.Model):
     upload_time = db.Column(db.DateTime, default=datetime.now)
     file = db.Column(db.String(255), nullable=False)
     if_pub = db.Column(db.Boolean, default=False)
-    key = db.Column(db.String,nullable=False)   # 这是用系统公钥加密过的用来加密文件的对称密钥
+    key = db.Column(db.String, nullable=False)  # 这是用系统公钥加密过的用来加密文件的对称密钥
+    iv = db.Column(db.String) # 这个也加密一下吧
     text = db.Column(db.String(300))
+    tag = db.Column(db.String)
 
 
 
-
-
-
-
-
-
-
+class Share_File(db.Model):
+    share_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer)
+    file_id = db.Column(db.Integer, nullable=False)
+    share_code = db.Column(db.String, nullable=False)
+    TTL = db.Column(db.Integer)  # 是否需要加上无限分享，还是强制性所有必须限制分享次数以保证安全？
+    share_time = db.Column(db.DateTime, default=datetime.now)
+    url = db.Column(db.String)

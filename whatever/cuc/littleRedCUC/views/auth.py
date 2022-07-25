@@ -11,6 +11,8 @@ from littleRedCUC.blueprints import auth
 from littleRedCUC.extensions import login_manager
 from littleRedCUC import TotpFactory
 from littleRedCUC.emailway import generateToken, sendMail, vertifToken
+from littleRedCUC.DigitalSignature import Encode_SK
+from littleRedCUC.Sym_cryptography import sym_encrypt,generate_key
 import csv
 import os
 import pandas as pd
@@ -200,7 +202,7 @@ def layout2():
 @auth.route('/file')
 def display_file():
     files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
-    return render_template('file.html',files = files)
+    return render_template('file.html', files=files)
 
 
 @auth.route('/file_upload', methods=['GET', 'POST'])
@@ -214,59 +216,75 @@ def upload_file():
         flash('Please login first.')
         return redirect(url_for('auth.login'))
 
-    tstmp = str(int(time.time()))
-    ki = str(user.password)+tstmp
-    ki = bytes(ki,'utf-8')
-    ki = base64.urlsafe_b64encode(ki)
-    ki = ki[:16]
-    label = base64.urlsafe_b64encode(bytes(str(user.id), 'utf-8'))
-    context = base64.urlsafe_b64encode(bytes(user.email, 'utf-8'))
-    kdf = KBKDFCMAC(
-        algorithm=algorithms.AES,
-        mode=Mode.CounterMode,
-        length=32,
-        rlen=4,
-        llen=4,
-        location=CounterLocation.BeforeFixed,
-        label=label,
-        context=context,
-        fixed=None,
-    )
-    key = kdf.derive(base64.urlsafe_b64encode(ki))
-    current_app.logger.info('=========================')
-    # print(key)
-    # return str(key)
-
-
-    iv = os.urandom(12)
-    # print(key)
-    encryptor = Cipher(
-        algorithms.AES(key=key),
-        modes.GCM(iv),
-    ).encryptor()
+    # tstmp = str(int(time.time()))
+    # ki = str(user.password)+tstmp
+    # ki = bytes(ki,'utf-8')
+    # ki = base64.urlsafe_b64encode(ki)
+    # ki = ki[:16]
+    # label = base64.urlsafe_b64encode(bytes(str(user.id), 'utf-8'))
+    # context = base64.urlsafe_b64encode(bytes(user.email, 'utf-8'))
+    # kdf = KBKDFCMAC(
+    #     algorithm=algorithms.AES,
+    #     mode=Mode.CounterMode,
+    #     length=32,
+    #     rlen=4,
+    #     llen=4,
+    #     location=CounterLocation.BeforeFixed,
+    #     label=label,
+    #     context=context,
+    #     fixed=None,
+    # )
+    # key = kdf.derive(base64.urlsafe_b64encode(ki))
+    # current_app.logger.info('=========================')
+    # # print(key)
+    # # return str(key)
+    #
+    #
+    # iv = os.urandom(12)
+    # # print(key)
+    # encryptor = Cipher(
+    #     algorithms.AES(key=key),
+    #     modes.GCM(iv),
+    # ).encryptor()
 
     form = PostForm()
-    file = form.file.data
-    text = form.text.data
+    # file = form.file.data
+    # text = form.text.data
     if request.method == 'POST':
+        form = PostForm()
+        file = form.file.data
+        text = form.text.data
         if form.validate_on_submit():
-            file_bytes=file.read()
+            file_bytes = file.read()
             # print(file_bytes)
-            cipher_bytes = encryptor.update(file_bytes) + encryptor.finalize()
+
+            password = user.password
+            email = user.email
+            id = user.id
+            key = generate_key(password, id, email)
+            iv, cipher_bytes, en_tag = sym_encrypt(file_bytes,key)
+
+            # cipher_bytes = encryptor.update(file_bytes) + encryptor.finalize()
             # print(secure_filename(file.filename))
             file_name = str(user.id) + '-' + secure_filename(file.filename)
-            file_path = str(Path(current_app.config['UPLOAD_FOLDER']) /file_name)
+            file_path = str(Path(current_app.config['UPLOAD_FOLDER']) / file_name)
             file_object = open(file_path, 'wb')
             file_object.write(cipher_bytes)
             file_object.close()
             # print(cipher_bytes)
             # print(file.filename)
             # print(file_name)
+
+            # use system-pk to encode 'key'
+            key = Encode_SK(key)
+
             post = Post_File(user_id=current_user.id,
                              user_name=current_user.name,
                              text=text,
                              file=file_name,
-                             key = key)
+                             key=key,
+                             iv=iv,
+                             tag = en_tag)
 
             db.session.add(post)
             db.session.commit()

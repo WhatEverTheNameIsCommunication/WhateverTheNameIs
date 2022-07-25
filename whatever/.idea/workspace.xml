@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e3026d91-848a-4f80-8e97-bdd46f5f6c19" name="变更" comment="" />
+    <list default="true" id="e3026d91-848a-4f80-8e97-bdd46f5f6c19" name="变更" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ae59e1c1-403f-483c-810f-5e4e151dbd17.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/ae59e1c1-403f-483c-810f-5e4e151dbd17.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/data-dev.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/data-dev.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1-2020.docx" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/instance/upload/1-2020.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/db_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/db_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/templates/file_upload.html" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/templates/file_upload.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/views/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/views/auth.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -19,20 +38,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/86136/Desktop/WhateverTheNameIs/whatever/cuc/data-dev.sqlite",
-    "nodejs_package_manager_path": "npm"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/86136/Desktop/WhateverTheNameIs/whatever/cuc/data-dev.sqlite&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="默认任务">
@@ -43,6 +62,7 @@
       <updated>1658480846587</updated>
       <workItem from="1658480848216" duration="3245000" />
       <workItem from="1658484199178" duration="21386000" />
+      <workItem from="1658731695788" duration="12741000" />
     </task>
     <servers />
   </component>
