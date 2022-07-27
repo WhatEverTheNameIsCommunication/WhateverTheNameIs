@@ -116,7 +116,7 @@ def Encode_SK(private_bytes):
 def Decode_SK(private_bytes):
     # 使用系统私钥对私钥进行解密
     # 提取csv文件 
-    matrix=pd.read_csv('D:/homework-2022-s/XiaoXueQI/zcfxc/CUC/whatever/cuc/System.csv')  # 请更改为自己电脑上的完整路径
+    matrix=pd.read_csv('./System.csv')  # 请更改为自己电脑上的完整路径
     matrix=np.array(matrix)
     SK=matrix[0,1] 
     with open(SK, "rb") as key_file:

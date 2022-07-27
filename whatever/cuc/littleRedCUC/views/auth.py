@@ -1,18 +1,20 @@
 from datetime import datetime
 from email import message
-from flask import render_template, redirect, url_for, request, send_from_directory, current_app, flash
+from flask import render_template, redirect, url_for, request, send_from_directory, current_app, flash, make_response, \
+    send_file
 
 from flask_login import login_required, login_user, logout_user, current_user
 from flask_restful import reqparse
 
 from littleRedCUC.forms import SignInForm, VertifyForm, FindForm, ChangepasswdForm, PostForm
-from littleRedCUC.db_models import User, db, UserRole, Post_File
+from littleRedCUC.db_models import User, db, UserRole, Post_File, Share_File
 from littleRedCUC.blueprints import auth
 from littleRedCUC.extensions import login_manager
 from littleRedCUC import TotpFactory
 from littleRedCUC.emailway import generateToken, sendMail, vertifToken
 from littleRedCUC.DigitalSignature import Encode_SK
-from littleRedCUC.Sym_cryptography import sym_encrypt,generate_key
+from littleRedCUC.Sym_cryptography import sym_encrypt, generate_key
+from littleRedCUC.share import share_and_download
 import csv
 import os
 import pandas as pd
@@ -262,7 +264,7 @@ def upload_file():
             email = user.email
             id = user.id
             key = generate_key(password, id, email)
-            iv, cipher_bytes, en_tag = sym_encrypt(file_bytes,key)
+            iv, cipher_bytes, en_tag = sym_encrypt(file_bytes, key)
 
             # cipher_bytes = encryptor.update(file_bytes) + encryptor.finalize()
             # print(secure_filename(file.filename))
@@ -276,7 +278,10 @@ def upload_file():
             # print(file_name)
 
             # use system-pk to encode 'key'
-            key = Encode_SK(key)
+            # key = Encode_SK(key)
+            # iv = Encode_SK(iv)
+            # en_tag = Encode_SK(en_tag)
+
 
             post = Post_File(user_id=current_user.id,
                              user_name=current_user.name,
@@ -284,7 +289,7 @@ def upload_file():
                              file=file_name,
                              key=key,
                              iv=iv,
-                             tag = en_tag)
+                             tag=en_tag)
 
             db.session.add(post)
             db.session.commit()
@@ -299,6 +304,57 @@ def upload_file():
     return render_template('file_upload.html', form=form)
 
 
-@auth.route('/shared_file.html')
+@auth.route('/shared_file.html', methods=['GET', 'POST'])
 def shared_file():
     return render_template('shared_file.html')
+
+
+# @auth.route('/file2/<int:file_id>', methods=['GET', 'POST'])
+# def plain_download(file_id):
+#
+#     # file_id= request.args.get("file")  # 获取get请求参数
+#     print(file_id)
+#     print('!!!!!!!!!!!!!路由正确')
+#     # user = User.query.filter_by(id=current_user.id).first()
+#     file = Post_File.query.filter(file_id == file_id).first()
+#     id_ = file_id
+#     plain_dl = share_and_download(id_)
+#     file_bytes = plain_dl.pre_decode()
+#     l = len(str(file.user_id))
+#     name = file.file[l:]
+#     # response = make_response(content)
+#     # response.headers['Content-Disposition'] = 'attachment; filename={}'.format(filename)
+#     # print(file_bytes)
+#
+#
+#
+#     # response = make_response(send_file(file_bytes, as_attachment=True, download_name=name))
+#     # response.headers['Content-Disposition'] = 'attachment; filename={}'.format(file.file)
+#     # return response, redirect(url_for("auth.display_file"))
+#
+#     file_path='./'+file.file
+#     file_object = open(file_path, 'wb')
+#     file_object.write(file_bytes)
+#     file_object.close()
+#     make_response(send_from_directory(file_path,file.file))
+
+
+# def share():
+#     # 接到file_id/ Post_File, 只要能定位文件
+#     userID=
+#     fileID =
+#     ttl =   # 这个应该是用户输入得到
+#     url =
+#     shared = share_and_download(id)
+#     iv, share_bytes, tag, code= shared.share_encrypt()
+#     share_db = Share_File(
+#         user_id = userID,
+#         file_id = fileID,
+#         share_code = code,
+#         TTL = ttl,
+#         url = url,
+#         iv = iv,
+#         tag = tag
+#     )
+#     db.session.add(share_db)
+#     db.session.commit()

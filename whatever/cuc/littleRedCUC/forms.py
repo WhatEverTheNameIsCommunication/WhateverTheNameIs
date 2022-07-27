@@ -42,12 +42,18 @@ class SignUpForm(FlaskForm):
     confirm=PasswordField('确认密码',validators=[DataRequired(),EqualTo('password',message='必须和密码已输入密码相同')])
     user_name= StringField('用户名',validators=[DataRequired()])
 
+
+
 class VertifyForm(FlaskForm):
     vc = StringField('验证码', validators=[DataRequired()])
     email = StringField('邮箱', validators=[DataRequired(), Email()])
 
+
+
 class FindForm(FlaskForm):
     email = StringField('邮箱', validators=[DataRequired(), Email()])
+
+
 
 class ChangepasswdForm(FlaskForm):
     email = StringField('邮箱', validators=[DataRequired(), Email()])

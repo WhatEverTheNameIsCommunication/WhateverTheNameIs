@@ -59,17 +59,18 @@ class Post_File(db.Model):
     file = db.Column(db.String(255), nullable=False)
     if_pub = db.Column(db.Boolean, default=False)
     key = db.Column(db.String, nullable=False)  # 这是用系统公钥加密过的用来加密文件的对称密钥
-    iv = db.Column(db.String) # 这个也加密一下吧
+    iv = db.Column(db.String)  # 这个也加密一下吧
     text = db.Column(db.String(300))
-    tag = db.Column(db.String)
-
+    tag = db.Column(db.String)  # 这个也加密一下吧
 
 
 class Share_File(db.Model):
     share_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer)
     file_id = db.Column(db.Integer, nullable=False)
-    share_code = db.Column(db.String, nullable=False)
+    share_code = db.Column(db.String, nullable=False)  # hash
     TTL = db.Column(db.Integer)  # 是否需要加上无限分享，还是强制性所有必须限制分享次数以保证安全？
     share_time = db.Column(db.DateTime, default=datetime.now)
     url = db.Column(db.String)
+    iv = db.Column(db.String)
+    tag = db.Column(db.String)

@@ -31,12 +31,12 @@ def generate_key(keyword,label_,context_):
     return key
 
 
-def sym_encrypt(plaintext,key):
+def sym_encrypt(plaintext,k):
 
     iv = os.urandom(12)
     # print(key)
     encryptor = Cipher(
-        algorithms.AES(key=key),
+        algorithms.AES(key=k),
         modes.GCM(iv),
     ).encryptor()
 

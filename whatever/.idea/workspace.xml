@@ -2,13 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e3026d91-848a-4f80-8e97-bdd46f5f6c19" name="变更" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ae59e1c1-403f-483c-810f-5e4e151dbd17.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/ae59e1c1-403f-483c-810f-5e4e151dbd17.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo/.idea/demo.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cuc/littleRedCUC/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cuc/littleRedCUC/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cuc/littleRedCUC/.idea/littleRedCUC.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cuc/littleRedCUC/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cuc/littleRedCUC/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cuc/littleRedCUC/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cuc/data-dev.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/data-dev.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1-2020.docx" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/instance/upload/1-2020.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/instance/upload/1-testcuc.docx" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/instance/upload/1-testcuc.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/DigitalSignature.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/DigitalSignature.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/Sym_cryptography.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/Sym_cryptography.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/db_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/db_models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/templates/file_upload.html" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/templates/file_upload.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/share.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/share.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/templates/file.html" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/templates/file.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/views/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/views/auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/migrations/README" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/migrations/README" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/migrations/alembic.ini" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/migrations/alembic.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/migrations/env.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/migrations/env.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/migrations/script.py.mako" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/migrations/script.py.mako" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/migrations/versions/db2bb09fe8f9_.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,20 +53,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/86136/Desktop/WhateverTheNameIs/whatever/cuc/data-dev.sqlite&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/86136/Desktop/WhateverTheNameIs/whatever/cuc/data-dev.sqlite",
+    "nodejs_package_manager_path": "npm"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;sqlite&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
     ]
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="默认任务">
@@ -62,11 +78,23 @@
       <updated>1658480846587</updated>
       <workItem from="1658480848216" duration="3245000" />
       <workItem from="1658484199178" duration="21386000" />
-      <workItem from="1658731695788" duration="12741000" />
+      <workItem from="1658731695788" duration="13067000" />
+      <workItem from="1658810162959" duration="24855000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
