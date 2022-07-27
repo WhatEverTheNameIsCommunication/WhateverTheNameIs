@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 
-    <title>中传放心传 - 验证</title>
+    <title>中传放心传 - 加密文件上传</title>
 
 
     <!-- Tell the browser to be responsive to screen width -->
@@ -41,47 +41,23 @@
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <p class="login-box-msg">用户登录</p>
+            <p class="login-box-msg">加密文件上传</p>
+    
+            <form action="/auth/pload" method="post" enctype="multipart/form-data">
+                
+                <div class="form-group">
+                    <!-- 待解密的文件上传框 -->
+                    {{ form.En_file.label }}
+                    {{ form.En_file(class_="form-control") }}
+                    <p class="help-block">文件类型仅允许普通文件和Microsoft文档,大小限制在10M以内</p>
+                    <!-- 验证码输入框 -->
+                    {{ form.verification.label }}
+                    {{ form.verification(class_="form-control") }}
+                </div>
 
-
-             <form action="/auth/2fa" method="post">
-            <div class="form-group">
-                {{ form.email.label }}
-                {{ form.email(class_="form-control") }}
-            </div>
-
-            <div class="form-group">
-                {{ form.vc.label }}
-                {{ form.vc(class_="form-control") }}
-            </div>
-
-            {{ form.csrf_token }}
-            <input class="btn btn-primary" type="submit" value="提交">
+                {{ form.csrf_token }}
+                <input class="btn btn-primary" type="submit" value="上传">
         </form>
-
-<!--            <form action="/auth/login" method="post">-->
-<!--                <div class="form-group has-feedback">-->
-<!--                    <input type="email" class="form-control" placeholder="Email">-->
-<!--                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>-->
-<!--                </div>-->
-<!--                <div class="form-group has-feedback">-->
-<!--                    <input type="password" class="form-control" placeholder="密码">-->
-<!--                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>-->
-<!--                </div>-->
-<!--                <div class="row">-->
-<!--                    <div class="col-xs-8">-->
-<!--                        <div class="checkbox icheck">-->
-<!--                            <label><input type="checkbox"> 记住 下次自动登录</label>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    &lt;!&ndash; /.col &ndash;&gt;-->
-<!--                    <div class="col-xs-4">-->
-<!--                        <button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>-->
-<!--                    </div>-->
-<!--                    &lt;!&ndash; /.col &ndash;&gt;-->
-<!--                </div>-->
-<!--            </form>-->
-
         </div>
         <!-- /.login-box-body -->
     </div>
@@ -102,6 +78,7 @@
             });
         });
     </script>
+    
 </body>
 
 </html>

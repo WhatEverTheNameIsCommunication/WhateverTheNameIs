@@ -500,20 +500,31 @@
                                         {% endfor %}
                                     {% endwith %}
                                     {% if list %}
-                                        <p>当前有以下共享文件</p>
+                                    <div class="box-header">
+                                        <h3 class="box-title">共享文件列表</h3>
+                                    </div>
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <th style="width: 10px"> </th>
+                                            <th style="width: 300px">文件名</th>
+                                            <th style="width: 700px">操作</th>
+                                        </tr>
                                         <ui>
                                         {% for e in list %}
-                                            <li>
-                                                {{e[0]}} by {{e[1]}} (已加密)
-                                                <a href="/shared_file/download?filename={{e[0]}}&username={{e[1]}}&type=encrypted">下载</a>
-                                                <a href="/shared_file/download?filename={{e[0]}}&username={{e[1]}}&type=signature">下载签名文件</a>
-                                            </li>
+                                            <tr>
+                                                <th>{{e[0]}} by {{e[1]}} (已加密)</th>
+                                                <th>
+                                                <a href="#">下载</a>
+                                                <a href="#">下载签名文件</a>
+                                                </th>
+                                            </tr>
                                         {% endfor %}
                                         </ui>
                                     {% else %}
                                         <p>当前没有任何共享文件</p>
                                     {% endif %}
                                     <a href="/public_key">获取网站公钥</a>
+                                    </table>
                                     </div>
                                     <!-- /.box-body -->
                                 </form>

@@ -474,8 +474,8 @@
                      <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    文件上传
-                    <small>Preview</small>
+                    我的文件
+                    <small>My File</small>
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
@@ -494,23 +494,38 @@
                                 <!-- form start -->
                                 <form role="form">
                                     <div class="box-body">
-                                        {% with messages = get_flashed_messages() %}
+                                        {% with messages = get_flashed_messages() %} 
                                             {% for message in messages %}
                                                 <p>{{message}}</p>
                                             {% endfor %}
                                         {% endwith %}
-                                        <p>{{username}}，您好！</p>
+
                                         {% if files %}
-                                            <p>您当前上传了以下文件</p>
+                                        <div class="box-header">
+                                            <h3 class="box-title">文件列表</h3>
+                                        </div>
+                                        <table class="table table-striped">
+                                            <tr>
+                                                <th style="width: 10px"> </th>
+                                                <th style="width: 300px">文件名</th>
+                                                <th style="width: 100px">是否共享</th>
+                                                <th style="width: 600px">操作</th>
+                                                <th style="width: 700px">描述</th>
+                                            </tr>
+                                               
                                             <ui>
                                             {% for file in files %}
-                                                <li>
-                                                    {{file.file}}(已加密)
-                                                    {% if file.shared %}
+                                                <tr>
+                                                    <th style="width: 10px">#</th>
+                                                    <th>{{file.file}}(已加密)</th>
+                                                    <th>{% if file.shared %}
                                                     (已共享)
                                                     {% else %}
                                                     (未共享)
                                                     {% endif %}
+                                                    </th>
+                                                    
+                                                    <th>
                                                     <a href="#">下载</a>
                                                     <a href="#">下载哈希值</a>
                                                     <a href="#">解密并下载</a>
@@ -523,21 +538,21 @@
                                                     {% endif %}
                                                     </a>
                                                     <a href="#">删除</a>
-                                                </li>
+                                                    </th> 
+                                                    <!-- 展示描述内容 -->
+                                                    <th>描述内容</th>  
+                                                </tr>
                                             {% endfor %}
                                             </ui>
                                         {% else %}
                                             <p>您当前没有上传任何文件</p>
                                         {% endif %}
-                        
+                                        </table>
                                     </div>
                                     <!-- /.box-body -->
                                 </form>
                             </div>
                             <!-- /.box -->
-                            <div class="file_show">
-                            
-                            </div>
                         </section>
                 </div>
                 <!-- 内容区域 /-->

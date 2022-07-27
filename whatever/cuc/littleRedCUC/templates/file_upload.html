@@ -506,7 +506,7 @@
 {#                                        </form>#}
 
            <div class="box-body" style="padding:20px">
-            <h2 style="font-weight: bold;text-align: center;">文件上传</h2>
+           
             {% with messages = get_flashed_messages() %}
             {% if messages %}
             <ul>
@@ -523,19 +523,16 @@
                     {{ form.text.label }}
                     {{ form.text(class_="form-control") }}
                 </div>
-                <p class="help-block">仅允许上传小于10MB、类型为.doc,.txt,.pdf,.xls,.jpg,.png,.bmp,.svg,.tif,.gif的文件。</p>
+                
                 <div class="form-group">
                     {{ form.file.label }}
                     {{ form.file(class_="form-control") }}
+                    <p class="help-block">文件类型仅允许普通文件和Microsoft文档,大小限制在10M以内</p>
                 </div>
                 {{ form.csrf_token }}
                 <input class="btn btn-primary" type="submit" value="上传">
             </form>
            </div>
-
-
-                                </form>
-                            </div>
                             <!-- /.box -->
                             
                         </section>
@@ -626,6 +623,8 @@
                     setSidebarActive("admin-index");
                 });
             </script>
+
+           
         </body>
         
         </html>
