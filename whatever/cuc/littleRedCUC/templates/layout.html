@@ -428,20 +428,39 @@
 
                     <li class="treeview">
                         <a href="{{ url_for('auth.login') }}">
-                    <i class="fa fa-user"></i> <span>登录</span>
-                     </a>
+                            <i class="fa fa-user"></i> <span>登录</span>
+                        </a>
                     </li>
 
                     <li class="treeview">
                         <a href="{{ url_for('anony.signup') }}">
-                    <i class="fa fa-user-plus"></i> <span>注册</span>
+                            <i class="fa fa-user-plus"></i> <span>注册</span>
+                        </a>
                     </li>
-                  </a>
+                  
 
                     <li class="treeview">
                         <a href="{{ url_for('auth.upload_file') }}">
-                    <i class="fa fa-folder"></i> <span>文件上传</span>
-                </a>
+                            <i class="fa fa-upload"></i> <span>文件上传</span>
+                        </a>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="/auth/file">
+                            <i class="fa fa-folder"></i> <span>我的文件</span>
+                        </a>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="{{ url_for('auth.upload_file') }}"> 
+                            <i class="fa fa-cloud"></i> <span>共享文件</span>
+                        </a>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="{{ url_for('auth.logout') }}"> 
+                            <i class="fa fa-user-times"></i> <span>退出登录</span>
+                        </a>
                     </li>
 
                 </ul>
