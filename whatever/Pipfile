@@ -25,6 +25,7 @@ pillow = "*"
 passlib = "*"
 pandas = "*"
 cryptography = "*"
+itsdangerous = "*"
 
 [requires]
 python_version = "3.9"
