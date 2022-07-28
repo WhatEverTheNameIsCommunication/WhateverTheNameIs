@@ -1,12 +1,14 @@
-from datetime import datetime
+import datetime
 from email import message
 from flask import render_template, redirect, url_for, request, send_from_directory, current_app, flash, make_response, \
     send_file
 
 from flask_login import login_required, login_user, logout_user, current_user
 from flask_restful import reqparse
+from itsdangerous import URLSafeTimedSerializer
 
-from littleRedCUC.forms import SignInForm, VertifyForm, FindForm, ChangepasswdForm, PostForm
+from littleRedCUC.forms import SignInForm, VertifyForm, FindForm, ChangepasswdForm, PostForm, ShareForm
+
 from littleRedCUC.db_models import User, db, UserRole, Post_File, Share_File
 from littleRedCUC.blueprints import auth
 from littleRedCUC.extensions import login_manager
@@ -204,7 +206,8 @@ def layout2():
 @auth.route('/file')
 def display_file():
     files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
-    return render_template('file.html', files=files)
+    form = ShareForm()
+    return render_template('file.html', files=files,form=form)
 
 
 @auth.route('/file_upload', methods=['GET', 'POST'])
@@ -282,14 +285,16 @@ def upload_file():
             # iv = Encode_SK(iv)
             # en_tag = Encode_SK(en_tag)
 
-
             post = Post_File(user_id=current_user.id,
                              user_name=current_user.name,
                              text=text,
                              file=file_name,
                              key=key,
                              iv=iv,
-                             tag=en_tag)
+                             tag=en_tag,
+                             hashtext='hashtext',
+                             hmac = 'hmac'
+                            )
 
             db.session.add(post)
             db.session.commit()
@@ -308,6 +313,81 @@ def upload_file():
 def shared_file():
     return render_template('shared_file.html')
 
+
+@auth.route('/share', methods=['POST', 'GET'])
+def share():
+    # 若文件未分享
+    if request.method == 'POST':
+        date = request.form["date"]
+        times = request.form["times"]
+        file_id = request.form["fileid"]
+        date = list(map(int, date.split('-')))
+        formdate = datetime.date.today().replace(date[0], date[1], date[2])
+        today = datetime.date.today()
+        user_id = current_user.id
+        # 检验时间
+        if today.__ge__(formdate):  # if today is later than ddl day, which is impossible
+            return "截止时间不能晚于提交时间"
+        else:
+            days = formdate.__sub__(today).days
+            timescale = days * 24 * 60 * 60  # seconds
+
+        # 检验次数
+        if int(times) < 1:
+            return "至少允许一次下载"
+
+        # 修改Post_File的if_share
+        db.session.query(Post_File).filter_by(file_id=file_id).update({"if_share": True})
+
+        # # 推送修改数据
+        # sharefile = Post_File.query.filter(Post_File.file_id == file_id).first()
+        # sharefile.if_pub = True
+        # sharefile.timescale = timescale
+        # sharefile.times = times
+        # db.session.commit()
+
+        # 组成json
+        requirement = {'expireIn': timescale, 'times': times, 'id': file_id}
+
+        # 初始化签名器
+        signer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+        token = signer.dumps(requirement)
+        url = 'https://' + current_app.config['SERVER_NAME'] + '/opensharedfile?token=' + token
+        flash('该文件的分享连接是：' + url)
+
+        share = Share_File(
+            user_id=current_user.id,
+            file_id=file_id,
+            share_code='1111',
+            TTL=times,
+            DDL=timescale,
+            url=url,
+            hmac='hamc',
+            iv='iv',
+            tag='tag'
+        )
+        db.session.add(share)
+        db.session.commit()
+
+        files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
+        form = ShareForm()
+        return render_template('file.html', files=files, form=form)
+    # 取消分享
+    else:
+        file_id = request.args["id"]
+        file = Post_File.query.filter(Post_File.file_id == file_id).first()
+        file.if_share = False
+
+        shared = Share_File.query.filter(file_id == file_id).all()
+        for file in shared:
+            file.DDL = 0
+            file.TTL = 0
+        db.session.commit()
+
+        files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
+        form = ShareForm()
+        db.session.commit()
+        return render_template('file.html', files=files, form=form)
 
 # @auth.route('/file2/<int:file_id>', methods=['GET', 'POST'])
 # def plain_download(file_id):
@@ -328,15 +408,15 @@ def shared_file():
 #
 #
 #
-#     # response = make_response(send_file(file_bytes, as_attachment=True, download_name=name))
-#     # response.headers['Content-Disposition'] = 'attachment; filename={}'.format(file.file)
-#     # return response, redirect(url_for("auth.display_file"))
+#     response = make_response(send_file(file_bytes, as_attachment=True, download_name=name))
+#     response.headers['Content-Disposition'] = 'attachment; filename={}'.format(file.file)
+#     return response, redirect(url_for("auth.display_file"))
 #
-#     file_path='./'+file.file
-#     file_object = open(file_path, 'wb')
-#     file_object.write(file_bytes)
-#     file_object.close()
-#     make_response(send_from_directory(file_path,file.file))
+#     # file_path='./'+file.file
+#     # file_object = open(file_path, 'wb')
+#     # file_object.write(file_bytes)
+#     # file_object.close()
+#     # make_response(send_from_directory(file_path,file.file))
 
 
 # def share():

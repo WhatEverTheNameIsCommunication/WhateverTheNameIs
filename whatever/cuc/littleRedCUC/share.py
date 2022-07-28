@@ -36,6 +36,7 @@ class share_and_download:
             cipher_bytes = f.read()
             key, iv, tag = self.get_keys(self.file.file_id)
             file_bytes = sym_decrypt(key, iv, cipher_bytes, tag)
+            # print(file_bytes)
         return file_bytes
 
     # 返回 iv，share_bytes , tag
@@ -44,10 +45,13 @@ class share_and_download:
         # 如果一致，则认为share_code 是对的
         # 验证成功后，再谈解密（对称、非对称）的事儿
         file_bytes = self.pre_decode()
-        keyword = self.file.tag + str(self.file.id) + self.file.iv + self.file.file
+        keyword = str(self.file.tag) + str(self.file.file_id) + str(self.file.iv) + str(self.file.file)
         code = keyword[::-1][::8]  # 纯属好玩，但也许也可以增添些个混淆性？哈哈哈哈
         print(code)
         self.share_code = bcrypt.generate_password_hash(code)
+
+
+
         # 为了安全，不要让直接暴露的分享码作为keyword
         temp = code[::3]
         l = len(temp)
@@ -55,10 +59,12 @@ class share_and_download:
         # 验证身份和解密的虎符就是code
         # lable 使用id 可以让文件在改名的情况下，也能顺利解码
         context = ['sharing_file', 'share_files', 'file_sharing', 'file_shared']
-        context = context[self.file.id % 4]
-        key = generate_key(keyword, self.file.id, context)
+        context = context[self.file.file_id % 4]
+        key = generate_key(keyword, self.file.file_id, context)
         iv, share_bytes, tag = sym_encrypt(file_bytes, key)
         return iv, share_bytes, tag, self.share_code
+
+
 
     def share_decrypt(self, url, code, share_text):
         if self.is_THE_ONE(url, code):
@@ -66,14 +72,14 @@ class share_and_download:
 
             iv = Decode_SK(shared.iv)
             tag = Decode_SK(shared.tag)
-            keyword = self.file.tag + str(self.file.id) + self.file.iv + self.file.file
+            keyword = str(self.file.tag) + str(self.file.file_id) + str(self.file.iv) + str(self.file.file)
             code = keyword[::-1][::8]
             temp = code[::3]
             l = len(temp)
             keyword = keyword[:-l] + temp
             context = ['sharing_file', 'share_files', 'file_sharing', 'file_shared']
-            context = context[self.file.id % 4]
-            key = generate_key(keyword, self.file.id, context)
+            context = context[self.file.file_id % 4]
+            key = generate_key(keyword, self.file.file_id, context)
             file_bytes = sym_encrypt(key, iv, share_text, tag)
             return file_bytes
 

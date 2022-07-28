@@ -58,10 +58,16 @@ class Post_File(db.Model):
     upload_time = db.Column(db.DateTime, default=datetime.now)
     file = db.Column(db.String(255), nullable=False)
     if_pub = db.Column(db.Boolean, default=False)
+    if_share = db.Column(db.Boolean, default=False)
     key = db.Column(db.String, nullable=False)  # 这是用系统公钥加密过的用来加密文件的对称密钥
     iv = db.Column(db.String)  # 这个也加密一下吧
     text = db.Column(db.String(300))
     tag = db.Column(db.String)  # 这个也加密一下吧
+    # 增加一个hmac值
+    hmac = db.Column(db.String, nullable=False)
+    # 增加一个原始文件哈希值
+    hashtext = db.Column(db.String, nullable=False)
+
 
 
 class Share_File(db.Model):
@@ -69,8 +75,17 @@ class Share_File(db.Model):
     user_id = db.Column(db.Integer)
     file_id = db.Column(db.Integer, nullable=False)
     share_code = db.Column(db.String, nullable=False)  # hash
-    TTL = db.Column(db.Integer)  # 是否需要加上无限分享，还是强制性所有必须限制分享次数以保证安全？
+    TTL = db.Column(db.Integer)  # 限制次数
+    DDL = db.Column(db.Integer)  # 限制时间
     share_time = db.Column(db.DateTime, default=datetime.now)
     url = db.Column(db.String)
     iv = db.Column(db.String)
     tag = db.Column(db.String)
+    hmac = db.Column(db.String, nullable=False)
+
+class Client(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    url = db.Column(db.String)
+    share_id = db.Column(db.Integer)
+    file_name = db.Column(db.String(300))
+    S_file_name = db.Column(db.String(300))
