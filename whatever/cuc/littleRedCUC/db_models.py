@@ -68,6 +68,8 @@ class Post_File(db.Model):
     if_pub = db.Column(db.Boolean, default=False)
     key = db.Column(db.String,nullable=False)   # 这是用系统公钥加密过的用来加密文件的对称密钥
     text = db.Column(db.String(300))
+    timescale=db.Column(db.Integer)
+    times=db.Column(db.Integer)
 
 
 
