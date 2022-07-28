@@ -4,9 +4,9 @@ from wsgiref.validate import validator
 from xml.dom import ValidationErr
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileSize, FileAllowed
-from wtforms import StringField, PasswordField,validators,SubmitField,TextAreaField,FileField
-from wtforms.validators import DataRequired, Email,Length,EqualTo
+from wtforms import StringField, PasswordField,validators,SubmitField,TextAreaField,FileField,DateField,IntegerField
 from littleRedCUC.db_models import User
+from wtforms.validators import DataRequired,EqualTo,Email,Length
 
 # 添加邮箱唯一验证
 class Unique(object):
@@ -60,3 +60,8 @@ suffix=['jpeg','jpg','png','bmp','gif','doc','docx','ppt','pptx','xls','xlsx','p
 class PostForm(FlaskForm):
     text=TextAreaField('描述文本',validators=[DataRequired()])
     file=FileField('上传文件',validators=[DataRequired(),FileSize(1024*1024*10,0,message='过大'),FileAllowed(suffix,'非法文件')])
+
+
+class ShareForm(FlaskForm):
+    date=DateField('截止日期',validators=[DataRequired()],format="%Y-%m-%d")
+    times=IntegerField("下载次数")
