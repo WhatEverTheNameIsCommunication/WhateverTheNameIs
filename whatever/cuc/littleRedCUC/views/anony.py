@@ -1,15 +1,18 @@
+from fileinput import filename
+import os
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed25519
 from flask import redirect, render_template, send_from_directory, current_app ,request ,flash ,url_for ,logging
 import flask
 from flask_login import login_required
-from littleRedCUC.forms import SignUpForm,ChangepasswdForm
-from littleRedCUC.db_models import User, db,  UserRole
+from littleRedCUC.forms import SignUpForm,ChangepasswdForm,ShareForm
+from littleRedCUC.db_models import User, db,  UserRole,Post_File
 from littleRedCUC.blueprints import anony
 from littleRedCUC.extensions import bcrypt
 import re
-
+from pathlib import Path
 from littleRedCUC.DigitalSignature import Encode_SK
+from itsdangerous import URLSafeTimedSerializer
 
 
 @anony.route('/')
@@ -155,3 +158,35 @@ def images(image_name):
         return send_from_directory(current_app.config["UPLOAD_FOLDER"], path=image_name)
     except FileNotFoundError:
         abort(404)
+
+@anony.route('/opensharedfile')
+def sharedopenfile():
+    p=request.args["token"]
+    decoder=URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+    decoded=decoder.loads(p)
+    trueDecoded=decoder.loads(p,decoded['expireIn'])
+    if trueDecoded:
+        file=Post_File.query.filter(Post_File.file_id==trueDecoded['id']).first()
+        form=ShareForm()
+        userid=file.user_id
+        user=User.query.filter(User.id==userid).first()
+        user=user.name
+        return render_template('opensharefile.html',file = file,form=form,user=user,token=p)
+
+@anony.route('/download',methods=['GET'])
+def download():
+    p=request.args["token"]
+    decoder=URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+    decoded=decoder.loads(p)
+    trueDecoded=decoder.loads(p,decoded['expireIn'])
+    if trueDecoded:
+        file=Post_File.query.filter(Post_File.file_id==trueDecoded['id']).first()
+        filename=file.file
+        path=os.path.isfile(current_app.instance_path+'/'+'upload'+'/'+filename)
+        if file.times<1:
+            return '下载次数已用完'
+        else:
+            if path:
+                file.times=file.times-1
+                db.session.commit()
+                return send_from_directory(Path(current_app.instance_path)/'upload',filename,as_attachment=True)
