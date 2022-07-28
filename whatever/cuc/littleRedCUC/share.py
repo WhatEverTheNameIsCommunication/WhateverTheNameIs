@@ -31,6 +31,19 @@ class share_and_download:
         tag = e_tag
         return key, iv, tag
 
+    def hash_needed_key(self):
+        keyword = str(self.file.tag) + str(self.file.file_id) + str(self.file.iv) + str(self.file.file)
+        code = keyword[::-1][::8]
+        temp = code[::3]
+        l = len(temp)
+        keyword = keyword[:-l] + temp
+        # 验证身份和解密的虎符就是code
+        # lable 使用id 可以让文件在改名的情况下，也能顺利解码
+        context = ['sharing_file', 'share_files', 'file_sharing', 'file_shared']
+        context = context[self.file.file_id % 4]
+        key = generate_key(keyword, self.file.file_id, context)
+        return key
+    
     def pre_decode(self):
         with open(self.file_path, 'rb') as f:
             cipher_bytes = f.read()
