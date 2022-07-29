@@ -120,6 +120,7 @@ if [[ ! -f "intermediate/private/$domain.key.pem" ]];then
 openssl genrsa -aes256 \
       -out intermediate/private/$domain.key.pem 2048
 
+openssl rsa -in intermediate/private/$domain.key.pem -out intermediate/private/$domain.key.pem
 chmod 400 intermediate/private/$domain.key.pem
 
 if [[ ! -f "intermediate/${domain}.openssl.cnf" ]];then
@@ -139,7 +140,7 @@ State or Province Name []:Beijing
 Locality Name []:Chaoyang
 Organization Name []:WhateverItIs
 Organizational Unit Name []:School of Computer Science and Cybersecurity
-Common Name []:WhateverItIs.cuc.edu.cn
+Common Name []:whateveritis.cuc.edu.cn
 Email Address []:admin@a101e.lab
 -------------------- Notes Above --------------------
 EOF
@@ -160,7 +161,5 @@ openssl x509 -noout -text \
 openssl verify -CAfile intermediate/certs/ca-chain.cert.pem \
       intermediate/certs/$domain.cert.crt
 fi
-
-openssl rsa -in intermediate/private/$domain.key.pem -out intermediate/private/$domain.key.nopass.pem
 
 cat intermediate/certs/$domain.cert.crt intermediate/certs/ca-chain.cert.pem > intermediate/certs/$domain.chained.cert.pem
