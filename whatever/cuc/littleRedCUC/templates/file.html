@@ -520,7 +520,7 @@
                                                     {% else %}
                                                     <input class="i" type="button" value="共享"/>
                                                     {% endif %}
-                                                    <a href="#">删除</a>
+                                                    <a href="{{ url_for('auth.delete',id=file.file_id) }}">删除</a>
 
                                                     
                                                 </li>
