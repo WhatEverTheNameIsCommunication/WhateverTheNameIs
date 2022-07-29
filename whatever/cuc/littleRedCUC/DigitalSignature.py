@@ -28,9 +28,9 @@ from flask import current_app
 # https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ed25519/
 
 def get_hmac(symmetric_key,Ciphertext): #Bytes
-    m=hmac(symmetric_key, Ciphertext, 'sha256')
-    m=m.digest() # 字节流
-    m=hmac.hexdigest() # str
+    m=hmac.digest(symmetric_key, Ciphertext, 'sha256')
+    # m=m.digest() # 字节流
+    # m=m.hexdigest() # str
     return m
 
 def Vertify_hmac(mes,symmetric_key,Ciphertext): #Bytes
@@ -97,9 +97,8 @@ def Encode_SK(private_bytes):
     # 使用系统公钥对私钥进行加密
     # 提取csv文件 
     file_name='System.csv'
-    file_path=os.join(current_app.config["SYSTEM_FOLDER"], path=file_name)
-    matrix=pd.read_csv(file_path)  # 请更改为自己电脑上的完整路径
-    # matrix=pd.read_csv('System.csv')  # 请更改为自己电脑上的完整路径
+    file_path=os.path.join(current_app.config["SYSTEM_FOLDER"], file_name)
+    matrix=pd.read_csv(file_path)
     matrix=np.array(matrix)
     PK=matrix[0,0]
     with open(PK, "rb") as key_file:
@@ -121,9 +120,8 @@ def Decode_SK(private_bytes):
     # 使用系统私钥对私钥进行解密
     # 提取csv文件 
     file_name='System.csv'
-    file_path=os.join(current_app.config["SYSTEM_FOLDER"], path=file_name)
-    matrix=pd.read_csv(file_path)  # 请更改为自己电脑上的完整路径
-    # matrix=pd.read_csv('D:/homework-2022-s/XiaoXueQI/zcfxc/CUC/whatever/cuc/System.csv')  # 请更改为自己电脑上的完整路径
+    file_path=os.path.join(current_app.config["SYSTEM_FOLDER"], file_name)
+    matrix=pd.read_csv(file_path)
     matrix=np.array(matrix)
     SK=matrix[0,1] 
     with open(SK, "rb") as key_file:

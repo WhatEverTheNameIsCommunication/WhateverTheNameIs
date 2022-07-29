@@ -36,3 +36,12 @@
 - ![](./img_README/auth-file.png)
 - ![](./img_README/post_file.png)
 - ![](./img_README/user.png)
+
+
+# 第三阶段整合进度
+* 修改 x.509 文件夹,启动无需 passphrase
+*  instance 文件夹里有 download 子文件夹(存放供用户下载的文件),shared 子文件夹(存放由分享码加密的文件),system 子文件夹(系统文件),upload 子文件夹(用户上传的文件),temp(存放原始解密文件,定时删除)
+* 实现了上传者可以下载各类文件(原始文件,解密文件写好后,我再放入我的路由里)
+* html页面前端和后端已正常连接
+* 需要在形成 Share_File 表时将分享码加密的文件存在shared子文件夹,这样我可以直接计算hmac,存入表里
+* 由于分享码认证和生成还未实现所以还未验证匿名用户/已登录用户能否正常下载文件

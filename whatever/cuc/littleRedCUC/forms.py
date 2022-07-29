@@ -4,7 +4,7 @@ from wsgiref.validate import validator
 from xml.dom import ValidationErr
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileSize, FileAllowed
-from wtforms import StringField, PasswordField,validators,SubmitField,TextAreaField,FileField
+from wtforms import StringField, PasswordField,validators,SubmitField,TextAreaField,FileField,DateField,IntegerField
 from wtforms.validators import DataRequired, Email,Length,EqualTo
 from littleRedCUC.db_models import User
 
@@ -42,12 +42,18 @@ class SignUpForm(FlaskForm):
     confirm=PasswordField('确认密码',validators=[DataRequired(),EqualTo('password',message='必须和密码已输入密码相同')])
     user_name= StringField('用户名',validators=[DataRequired()])
 
+
+
 class VertifyForm(FlaskForm):
     vc = StringField('验证码', validators=[DataRequired()])
     email = StringField('邮箱', validators=[DataRequired(), Email()])
 
+
+
 class FindForm(FlaskForm):
     email = StringField('邮箱', validators=[DataRequired(), Email()])
+
+
 
 class ChangepasswdForm(FlaskForm):
     email = StringField('邮箱', validators=[DataRequired(), Email()])
@@ -60,3 +66,20 @@ suffix=['jpeg','jpg','png','bmp','gif','doc','docx','ppt','pptx','xls','xlsx','p
 class PostForm(FlaskForm):
     text=TextAreaField('描述文本',validators=[DataRequired()])
     file=FileField('上传文件',validators=[DataRequired(),FileSize(1024*1024*10,0,message='过大'),FileAllowed(suffix,'非法文件')])
+
+
+class ShareForm(FlaskForm):
+    date=DateField('截止日期',validators=[DataRequired()],format="%Y-%m-%d")
+    times=IntegerField("下载次数")
+
+
+class ClientPostForm(FlaskForm):
+    shared_code=StringField('分享码',validators=[DataRequired()])
+    url=StringField('分享链接',validators=[DataRequired()])
+    Encry_file=FileField('上传加密文件',validators=[DataRequired(),FileSize(1024*1024*10,0,message='过大'),FileAllowed(suffix,'非法文件')])
+    S_file=FileField('上传数字签名文件',validators=[FileSize(1024*1024*10,0,message='过大'),FileAllowed(suffix,'非法文件')])
+
+
+class DecodeForm(FlaskForm):
+    Decode=SubmitField('解密得到原始文件')
+    Vertify=SubmitField('验证数字签名') 

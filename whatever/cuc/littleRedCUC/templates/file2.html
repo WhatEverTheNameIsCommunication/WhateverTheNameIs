@@ -9,7 +9,7 @@
         
         
         
-            <title>中传放心传 - 文件上传</title>
+            <title>中传放心传 - 我的文件</title>
             <meta name="description" content="中传放心传">
             <meta name="keywords" content="中传放心传">
         
@@ -422,7 +422,7 @@
                         <ul class="sidebar-menu">
                             <li class="header">菜单</li>
         
-                            <li id="admin-index"><a href="layout.html"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
+                            <li id="admin-index"><a href="index.html"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
         
                             <!-- 菜单 -->
         
@@ -440,19 +440,19 @@
                           
         
                             <li class="treeview">
-                                <a href="{{ url_for('auth.upload_file') }}">
+                                <a href="/file_upload">
                                     <i class="fa fa-upload"></i> <span>文件上传</span>
                                 </a>
                             </li>
         
                             <li class="treeview">
-                                <a href="{{ url_for('auth.display_file') }}">
+                                <a href="/file">
                                     <i class="fa fa-folder"></i> <span>我的文件</span>
                                 </a>
                             </li>
         
                             <li class="treeview">
-                                <a href="{{ url_for('auth.shared_file') }}">
+                                <a href="/shared_file"> 
                                     <i class="fa fa-cloud"></i> <span>共享文件</span>
                                 </a>
                             </li>
@@ -475,11 +475,11 @@
             <section class="content-header">
                 <h1>
                     文件上传
-                    <small>File Input</small>
+                    <small>Preview</small>
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
-                    <li class="active">文件上传</li>
+                    <li class="active">我的文件</li>
                 </ol>
             </section>
         
@@ -488,56 +488,56 @@
                             <!-- general form elements -->
                             <div class="box box-primary">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title">文件上传</h3>
+                                    <h3 class="box-title">我的文件</h3>
                                 </div>
                                 <!-- /.box-header -->
                                 <!-- form start -->
-{#                                <form role="form">#}
-{#                                    <div class="box-body">#}
-{#                                        <form action="auth/file_upload" method="post" enctype="multipart/form-data">#}
-{#                                            <div class="form-group">#}
-{#                                                <label for="exampleInputFile">请选择待上传的文件</label>#}
-{#                                                <input type="file" id="InputFile" multiple="multiple" accept=".xls,.doc,.txt,.pdf,.jpg,.png,.bmp,.svg,.tif,.gif"/>#}
-{#                                                <p class="help-block">仅允许上传小于10MB、类型为.doc,.txt,.pdf,.xls,.jpg,.png,.bmp,.svg,.tif,.gif的文件。</p>#}
-{#                                            </div>#}
-{#                                            <div class="box-footer">#}
-{#                                                <button type="submit" class="btn btn-primary">Submit</button>#}
-{#                                            </div>#}
-{#                                        </form>#}
-
-           <div class="box-body" style="padding:20px">
-            <h2 style="font-weight: bold;text-align: center;">文件上传</h2>
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            <ul>
-                {% for message in messages %}
-                <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-            {% endwith %}
-
-
-            <form action="/auth/file_upload" method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    {{ form.text.label }}
-                    {{ form.text(class_="form-control") }}
-                </div>
-                <p class="help-block">仅允许上传小于10MB、类型为.doc,.txt,.pdf,.xls,.jpg,.png,.bmp,.svg,.tif,.gif的文件。</p>
-                <div class="form-group">
-                    {{ form.file.label }}
-                    {{ form.file(class_="form-control") }}
-                </div>
-                {{ form.csrf_token }}
-                <input class="btn btn-primary" type="submit" value="上传">
-            </form>
-           </div>
-
-
+                                <form role="form">
+                                    <div class="box-body">
+                                        {% with messages = get_flashed_messages() %}
+                                            {% for message in messages %}
+                                                <p>{{message}}</p>
+                                            {% endfor %}
+                                        {% endwith %}
+                                        <p>{{username}}，您好！</p>
+                                        {% if files %}
+                                            <p>您当前上传了以下文件</p>
+                                            <ui>
+                                            {% for file in files %}
+                                                <li>
+                                                    {{file.file}}(已加密)
+                                                    {% if file.shared %}
+                                                    (已共享)
+                                                    {% else %}
+                                                    (未共享)
+                                                    {% endif %}
+                                                    <a href="{{ url_for('auth.plain_download',file_id=file.file_id) }}">下载</a>
+                                                    <a href="#">下载哈希值</a>
+                                                    <a href="#">解密并下载</a>
+                                                    <a href="#">下载签名文件</a>
+                                                    <a href="#">
+                                                    {% if file.shared %}
+                                                        取消共享
+                                                    {% else %}
+                                                        进行共享
+                                                    {% endif %}
+                                                    </a>
+                                                    <a href="#">删除</a>
+                                                </li>
+                                            {% endfor %}
+                                            </ui>
+                                        {% else %}
+                                            <p>您当前没有上传任何文件</p>
+                                        {% endif %}
+                        
+                                    </div>
+                                    <!-- /.box-body -->
                                 </form>
                             </div>
                             <!-- /.box -->
+                            <div class="file_show">
                             
+                            </div>
                         </section>
                 </div>
                 <!-- 内容区域 /-->
