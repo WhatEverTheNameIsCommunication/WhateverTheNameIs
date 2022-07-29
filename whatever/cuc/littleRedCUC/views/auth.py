@@ -7,7 +7,7 @@ from flask_restful import reqparse
 from sqlalchemy import null
 
 from littleRedCUC.forms import SignInForm, VertifyForm, FindForm, ChangepasswdForm, PostForm,ShareForm
-from littleRedCUC.db_models import User, db, UserRole, Post_File
+from littleRedCUC.db_models import User, db, UserRole, Post_File, Share_File
 from littleRedCUC.blueprints import auth
 from littleRedCUC.extensions import login_manager
 from littleRedCUC import TotpFactory
@@ -343,3 +343,47 @@ def share():
         form=ShareForm()
         db.session.commit()
         return render_template('file.html',files = files,form=form)
+
+@auth.route('/delete')
+def delete():
+    file_id=request.args["id"]
+    try:
+        file=Post_File.query.filter(Post_File.file_id==file_id).first()
+        name=file.file
+        db.session.delete(file)
+        db.session.commit()
+    except:
+        flash("删除出错") 
+        files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
+        form=ShareForm()
+        return render_template("file.html",files = files,form=form)
+    
+    #删除分享记录
+    try:
+        file=Share_File.query.filter(Share_File.file_id==file_id)
+        db.session.delete(file)
+        db.session.commit()
+        try:
+            path=current_app.instance_path+'/upload'
+            os.remove(os.path.join(path,name))
+            files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
+            form=ShareForm()
+            return render_template("file.html",files = files,form=form)
+        except:
+            flash("找不到文件")
+            files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
+            form=ShareForm()
+            return render_template("file.html",files = files,form=form)
+    except:
+        try:
+            path=current_app.instance_path+'/upload'
+            os.remove(os.path.join(path,name))
+            flash("成功删除")
+            files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
+            form=ShareForm()
+            return render_template("file.html",files = files,form=form)
+        except:
+            flash("找不到文件")
+            files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
+            form=ShareForm()
+            return render_template("file.html",files = files,form=form)

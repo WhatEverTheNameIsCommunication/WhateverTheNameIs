@@ -190,3 +190,8 @@ def download():
                 file.times=file.times-1
                 db.session.commit()
                 return send_from_directory(Path(current_app.instance_path)/'upload',filename,as_attachment=True)
+
+@anony.route('/public',methods=['GET'])
+def public():
+    files=Post_File.query.filter(Post_File.if_pub==True)
+    return render_template('public.html',files=files)
