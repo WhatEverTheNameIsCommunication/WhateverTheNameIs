@@ -6,11 +6,17 @@ from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
 import csv
 import os
+from pathlib import Path
 
 # RSA
 key=generate_K()
-pathSK='SystemSK.pem'
-pathPK='SystemPK.pem'
+system_path = Path('./instance') / 'system'
+if not Path('./instance').exists():
+    Path('./instance').mkdir()
+if not system_path.exists():
+    system_path.mkdir()
+pathSK='instance/system/SystemSK.pem'
+pathPK='instance/system/SystemPK.pem'
 # private_key = ed25519.Ed25519PrivateKey.generate()
 # private_bytes = private_key.private_bytes(
 #     encoding=serialization.Encoding.Raw,
@@ -56,8 +62,8 @@ with open(pathPK, "wb") as f:
 # 路径存在csv文件里
 headers=['PK','SK']
 data = [pathPK, pathSK]
-with open('System.csv', mode='a', newline='', encoding='utf-8-sig') as f:
+with open('instance/system/System.csv', mode='a', newline='', encoding='utf-8-sig') as f:
     csv_writer = csv.writer(f, delimiter=',')
-    if not os.path.getsize('System.csv'):    
+    if not os.path.getsize('instance/system/System.csv'):    
         csv_writer.writerow(headers)
     csv_writer.writerow(data)

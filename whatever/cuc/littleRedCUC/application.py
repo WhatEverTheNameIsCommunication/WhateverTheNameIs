@@ -34,9 +34,32 @@ def create_app():
         Path(flask_app.instance_path).mkdir()
     if not upload_path.exists():
         upload_path.mkdir()
+
+    # 存放给用户下载文件的目录
+    download_path = Path(flask_app.instance_path) / 'download'
+    if not Path(flask_app.instance_path).exists():
+        Path(flask_app.instance_path).mkdir()
+    if not download_path.exists():
+        download_path.mkdir()
+
+    # 存放给用户分享码加密后的文件
+    shared_path = Path(flask_app.instance_path) / 'shared'
+    if not Path(flask_app.instance_path).exists():
+        Path(flask_app.instance_path).mkdir()
+    if not shared_path.exists():
+        shared_path.mkdir()
     
+    # 存放系统文件
+    system_path = Path(flask_app.instance_path) / 'system'
+    if not Path(flask_app.instance_path).exists():
+        Path(flask_app.instance_path).mkdir()
+    if not system_path.exists():
+        system_path.mkdir()
 
     flask_app.config['UPLOAD_FOLDER'] = str(upload_path)
+    flask_app.config['DOWNLOAD_FOLDER'] = str(download_path)
+    flask_app.config['SHARED_FOLDER'] = str(shared_path)
+    flask_app.config['SYSTEM_FOLDER'] = str(system_path)
 
     login_manager.session_protection = 'AdminPassword4Me'
     login_manager.login_view = 'auth.login'
@@ -62,10 +85,15 @@ def create_app():
     @click.argument('password')
     
     def create_admin(email, name, password):
+        PK=flask_app.instance_path+'system/SystemPK.pem'
+        SK=flask_app.instance_path+'system/SystemSK.pem'
         user = User(email=email,
                     # email_confirmed=True,
                     name=name,
-                    role=UserRole.ADMIN)
+                    role=UserRole.ADMIN,
+                    pub_key=PK,
+                    sec_key=SK
+                    )
         user.password = password
 
         db.session.add(user)

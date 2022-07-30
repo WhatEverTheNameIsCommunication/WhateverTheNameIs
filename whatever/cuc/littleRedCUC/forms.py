@@ -71,3 +71,18 @@ class PostForm(FlaskForm):
 class ShareForm(FlaskForm):
     date=DateField('截止日期',validators=[DataRequired()],format="%Y-%m-%d")
     times=IntegerField("下载次数")
+
+
+class ClientPostForm(FlaskForm):
+    shared_code=StringField('分享码',validators=[DataRequired()])
+    url=StringField('分享链接',validators=[DataRequired()])
+    Encry_file=FileField('上传加密文件',validators=[DataRequired(),FileSize(1024*1024*10,0,message='过大'),FileAllowed(suffix,'非法文件')])
+    S_file=FileField('上传数字签名文件',validators=[FileSize(1024*1024*10,0,message='过大'),FileAllowed(suffix,'非法文件')])
+
+class VerifyForm(FlaskForm):
+    shared_code=StringField('分享码',validators=[DataRequired()])
+    url = StringField('分享链接',validators=[DataRequired()])
+
+class DecodeForm(FlaskForm):
+    Decode=SubmitField('解密得到原始文件')
+    Vertify=SubmitField('验证数字签名') 

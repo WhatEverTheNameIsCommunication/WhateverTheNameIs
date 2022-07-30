@@ -76,6 +76,11 @@
                                         <th>
                                         <a href="url_for{{ 'auth.plain_download',file }}">解密并下载</a>
                                         <a href="#">删除</a>
+                                        <form action="/anony/De_file/" method="post">
+                                            {{form.Decode}}
+                                            {{form.Vertify}}
+                                            {{ form.csrf_token }}
+                                        </form>
                                         </th>
                                     </tr>
                                 {% endfor %}

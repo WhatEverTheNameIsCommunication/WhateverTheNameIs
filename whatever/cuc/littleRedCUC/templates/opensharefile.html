@@ -440,27 +440,25 @@
 
                             <li class="treeview">
                                 <a href="{{ url_for('auth.upload_file') }}">
-                                    <i class="fa fa-upload"></i> <span>文件上传</span>
-                                </a>
+                            <i class="fa fa-folder"></i> <span>文件上传</span>
+                        </a>
                             </li>
-
+        
                             <li class="treeview">
-                                <a href="/auth/file">
+                                <a href="{{ url_for('auth.display_file') }}">
                                     <i class="fa fa-folder"></i> <span>我的文件</span>
                                 </a>
                             </li>
-
+        
                             <li class="treeview">
-                                <a href="{{ url_for('auth.upload_file') }}">
+                                <a href="/shared_file"> 
                                     <i class="fa fa-cloud"></i> <span>共享文件</span>
                                 </a>
                             </li>
-
+        
                             <li class="treeview">
-                                <a href="{{ url_for('auth.logout') }}">
+                                <a href="/auth/logout"> 
                                     <i class="fa fa-user-times"></i> <span>退出登录</span>
-                                </a>
-                            </li>
 
                         </ul>
                     </section>
@@ -510,9 +508,10 @@
                                                     (未共享)
                                                     {% endif %}
                                                     <a href="{{ url_for('anony.download',token=token) }}">下载</a>
-                                                    <a href="#">下载哈希值</a>
-                                                    <a href="#">解密并下载</a>
-                                                    <a href="#">下载签名文件</a>
+                                                    <a href="{{ url_for('anony.download2',option=1,token=token) }}">下载加密文件哈希值</a>
+                                                    <a href="{{ url_for('anony.download2',option=4,token=token) }}">解密并下载</a>
+                                                    <a href="{{ url_for('anony.download2',option=2,token=token) }}">下载原始文件哈希值</a>
+                                                    <a href="{{ url_for('anony.download2',option=3,token=token) }}">下载签名文件</a>
 
 
                                                 </li>

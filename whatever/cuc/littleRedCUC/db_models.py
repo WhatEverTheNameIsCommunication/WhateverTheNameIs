@@ -64,7 +64,7 @@ class Post_File(db.Model):
     text = db.Column(db.String(300))
     tag = db.Column(db.String)  # 这个也加密一下吧
     # 增加一个hmac值
-    hmac = db.Column(db.String, nullable=False)
+    hmac_text = db.Column(db.String, nullable=False)
     # 增加一个原始文件哈希值
     hashtext = db.Column(db.String, nullable=False)
 
@@ -82,6 +82,7 @@ class Share_File(db.Model):
     iv = db.Column(db.String)
     tag = db.Column(db.String)
     hmac = db.Column(db.String, nullable=False)
+    stamp = db.Column(db.Integer)
 
 class Client(db.Model):
     id = db.Column(db.Integer,primary_key=True)
