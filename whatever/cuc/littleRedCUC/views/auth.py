@@ -254,6 +254,9 @@ def upload_file():
             key = Encode_SK(key)
             iv = Encode_SK(iv)
             en_tag = Encode_SK(en_tag)
+            # key = key
+            # iv = iv
+            # en_tag = en_tag
             ## 计算hmac
             private_key=Decode_SK(user.sec_key)
             symmetric_key=key

@@ -41,6 +41,8 @@ def sym_encrypt(plaintext,k):
     ).encryptor()
 
     ciphertext = encryptor.update(plaintext) + encryptor.finalize()
+    print('^^^^^^^^^^^^^^^^^^^')
+    print(encryptor.tag)
     return iv, ciphertext, encryptor.tag
 
 
@@ -49,6 +51,5 @@ def sym_decrypt(key,iv,ciphertext,tag):
         algorithms.AES(key),
         modes.GCM(iv, tag),
     ).decryptor()
-
     file_text = decryptor.update(ciphertext)+decryptor.finalize()
     return file_text

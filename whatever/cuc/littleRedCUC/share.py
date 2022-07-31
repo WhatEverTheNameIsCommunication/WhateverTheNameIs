@@ -29,6 +29,11 @@ class share_and_download:
         key = Decode_SK(e_key)
         iv = Decode_SK(e_iv)
         tag = Decode_SK(e_tag)
+        # key = e_key
+        # iv = e_iv
+        # tag = e_tag
+        print('*************************')
+        print(tag)
         return key, iv, tag
 
     def hash_needed_key(self):
@@ -102,11 +107,11 @@ class share_and_download:
     def is_THE_ONE(self, url, code):
         try:
             shared = Share_File.query.filter_by(url = url).first()
-            print(shared)
-            print('------')
-            print(code)
-            print(999999)
-            print(shared.share_code)
+            # print(shared)
+            # print('------')
+            # print(code)
+            # print(999999)
+            # print(shared.share_code)
             if bcrypt.check_password_hash(shared.share_code, code):
                 flash('CORRECT!')
                 # redirect?

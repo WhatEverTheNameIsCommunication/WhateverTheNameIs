@@ -297,7 +297,7 @@ def download2(option): # 分享码认证成功后
     decoded = decoder.loads(p)
     trueDecoded = decoder.loads(p, decoded['expireIn'])
     url_ = 'https://' + current_app.config['SERVER_NAME'] + '/opensharedfile?token=' + p
-    print(url_)
+    # print(url_)
     if trueDecoded:
         file = Share_File.query.filter(Share_File.url == url_).first()
         share_id=file.share_id
