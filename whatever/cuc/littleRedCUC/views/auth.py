@@ -331,8 +331,8 @@ def share():
 
 
         ## 分享码加密文件
-        sharefile = Post_File.query.filter(file_id == file_id).first()
-        id_ = sharefile.file_id
+        sharefile = Post_File.query.filter(file_id == file_id).first() # 这里是要分享的文件
+        id_ = sharefile.file_id     # file_id != share_id
         sad = share_and_download(id_)
         iv, share_bytes, tag, share_code,stamp = sad.share_encrypt()
         share_code = bcrypt.generate_password_hash(share_code)
@@ -345,21 +345,8 @@ def share():
         flash(msg)
 
 
-
-        # 用分享码加密的文件保存下来，文件名： share_id-文件名
-        l = len(str(id_))
-        post = Post_File.query.filter(Post_File.file_id == id_).first()
-        name = post.file
-        # name = name[l + 1:]
-        name = str(id_) + name
-        path_f = str(Path(current_app.config["SHARED_FOLDER"]) / name)
-        path = str(Path(current_app.config["SHARED_FOLDER"]))
-        temp = open(path_f, 'wb')
-        temp.write(share_bytes)
-        temp.close()
-
-
         # 把 if_share 字段设置为true
+        post = Post_File.query.filter(Post_File.file_id == id_).first()
         post.if_share = True
 
         # hmac
@@ -388,6 +375,21 @@ def share():
         )
         db.session.add(share)
         db.session.commit()
+
+        # 用分享码加密的文件保存下来，文件名： share_id-user_id-文件名（上传时）
+        l = len(str(id_))
+        shared = Share_File.query.filter_by(file_id = id_)[-1]
+        print(shared)
+        name = post.file
+        # name = name[l + 1:]
+        share_id = shared.share_id
+        print(share_id)
+        name = str(share_id) + '-' + name
+        path_f = str(Path(current_app.config["SHARED_FOLDER"]) / name)
+        path = str(Path(current_app.config["SHARED_FOLDER"]))
+        temp = open(path_f, 'wb')
+        temp.write(share_bytes)
+        temp.close()
 
         files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
         form = ShareForm()

@@ -296,16 +296,18 @@ def download2(option): # 分享码认证成功后
     decoder = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
     decoded = decoder.loads(p)
     trueDecoded = decoder.loads(p, decoded['expireIn'])
-    url_ = 'https://' + current_app.config['SERVER_NAME'] + '/opensharedfile?token=' + p
+    url_ = 'https://' + current_app.config['SERVER_NAME'] + '/verify?token=' + p
     # print(url_)
     if trueDecoded:
         file = Share_File.query.filter(Share_File.url == url_).first()
         share_id=file.share_id
-        # print(file)
+        print(file)
         # name = Post_File.query.filter(Post_File.file_id == file.file_id).first()
         # name = name.file
         if file.TTL < 1:
             return '下载次数已用完'
+
+        # 下载加密文件hash值
         if option=='1':
             try:
                 print(share_id)
@@ -314,7 +316,8 @@ def download2(option): # 分享码认证成功后
                 hashfile_name = file.file + '-' +'Ehash.txt'
                 hashfile_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) / hashfile_name)
                 if not Path(hashfile_path).exists():
-                    file_path=os.path.join(current_app.config["SHARED_FOLDER"], file.file) 
+                    fname = str(post.share_id)+'-'+file.file
+                    file_path=os.path.join(current_app.config["SHARED_FOLDER"], fname)
                     print(file_path)
                     with open(file_path, "rb") as f:
                         f_bytes = f.read()
@@ -329,8 +332,11 @@ def download2(option): # 分享码认证成功后
                 # 重定向返回页面,带文件路径参数
                 return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=hashfile_name,as_attachment=True)
             except Exception as err:
+                print('option1 有问题')
                 flash('错误')
                 return redirect(url_)
+
+        # 下载原始文件哈希值
         if option=='2':
             try:    
                 Share_file=Share_File.query.filter_by(share_id=share_id).first()
@@ -347,6 +353,8 @@ def download2(option): # 分享码认证成功后
             except Exception as err:
                 flash('错误')
                 return redirect(url_)
+
+        # 下载签名文件
         if option=='3':
             try:
                 Share_file=Share_File.query.filter_by(share_id=share_id).first() #分享码表
@@ -369,14 +377,17 @@ def download2(option): # 分享码认证成功后
             except Exception as err:
                 flash('错误')
                 return redirect(url_)
+
+        # 解密并下载
         if option == '4':
-            try:
-                dl = share_and_download(share_id)
-                path,name = dl.plain_download(if_share=True)
-                return send_from_directory(path, name, as_attachment=True)
-            except:
-                print('ERROR!!!!!!!!!!!!!!!!!!!')
-                return redirect(url_)
+            # try:
+            file_id = file.file_id
+            dl = share_and_download(file_id)
+            path,name = dl.plain_download(if_share=True)
+            return send_from_directory(path, name, as_attachment=True)
+            # except:
+            #     print('ERROR!!!!!!!!!!!!!!!!!!!')
+            #     return redirect(url_)
 
 
 
