@@ -72,14 +72,15 @@
                                 {% for file in files %}
                                     <tr>
                                         <th style="width: 10px">#</th>
-                                        <th>{{file.file}}</th>
-                                        <th>
-                                        <a href="url_for{{ 'auth.plain_download',file }}">解密并下载</a>
+                                        <th>{{file.file_name}}</th>
+
+                                        <a href="{{ url_for('anony.De_download',file=file ) }}">解密并下载</a>
                                         <a href="#">删除</a>
-                                        <form action="/anony/De_file/" method="post">
-                                            {{form.Decode}}
-                                            {{form.Vertify}}
-                                            {{ form.csrf_token }}
+                                        <a href="{{ url_for('anony.vertify',file=file ) }}">验证数字签名</a>
+{#                                        <form action="/De_file/" method="post">#}
+{#                                            {{form.Decode}}#}
+{#                                            {{form.Vertify}}#}
+{#                                            {{ form.csrf_token }}#}
                                         </form>
                                         </th>
                                     </tr>

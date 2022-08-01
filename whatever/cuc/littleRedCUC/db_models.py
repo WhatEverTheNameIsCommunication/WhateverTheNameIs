@@ -90,3 +90,4 @@ class Client(db.Model):
     share_id = db.Column(db.Integer)
     file_name = db.Column(db.String(300))
     S_file_name = db.Column(db.String(300))
+    post_fID = db.Column(db.Integer)

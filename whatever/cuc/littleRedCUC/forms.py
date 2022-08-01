@@ -77,7 +77,7 @@ class ClientPostForm(FlaskForm):
     shared_code=StringField('分享码',validators=[DataRequired()])
     url=StringField('分享链接',validators=[DataRequired()])
     Encry_file=FileField('上传加密文件',validators=[DataRequired(),FileSize(1024*1024*10,0,message='过大'),FileAllowed(suffix,'非法文件')])
-    S_file=FileField('上传数字签名文件',validators=[FileSize(1024*1024*10,0,message='过大'),FileAllowed(suffix,'非法文件')])
+    S_file=FileField('上传数字签名文件',validators=[FileSize(1024*1024*10,0,message='过大')])
 
 class VerifyForm(FlaskForm):
     shared_code=StringField('分享码',validators=[DataRequired()])

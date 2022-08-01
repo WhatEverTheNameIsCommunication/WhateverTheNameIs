@@ -250,10 +250,15 @@ def download():
             user_id = post.user_id
             path_f = str(Path(current_app.config["SHARED_FOLDER"]) / name)
             path = str(Path(current_app.config["SHARED_FOLDER"]))
-            name = str(share_id)+name
+
+            name = str(share_id)+ '-' +name
+            print('sharedname:'+name)
             l1 = len(str(share_id))
             l2 = len(str(user_id))
             fname=name[l1+1:][l2+1:]
+            fname = 'Sen-'+fname
+
+
             file.TTL = file.TTL - 1
             db.session.commit()
             return send_from_directory(path, name, as_attachment=True,attachment_filename=fname)
@@ -393,24 +398,51 @@ def download2(option): # 分享码认证成功后
 
 # 客户端
 
+@anony.route('/De_download',methods=['GET','POST'])
+def De_download():
+    file = request.args["file"]
+    print(file)
+    print(type(file))
+    client_id = int(file.replace('<Client ','').replace('>',''))
+    print(client_id)
+    client = Client.query.filter_by(id=client_id)[-1]
+    file_id = client.post_fID
+    print(file_id)
+    sad=share_and_download(file_id)
+    path,name= sad.plain_download(False)
+    return send_from_directory(path, name, as_attachment=True)
+
+
+
 @anony.route('/De_file', methods=['GET', 'POST'])
 def Decode_file():
     share_id = request.args["share_id"]
     form =DecodeForm()
-    if form.Decode.data:
-        message=vertify(share_id)
-        flash(message)
-        return render_template('De_file.html', form=form,share_id=share_id)
-        # 直接传字节流,还是存成文件再删除
+    file=Client.query.filter_by(share_id=share_id).all()
+    if request.method=='POST':
+        if form.Decode.data:
+            pass
+            # message=vertify(share_id)
+            # flash(message)
+            # return render_template('De_file.html', files=file,form=form,share_id=share_id)
+            # 直接传字节流,还是存成文件再删除
 
 
-        # return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=signature_name)
-    elif form.Vertify.data:
-        message=vertify(share_id)
-        flash(message)
-        return render_template('De_file.html', form=form,share_id=share_id)
+            # return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=signature_name)
+        elif form.Vertify.data:
+            pass
+            # message=vertify(share_id)
+        #     flash(message)
+        #     return render_template('De_file.html', files=file,form=form,share_id=share_id)
+        # else:
+        #     return render_template('De_file.html', files=file,form=form,share_id=share_id)
     else:
-        return render_template('De_file.html', form=form,share_id=share_id)
+        # flash(message)
+        return render_template('De_file.html', files=file, form=form, share_id=share_id)
+
+        # print(222)
+        # return render_template('De_file.html', files=file, form=form,share_id=share_id)
+
 
 @anony.route('/encrypted_file_upload', methods=['GET', 'POST']) # https://sec.whateveritis.cuc.edu.cn:5000/encrypted_file_upload
 def upload_file():
@@ -424,7 +456,10 @@ def upload_file():
         if form.validate_on_submit():
             Share_file=Share_File.query.filter_by(url=url).first()
             share_code=Share_file.share_code
-            if share_code==code:
+            sad = share_and_download(Share_file.share_id)
+
+            print(1111)
+            if sad.is_THE_ONE(url,code):
                 share_id=Share_file.share_id
                 file_bytes=E_file.read()
                 # print(file_bytes)
@@ -446,21 +481,24 @@ def upload_file():
                     Sfile_name=None
 
                 post = Client(
-                            file=Efile_name,
+                            file_name=Efile_name,
                             S_file_name=Sfile_name,
                             share_id = share_id,
-                            url=url
+                            url=url,
+                            post_fID = Share_file.file_id
                 )
 
                 db.session.add(post)
                 db.session.commit()
                 flash('上传成功')
-                url_ = 'https://' + current_app.config['SERVER_NAME'] + '/Decode_file?share_id=' + share_id
+                url_ = 'https://' + current_app.config['SERVER_NAME'] + '/De_file?share_id=' + str(share_id)
                 return redirect(url_)
             else:
                 flash('认证码错误')
+                print('renzhegnmacuowu')
                 return render_template('encrypted_file_upload.html', form=form)
         else:
+            print('shangchuanwenjiancuowu')
             flash('请注意您上传文件的有效性。')
             return render_template('encrypted_file_upload.html', form=form)
 
@@ -468,19 +506,31 @@ def upload_file():
     return render_template('encrypted_file_upload.html', form=form)
 
 
-@anony.route('/defile/<share_id>') # {{ url_for('anony.vertify',code=file.file) }} 
-def vertify(share_id): # 客户端进行数字签名验证
+@anony.route('/defile') # {{ url_for('anony.vertify',code=file.file) }}
+def vertify(): # 客户端进行数字签名验证
         try:
+            file = request.args["file"]
+            print(file)
+            print(type(file))
+            client_id = int(file.replace('<Client ', '').replace('>', ''))
+            print(client_id)
+            client = Client.query.filter_by(id=client_id)[-1]
+            share_id = client.share_id
             Clientpost = Client.query.filter_by(share_id=share_id).first() # 查询客户端表
             file_name=Clientpost.file_name # 用户上传的文件名
-            file_path=os.join(current_app.config["UPLOAD_FOLDER"], path=file_name) # 存放上传文件的路径
+
+            file_path = str(Path(current_app.config['UPLOAD_FOLDER']) / file_name)
+
+            # file_path=os.join(current_app.config["UPLOAD_FOLDER"], path=file_name) # 存放上传文件的路径
             file_object = open(file_path, 'rb')# 用户客户端上传的加密文件
-            
-            signature_path=os.join(current_app.config["UPLOAD_FOLDER"], path=Clientpost.S_file_name) # 用户上传的签名文件存放路径
+
+
+            signature_path = str(Path(current_app.config['UPLOAD_FOLDER']) / Clientpost.S_file_name)
+            # signature_path=os.join(current_app.config["UPLOAD_FOLDER"], path=Clientpost.S_file_name) # 用户上传的签名文件存放路径
             signature_object = open(signature_path, 'rb')
 
             post = Share_File.query.filter_by(share_id=share_id).first()
-            hmac_mes=post.hmac_bytes # 分享码加密后文件的hmac
+            hmac_mes=post.hmac # 分享码加密后文件的hmac
             user_id=post.user_id# 分享码表得到上传者id
             user=User.query.filter_by(id=user_id).first() 
             public_key=user.pub_key
@@ -488,7 +538,7 @@ def vertify(share_id): # 客户端进行数字签名验证
             try:
                 m=VertifySignature(loaded_public_key,signature_object,hmac_mes)
                 symmetric_key=Decode_SK(post.key)
-                # 检验hmac
+                # 检验hmacmain
                 mes=hmac_mes # ?
                 if Vertify_hmac(mes,symmetric_key,file_object):
                     message='数字签名认证成功,且文件完整性得到认证'
@@ -496,6 +546,7 @@ def vertify(share_id): # 客户端进行数字签名验证
                     message='数字签名认证成功,但文件完整性未能保证'
             except Exception as err:
                 message='数字签名认证失败'
-            return message
+            flash(message)
+            return render_template('De_file.html',share_id = share_id)
         except FileNotFoundError:
             abort(404)

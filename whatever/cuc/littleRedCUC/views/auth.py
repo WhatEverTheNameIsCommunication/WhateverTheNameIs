@@ -491,8 +491,10 @@ def download(option): # 上传者下载
             #   signature_path,
             #   attachment_filename="uploadEhash.txt",
             #   as_attachment=True
-            # )) 
-            return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=hashfile_name)
+            # ))
+            user_id = post.user_id
+            fname = hashfile_name[len(str(user_id)) + 1:]
+            return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=hashfile_name,as_attachment=True,attachment_filename=fname)
         except Exception as err:
             flash('错误')
             return redirect('/auth/file')
@@ -512,7 +514,9 @@ def download(option): # 上传者下载
                 file_object = open(hashfile_path, 'w',encoding='UTF-8')
                 file_object.write(hash_text)
                 file_object.close()
-            return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=hashfile_name)
+            user_id = post.user_id
+            fname = hashfile_name[len(str(user_id)) + 1:]
+            return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=hashfile_name,as_attachment=True,attachment_filename=fname)
         except Exception as err:
             flash('错误')
             return redirect('/auth/file')
@@ -531,7 +535,9 @@ def download(option): # 上传者下载
                 file_object = open(signature_path, 'wb')
                 file_object.write(m)
                 file_object.close()
-            return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=signature_name)
+            user_id = post.user_id
+            fname = signature_name[len(str(user_id))+1:]
+            return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=signature_name,as_attachment=True,attachment_filename=fname)
         except Exception as err:
             flash('错误')
             return redirect('/auth/file')
@@ -554,12 +560,12 @@ def download(option): # 上传者下载
             post = Post_File.query.filter_by(file_id=file_id).first()
             name = post.file
             l = len(str(post.user_id))
-            fname = 'en'+name[l+1:]
+            fname = 'en-'+name[l+1:]
 
             file_path = str(Path(current_app.config['UPLOAD_FOLDER']) / name)
-            dl = share_and_download(file_id)
-            path, name = dl.plain_download(False)
-            return send_from_directory(path, name, as_attachment=True,attachment_filename=fname )
+            path = str(Path(current_app.config['UPLOAD_FOLDER']))
+
+            return send_from_directory(path, name, as_attachment=True,attachment_filename=fname)
         except:
             print('ERROR!!!!!!!!!!!!!!!!!!!')
             return redirect('/auth/file')
