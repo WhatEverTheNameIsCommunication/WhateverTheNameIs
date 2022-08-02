@@ -219,6 +219,7 @@ def layout2():
 
 
 @auth.route('/file')
+@login_required
 def display_file():
     try:
         user = User.query.filter_by(id=current_user.id).first()
@@ -231,6 +232,7 @@ def display_file():
 
 
 @auth.route('/file_upload', methods=['GET', 'POST'])
+@login_required
 def upload_file():
     try:
         user = User.query.filter_by(id=current_user.id).first()
@@ -299,6 +301,7 @@ def upload_file():
 
 
 @auth.route('/shared_file.html', methods=['GET', 'POST'])
+@login_required
 def shared_file():
     user_id= current_user.id
     files = Post_File.query.filter(Share_File.user_id==user_id,Post_File.if_share==True).all()
@@ -306,6 +309,7 @@ def shared_file():
 
 
 @auth.route('/share', methods=['POST', 'GET'])
+@login_required
 def share():
     # 若文件未分享
     if request.method == 'POST':
@@ -340,7 +344,7 @@ def share():
 
 
         ## 分享码加密文件
-        sharefile = Post_File.query.filter(file_id == file_id).first() # 这里是要分享的文件
+        sharefile = Post_File.query.filter(file_id == file_id).first() # 这里是要分享的文件本身，即在postfile中
         id_ = sharefile.file_id     # file_id != share_id
         sad = share_and_download(id_)
         iv, share_bytes, tag, share_code,stamp = sad.share_encrypt()
@@ -422,6 +426,7 @@ def share():
 
 
 @auth.route('/file/<option>/' ,methods=['GET']) # {{ url_for('auth.download',option=1,file_id=file.file_id) }} 
+@login_required
 def download(option): # 上传者下载
 
     # 下载加密文件哈希值
@@ -431,7 +436,9 @@ def download(option): # 上传者下载
             str_list=''.join(file_id)
             file_id=int(str_list)
             post = Post_File.query.filter_by(file_id=file_id).first()
-            hashfile_name = post.file + '-' +'uploadEhash.txt'
+            file_name = post.file
+            file_name = file_name.split('.',1)[0]
+            hashfile_name = file_name + '-' +'uploadEhash.txt'
             hashfile_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) /hashfile_name)
             print(hashfile_path)
             if not Path(hashfile_path).exists():
@@ -467,6 +474,7 @@ def download(option): # 上传者下载
             file_id=int(str_list)
             post = Post_File.query.filter_by(file_id=file_id).first()
             file_name=post.file
+            file_name = file_name.split('.', 1)[0]
             hashfile_name = file_name + '-' +'uploadhash.txt'
             hashfile_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) /hashfile_name)
             if not Path(hashfile_path).exists():
@@ -488,7 +496,9 @@ def download(option): # 上传者下载
             str_list=''.join(file_id)
             file_id=int(str_list)
             post = Post_File.query.filter_by(file_id=file_id).first()
-            signature_name = post.file + '-' +'uploadsignature.txt'
+            file_name = post.file
+            file_name = file_name.split('.', 1)[0]
+            signature_name = file_name + '-' +'uploadsignature.txt'
             signature_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) /signature_name)
             if not Path(signature_path).exists():
                 m=post.hmac_text
@@ -532,6 +542,7 @@ def download(option): # 上传者下载
 
 
 @auth.route('/public')
+@login_required
 def public():
     file_id = request.args["file_id"]
     str_list = ''.join(file_id)
@@ -544,6 +555,7 @@ def public():
     return render_template('file.html', files=files, form=form)
 
 @auth.route('/private')
+@login_required
 def private():
     file_id = request.args["file_id"]
     str_list = ''.join(file_id)
@@ -556,12 +568,56 @@ def private():
     return render_template('file.html', files=files, form=form)
 
 @auth.route('/delete')
+@login_required
 def delete():
     file_id = request.args["id"]
+
+    post = Post_File.query.filter(Post_File.file_id == file_id).first()
+    share = Share_File.query.filter(Share_File.file_id == file_id).all()
+    print(post,share)
+    file_name = post.file
+    try:
+        # 删除实体文件
+        # 删除download中的各种文件
+        dl_fname = file_name.split('.', 1)[0]
+        path = str(Path(current_app.config['DOWNLOAD_FOLDER']))
+        signature_name = dl_fname + '-' + 'uploadsignature.txt'
+        signature_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) / signature_name)
+        hashfile_name = dl_fname + '-' + 'uploadhash.txt'
+        hashfile_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) / hashfile_name)
+        Ehashfile_name = dl_fname + '-' + 'uploadEhash.txt'
+        hashfile_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) / hashfile_name)
+        os.remove(os.path.join(path, signature_name))
+        print('s 删除成功')
+        os.remove(os.path.join(path, hashfile_name))
+        print('hash 删除成功')
+        os.remove(os.path.join(path, Ehashfile_name))
+        print('EHASH ')
+
+        # 删除upload中的原始文件
+        path = str(Path(current_app.config['UPLOAD_FOLDER']))
+        os.remove(os.path.join(path, file_name))
+        print('upload')
+
+        # 删除shared中的所有有关文件
+        for i in share:
+            shared_id = i.share_id
+
+            share_name = str(shared_id)+'-'+file_name
+            path = str(Path(current_app.config["SHARED_FOLDER"]))
+            os.remove(os.path.join(path, share_name))
+            print('shared')
+    except:
+        flash("找不到文件")
+        files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
+        form = ShareForm()
+        return render_template("file.html", files=files, form=form)
+
     try:
         file = Post_File.query.filter(Post_File.file_id == file_id).first()
         name = file.file
         db.session.delete(file)
+        Share_File.query.filter(Share_File.file_id == file_id).delete()
         db.session.commit()
     except:
         flash("删除出错")
@@ -569,34 +625,6 @@ def delete():
         form = ShareForm()
         return render_template("file.html", files=files, form=form)
 
-    # 删除分享记录
-    try:
-        file = Share_File.query.filter(Share_File.file_id == file_id).delete()
-
-        # db.session.delete(file)
-        db.session.commit()
-        try:
-            path = current_app.instance_path + '/upload'
-            os.remove(os.path.join(path, name))
-            files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
-            form = ShareForm()
-            return render_template("file.html", files=files, form=form)
-        except:
-            flash("找不到文件")
-            files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
-            form = ShareForm()
-            return render_template("file.html", files=files, form=form)
-    except:
-        try:
-            path = current_app.instance_path + '/upload'
-            os.remove(os.path.join(path, name))
-            flash("成功删除")
-
-            files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
-            form = ShareForm()
-            return render_template("file.html", files=files, form=form)
-        except:
-            flash("找不到文件")
-            files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
-            form = ShareForm()
-            return render_template("file.html", files=files, form=form)
+    files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
+    form = ShareForm()
+    return render_template("file.html", files=files, form=form)

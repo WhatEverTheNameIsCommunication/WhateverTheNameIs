@@ -517,19 +517,22 @@
                                                     <a href="{{ url_for('auth.download',option=2,file_id=file.file_id) }}">下载原始文件哈希值</a>
                                                     <a href="{{ url_for('auth.download',option=3,file_id=file.file_id) }}">下载签名文件</a>
 
-                                                    {% if file.if_share %}
-                                                    <a href="{{ url_for('auth.public',file_id=file.file_id) }}">公开分享</a>
-
-                                                    {% else %}
-                                                    <a href="{{ url_for('auth.private',file_id=file.file_id) }}">设置私密</a>
-                                                    {% endif %}
 
                                                     {% if file.if_share %}
-                                                    <a href="{{ url_for('auth.share',id=file.file_id) }}">取消共享</a>
+                                                    <a href="{{ url_for('auth.share',id=file.file_id) }}">取消共享</a>、
                                                     {% endif %}
                                                     <input class="i" type="button" value="共享"/>
 
-                                                    <a href="{{ url_for('auth.delete',id=file.file_id) }}">删除</a>
+
+                                                    {% if file.if_pub %}
+                                                    <a href="{{ url_for('auth.private',file_id=file.file_id) }}">设为私密</a>
+                                                    {% else %}
+                                                    <a href="{{ url_for('auth.public',file_id=file.file_id) }}">全传公开</a>
+                                                    {% endif %}
+
+
+                                                    <a href="{{ url_for('auth.delete',file_id=file.file_id) }}">删除</a>
+
 
 
                                                 </li>

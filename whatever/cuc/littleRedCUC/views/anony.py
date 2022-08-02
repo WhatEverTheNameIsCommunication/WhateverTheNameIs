@@ -319,7 +319,9 @@ def download2(option): # 分享码认证成功后
                 print(share_id)
                 post = Share_File.query.filter_by(share_id=share_id).first() #分享码表
                 file=Post_File.query.filter_by(file_id=post.file_id).first()
-                hashfile_name = file.file + '-' +'Ehash.txt'
+                file_name = post.file
+                file_name = file_name.split('.', 1)[0]
+                hashfile_name = file_name + '-' +'Ehash.txt'
                 hashfile_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) / hashfile_name)
                 if not Path(hashfile_path).exists():
                     fname = str(post.share_id)+'-'+file.file
@@ -348,6 +350,7 @@ def download2(option): # 分享码认证成功后
                 Share_file=Share_File.query.filter_by(share_id=share_id).first()
                 post= Post_File.query.filter_by(file_id=Share_file.file_id).first()
                 file_name=post.file
+                file_name = file_name.split('.', 1)[0]
                 hashfile_name = file_name + '-' +'hash.txt'
                 hashfile_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) /hashfile_name)
                 if not Path(hashfile_path).exists():
@@ -365,7 +368,10 @@ def download2(option): # 分享码认证成功后
             try:
                 Share_file=Share_File.query.filter_by(share_id=share_id).first() #分享码表
                 post= Post_File.query.filter_by(file_id=Share_file.file_id).first()
-                signature_name = post.file + '-' +'signature.txt'
+                # 处理一下后缀，以免文件名太粗糙了
+                file_name = post.file
+                file_name = file_name.split('.', 1)[0]
+                signature_name = file_name + '-' +'signature.txt'
                 signature_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) /signature_name)
                 if not Path(signature_path).exists():
                 # file_path=os.join(current_app.config["SHARED_FOLDER"], path=post.file_name)
