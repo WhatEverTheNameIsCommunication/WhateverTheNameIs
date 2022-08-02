@@ -234,14 +234,16 @@ def download():
     decoded = decoder.loads(p)
     trueDecoded = decoder.loads(p, decoded['expireIn'])
     url_ = 'https://' + current_app.config['SERVER_NAME'] + '/verify?token=' + p
-    print('粘贴的url')
-    print(url_)
+    # print('粘贴的url')
+    # print(url_)
     if trueDecoded:
         file = Share_File.query.filter_by(url=url_).first()
-        print('file:')
-        print(file)
+        # print('file:')
+        # print(file)
         post = Post_File.query.filter(Post_File.file_id == file.file_id).first()
         name = post.file
+        name = str(post.user_id) + '-' + name
+
         if file.TTL < 1:
             return '下载次数已用完'
         # =============DDL有验证吗？？？？=================passphrase
@@ -307,7 +309,7 @@ def download2(option): # 分享码认证成功后
     if trueDecoded:
         file = Share_File.query.filter(Share_File.url == url_).first()
         share_id=file.share_id
-        print(file)
+        # print(file)
         # name = Post_File.query.filter(Post_File.file_id == file.file_id).first()
         # name = name.file
         if file.TTL < 1:
@@ -319,12 +321,15 @@ def download2(option): # 分享码认证成功后
                 print(share_id)
                 post = Share_File.query.filter_by(share_id=share_id).first() #分享码表
                 file=Post_File.query.filter_by(file_id=post.file_id).first()
-                file_name = post.file
+                file_name = file.file
+                file_name = str(file.user_id) + '-' + file_name
                 file_name = file_name.split('.', 1)[0]
                 hashfile_name = file_name + '-' +'Ehash.txt'
                 hashfile_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) / hashfile_name)
+                print(hashfile_path)
                 if not Path(hashfile_path).exists():
-                    fname = str(post.share_id)+'-'+file.file
+                    fname = str(post.share_id)+'-'+ str(post.user_id) + '-'+file.file
+                    print(fname)
                     file_path=os.path.join(current_app.config["SHARED_FOLDER"], fname)
                     print(file_path)
                     with open(file_path, "rb") as f:
@@ -338,7 +343,8 @@ def download2(option): # 分享码认证成功后
                     file_object.write(hash_text)
                     file_object.close()
                 # 重定向返回页面,带文件路径参数
-                return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=hashfile_name,as_attachment=True)
+                fname = hashfile_name[len(str(file.user_id))+1:]
+                return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=hashfile_name,as_attachment=True,attachment_filename=fname)
             except Exception as err:
                 print('option1 有问题')
                 flash('错误')
@@ -350,6 +356,7 @@ def download2(option): # 分享码认证成功后
                 Share_file=Share_File.query.filter_by(share_id=share_id).first()
                 post= Post_File.query.filter_by(file_id=Share_file.file_id).first()
                 file_name=post.file
+                file_name = str(post.user_id) + '-' + file_name
                 file_name = file_name.split('.', 1)[0]
                 hashfile_name = file_name + '-' +'hash.txt'
                 hashfile_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) /hashfile_name)
@@ -358,7 +365,8 @@ def download2(option): # 分享码认证成功后
                     file_object = open(hashfile_path, 'w',encoding='UTF-8')
                     file_object.write(hash_text)
                     file_object.close()
-                return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=hashfile_name,as_attachment=True)
+                fname = hashfile_name[len(str(file.user_id))+1:]
+                return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=hashfile_name,as_attachment=True,attachment_filename=fname)
             except Exception as err:
                 flash('错误')
                 return redirect(url_)
@@ -370,10 +378,12 @@ def download2(option): # 分享码认证成功后
                 post= Post_File.query.filter_by(file_id=Share_file.file_id).first()
                 # 处理一下后缀，以免文件名太粗糙了
                 file_name = post.file
+                file_name = str(post.user_id) + '-' + file_name
                 file_name = file_name.split('.', 1)[0]
                 signature_name = file_name + '-' +'signature.txt'
                 signature_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) /signature_name)
-                if not Path(signature_path).exists():
+                # 因为公开下载的签名文件名称相同，会被覆盖，所以干脆直接每次都写一下吧
+                # if not Path(signature_path).exists():
                 # file_path=os.join(current_app.config["SHARED_FOLDER"], path=post.file_name)
                 # file_object = open(file_path, 'rb')
                 # user_id=post.user_id
@@ -381,11 +391,12 @@ def download2(option): # 分享码认证成功后
                 # private_key=Decode_SK(user.sec_key)
                 # symmetric_key=Decode_SK(post.key) # 分享码生成的密钥
                 # m=Signature(private_key,symmetric_key,file_object)
-                    m=Share_file.hmac
-                    file_object = open(signature_path, 'wb')
-                    file_object.write(m)
-                    file_object.close()
-                return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=signature_name,as_attachment=True)
+                m=Share_file.hmac
+                file_object = open(signature_path, 'wb')
+                file_object.write(m)
+                file_object.close()
+                fname = signature_name[len(str(file.user_id)) + 1:]
+                return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=signature_name,as_attachment=True,attachment_filename=fname)
             except Exception as err:
                 flash('错误')
                 return redirect(url_)
@@ -401,6 +412,57 @@ def download2(option): # 分享码认证成功后
             #     print('ERROR!!!!!!!!!!!!!!!!!!!')
             #     return redirect(url_)
 
+
+
+# 公开文件下载
+@anony.route('/pubDL')
+def pub_DL():
+    option = request.args["option"]
+    file_id = request.args["file_id"]
+    # 公开文件直接解密下载
+    if option=='1':
+        plain_dl = share_and_download(file_id)
+        path,name = plain_dl.plain_download(if_share=False)
+        return send_from_directory(path, name, as_attachment=True)
+
+    if option=='2':
+        post = Post_File.query.filter_by(file_id=file_id).first()
+        file_name = post.file
+        file_name = str(post.user_id) + '-' + file_name
+        file_name = file_name.split('.', 1)[0]
+        hashfile_name = file_name + '-' + 'hash.txt'
+        hashfile_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) / hashfile_name)
+        if not Path(hashfile_path).exists():
+            hash_text = post.hashtext  # 原始文件哈希值
+            file_object = open(hashfile_path, 'w', encoding='UTF-8')
+            file_object.write(hash_text)
+            file_object.close()
+        fname = hashfile_name[len(str(post.user_id)) + 1:]
+        return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=hashfile_name, as_attachment=True,attachment_filename=fname)
+
+    # 下载签名文件
+    if option =='3':
+        post = Post_File.query.filter_by(file_id=file_id).first()
+        # 处理一下后缀，以免文件名太粗糙了
+        file_name = post.file
+        file_name = str(post.user_id) + '-' + file_name
+        file_name = file_name.split('.', 1)[0]
+        signature_name = file_name + '-' + 'signature.txt'
+        signature_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) / signature_name)
+        # if not Path(signature_path).exists():
+            # file_path=os.join(current_app.config["SHARED_FOLDER"], path=post.file_name)
+            # file_object = open(file_path, 'rb')
+            # user_id=post.user_id
+            # user=User.query.filter_by(id=user_id).first()
+            # private_key=Decode_SK(user.sec_key)
+            # symmetric_key=Decode_SK(post.key) # 分享码生成的密钥
+            # m=Signature(private_key,symmetric_key,file_object)
+        m = post.hmac_text
+        file_object = open(signature_path, 'wb')
+        file_object.write(m)
+        file_object.close()
+        fname = signature_name[len(str(post.user_id)) + 1:]
+        return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=signature_name, as_attachment=True,attachment_filename=fname)
 
 
 # 客户端
@@ -465,7 +527,7 @@ def upload_file():
             share_code=Share_file.share_code
             sad = share_and_download(Share_file.share_id)
 
-            print(1111)
+            # print(1111)
             if sad.is_THE_ONE(url,code):
                 share_id=Share_file.share_id
                 file_bytes=E_file.read()

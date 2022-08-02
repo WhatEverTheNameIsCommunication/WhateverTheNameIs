@@ -501,6 +501,13 @@
                                     {% endwith %}
                                     {% if files %}
                                         <p>您当前有以下共享文件</p>
+                                        <table class="table table-striped">
+                                        <tr>
+                                                <th style="width: 10px"></th>
+                                                <th style="width: 300px">文件名</th>
+                                                <th style="width: 1000px">操作</th>
+                                                <th style="width: 600px">描述</th>
+                                            </tr>
                                         <ui>
 {#                                        {% for e in list %}#}
 {#                                            <li>#}
@@ -511,15 +518,19 @@
 {#                                        {% endfor %}#}
 
                                         {% for file in files %}
-                                                <li>
-                                                    {{file.file}}(已加密)
+                                                <tr>
+                                                    <th style="width: 10px">※</th>
+                                                    <th>{{file.file}}(已加密)</th>
+                                                    <th>
                                                     <a href="{{ url_for('auth.download',option=5,file_id=file.file_id) }}">下载</a>
                                                     <a href="{{ url_for('auth.download',option=1,file_id=file.file_id) }}">下载加密文件哈希值</a>
                                                     <a href="{{ url_for('auth.download',option=4,file_id=file.file_id) }}">解密并下载</a>
                                                     <a href="{{ url_for('auth.download',option=2,file_id=file.file_id) }}">下载原始文件哈希值</a>
                                                     <a href="{{ url_for('auth.download',option=3,file_id=file.file_id) }}">下载签名文件</a>
                                                     <a href="{{ url_for('auth.share',id=file.file_id) }}">取消共享</a>
-                                                </li>
+                                                    </th>
+                                                    <th>{{ file.text }}</th>
+                                                </tr>
                                         {% endfor %}
 
 
@@ -527,7 +538,8 @@
                                     {% else %}
                                         <p>当前没有任何共享文件</p>
                                     {% endif %}
-                                    <a href="/public_key">获取网站公钥</a>
+                                        </table>
+{#                                    <a href="/public_key">获取网站公钥</a>#}
                                     </div>
                                     <!-- /.box-body -->
                                 </form>

@@ -472,12 +472,12 @@
 
             <section class="content-header">
                 <h1>
-                    共享文件下载
-                    <small>Preview</small>
+                    公开文件
+                    <small>Public</small>
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="{{ url_for('auth.home') }}"><i class="fa fa-dashboard"></i> 首页</a></li>
-                    <li class="active">共享文件下载</li>
+                    <li class="active">公开文件下载</li>
                 </ol>
             </section>
 
@@ -498,28 +498,41 @@
                                                 <p>{{message}}</p>
                                             {% endfor %}
                                         {% endwith %}
-                                        <p>您好！欢迎来到中传放心传！</p>
+                                        <p>您好，小白杨！欢迎来到中传放心传！</p>
+
                                         {% if files %}
-                                            {% for file in files %}
-                                                {% if file %}
+
+
                                                     <p>可公开下载的文件</p>
+                                                    <table class="table table-striped">
+                                        <tr>
+                                                <th style="width: 10px"> </th>
+                                                <th style="width: 300px">文件名</th>
+                                                <th style="width: 1000px">操作</th>
+                                                <th style="width: 600px">描述</th>
+                                            </tr>
                                                     <ui>
-                                                        <li>
-                                                            {{file.file}}(已加密)
-                                                            <a href="#">下载</a>
-                                                            <a href="#">下载哈希值</a>
+                                                    {% for file in files %}
+                                                        <tr>
+                                                        <th style="width: 10px">※</th>
+                                                            <th>{{file.file}}</th>
+                                                            <th>
+                                                            <a href="{{ url_for('anony.pub_DL',option=1,file_id=file.file_id) }}">下载</a>
+                                                            <a href="{{ url_for('anony.pub_DL',option=2,file_id=file.file_id) }}">下载哈希值</a>
                                                             <!-- <a href="#">解密并下载</a> -->
-                                                            <a href="#">下载签名文件</a>
-                                                        </li>
+                                                            <a href="{{ url_for('anony.pub_DL',option=3,file_id=file.file_id) }}">下载签名文件</a>
+                                                        </th>
+                                                            <th>{{ file.text }}</th>
+                                                        </tr>
+                                                    {% endfor %}
                                                     </ui>
                                                 {% else %}
-                                                    <p>没有任何文件可供公开下载</p>
+                                                    <p>暂无公开文件噢~   赶快试试去共享叭！</p>
                                                     {% endif %}
-                                            {% endfor %}
+                                        </table>
 
-                                        {% else %}
-                                             <p> 暂无公开文件噢~   赶快试试去共享叭！</p>
-                                        {% endif %}
+
+
                                     </div>
                                     <!-- /.box-body -->
                                 </div>

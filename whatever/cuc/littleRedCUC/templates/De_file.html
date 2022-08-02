@@ -49,7 +49,7 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form role="form">
+                    <tr role="form">
                         <div class="box-body">
                             {% with messages = get_flashed_messages() %}
                                 {% for message in messages %}
@@ -65,7 +65,7 @@
                                 <tr>
                                     <th style="width: 10px"> </th>
                                     <th style="width: 300px">文件名</th>
-                                    <th style="width: 600px">操作</th>
+                                    <th style="width: 800px">操作</th>
                                 </tr>
 
                                 <ui>
@@ -73,15 +73,16 @@
                                     <tr>
                                         <th style="width: 10px">#</th>
                                         <th>{{file.file_name}}</th>
-
+                                        <th>
                                         <a href="{{ url_for('anony.De_download',file=file ) }}">解密并下载</a>
-                                        <a href="#">删除</a>
+{#                                        <a href="#">删除</a>#}
                                         <a href="{{ url_for('anony.vertify',file=file ) }}">验证数字签名</a>
 {#                                        <form action="/De_file/" method="post">#}
 {#                                            {{form.Decode}}#}
 {#                                            {{form.Vertify}}#}
 {#                                            {{ form.csrf_token }}#}
-                                        </form>
+
+
                                         </th>
                                     </tr>
                                 {% endfor %}

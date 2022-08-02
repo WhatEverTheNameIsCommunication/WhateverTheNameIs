@@ -18,7 +18,9 @@ class share_and_download:
         self.share_code = None
         self.file = Post_File.query.filter_by(file_id=id_).first()
         self.file_name = self.file.file
-        self.file_path = str(Path(current_app.config['UPLOAD_FOLDER']) / self.file_name)
+        fname = self.file.user_id
+        fname = str(fname)+'-'+self.file_name
+        self.file_path = str(Path(current_app.config['UPLOAD_FOLDER']) / fname)
 
     # 用系统私钥解密之后得到key,iv,tag
     def get_keys(self, id_):
@@ -135,8 +137,7 @@ class share_and_download:
         shutil.rmtree(path)
         os.mkdir(path=path)
         file_bytes = self.pre_decode()
-        l = len(str(self.file.user_id))
-        name = self.file_name[l + 1:]
+        name = self.file_name
         path_f = str(Path(current_app.instance_path) / k / name)
         print(path_f)
         temp = open(path_f, 'wb')
