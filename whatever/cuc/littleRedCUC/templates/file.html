@@ -422,7 +422,7 @@
                         <ul class="sidebar-menu">
                             <li class="header">菜单</li>
         
-                            <li id="admin-index"><a href="index.html"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
+                            <li id="admin-index"><a href="{{ url_for('auth.home') }}"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
         
                             <!-- 菜单 -->
         
@@ -452,13 +452,13 @@
                             </li>
         
                             <li class="treeview">
-                                <a href="/shared_file"> 
+                                <a href="{{ url_for('auth.shared_file') }}">
                                     <i class="fa fa-cloud"></i> <span>共享文件</span>
                                 </a>
                             </li>
         
                             <li class="treeview">
-                                <a href="/auth/logout"> 
+                                <a href="{{ url_for('auth.logout') }}">
                                     <i class="fa fa-user-times"></i> <span>退出登录</span>
                                 </a>
                             </li>
@@ -478,7 +478,7 @@
                     <small>Preview</small>
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+                    <li><a href="{{ url_for('auth.home') }}"><i class="fa fa-dashboard"></i> 首页</a></li>
                     <li class="active">我的文件</li>
                 </ol>
             </section>
@@ -506,7 +506,7 @@
                                             {% for file in files %}
                                                 <li>
                                                     {{file.file}}(已加密)
-                                                    {% if file.if_pub %}
+                                                    {% if file.if_share %}
                                                     (已共享)
                                                     {% else %}
                                                     (未共享)
@@ -518,11 +518,18 @@
                                                     <a href="{{ url_for('auth.download',option=3,file_id=file.file_id) }}">下载签名文件</a>
 
                                                     {% if file.if_share %}
+                                                    <a href="{{ url_for('auth.public',file_id=file.file_id) }}">公开分享</a>
+
+                                                    {% else %}
+                                                    <a href="{{ url_for('auth.private',file_id=file.file_id) }}">设置私密</a>
+                                                    {% endif %}
+
+                                                    {% if file.if_share %}
                                                     <a href="{{ url_for('auth.share',id=file.file_id) }}">取消共享</a>
                                                     {% endif %}
                                                     <input class="i" type="button" value="共享"/>
 
-                                                    <a href="#">删除</a>
+                                                    <a href="{{ url_for('auth.delete',id=file.file_id) }}">删除</a>
 
 
                                                 </li>

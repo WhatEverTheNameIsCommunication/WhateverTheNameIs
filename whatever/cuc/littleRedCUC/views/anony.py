@@ -30,7 +30,8 @@ app = Flask(__name__)
 
 @anony.route('/')
 def home():
-    return render_template('layout.html')
+    files = Post_File.query.filter(Post_File.if_pub == True).all()
+    return render_template('layout.html',files=files)
 
 
 @anony.route('/posts', methods=['GET', 'POST'])
@@ -550,3 +551,5 @@ def vertify(): # 客户端进行数字签名验证
             return render_template('De_file.html',share_id = share_id)
         except FileNotFoundError:
             abort(404)
+
+

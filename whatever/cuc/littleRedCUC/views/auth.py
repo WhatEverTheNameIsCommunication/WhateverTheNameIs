@@ -41,6 +41,13 @@ def load_user(userid):
     return User.query.filter(User.id == userid).first()
 
 
+
+@auth.route('/')
+def home():
+    files = Post_File.query.filter(Post_File.if_pub == True).all()
+    return render_template('layout.html',files=files)
+
+
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     form = SignInForm()
@@ -293,7 +300,9 @@ def upload_file():
 
 @auth.route('/shared_file.html', methods=['GET', 'POST'])
 def shared_file():
-    return render_template('shared_file.html')
+    user_id= current_user.id
+    files = Post_File.query.filter(Share_File.user_id==user_id,Post_File.if_share==True).all()
+    return render_template('shared_file.html',files=files)
 
 
 @auth.route('/share', methods=['POST', 'GET'])
@@ -411,55 +420,6 @@ def share():
         db.session.commit()
         return render_template('file.html', files=files, form=form)
 
-# @auth.route('/file2/<int:file_id>', methods=['GET', 'POST'])
-# def plain_download(file_id):
-#
-#     # file_id= request.args.get("file")  # 获取get请求参数
-#     print(file_id)
-#     print('!!!!!!!!!!!!!路由正确')
-#     # user = User.query.filter_by(id=current_user.id).first()
-#     file = Post_File.query.filter(file_id == file_id).first()
-#     id_ = file_id
-#     plain_dl = share_and_download(id_)
-#     file_bytes = plain_dl.pre_decode()
-#     l = len(str(file.user_id))
-#     name = file.file[l:]
-#     # response = make_response(content)
-#     # response.headers['Content-Disposition'] = 'attachment; filename={}'.format(filename)
-#     # print(file_bytes)
-#
-#
-#
-#     response = make_response(send_file(file_bytes, as_attachment=True, download_name=name))
-#     response.headers['Content-Disposition'] = 'attachment; filename={}'.format(file.file)
-#     return response, redirect(url_for("auth.display_file"))
-#
-#     # file_path='./'+file.file
-#     # file_object = open(file_path, 'wb')
-#     # file_object.write(file_bytes)
-#     # file_object.close()
-#     # make_response(send_from_directory(file_path,file.file))
-
-
-# def share():
-#     # 接到file_id/ Post_File, 只要能定位文件
-#     userID=
-#     fileID =
-#     ttl =   # 这个应该是用户输入得到
-#     url =
-#     shared = share_and_download(id)
-#     iv, share_bytes, tag, code= shared.share_encrypt()
-#     share_db = Share_File(
-#         user_id = userID,
-#         file_id = fileID,
-#         share_code = code,
-#         TTL = ttl,
-#         url = url,
-#         iv = iv,
-#         tag = tag
-#     )
-#     db.session.add(share_db)
-#     db.session.commit()
 
 @auth.route('/file/<option>/' ,methods=['GET']) # {{ url_for('auth.download',option=1,file_id=file.file_id) }} 
 def download(option): # 上传者下载
@@ -571,3 +531,72 @@ def download(option): # 上传者下载
             return redirect('/auth/file')
 
 
+@auth.route('/public')
+def public():
+    file_id = request.args["file_id"]
+    str_list = ''.join(file_id)
+    file_id = int(str_list)
+    post = Post_File.query.filter_by(file_id=file_id).first()
+    post.if_pub = True
+    files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
+    form = ShareForm()
+    db.session.commit()
+    return render_template('file.html', files=files, form=form)
+
+@auth.route('/private')
+def private():
+    file_id = request.args["file_id"]
+    str_list = ''.join(file_id)
+    file_id = int(str_list)
+    post = Post_File.query.filter_by(file_id=file_id).first()
+    post.if_pub = False
+    files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
+    form = ShareForm()
+    db.session.commit()
+    return render_template('file.html', files=files, form=form)
+
+@auth.route('/delete')
+def delete():
+    file_id = request.args["id"]
+    try:
+        file = Post_File.query.filter(Post_File.file_id == file_id).first()
+        name = file.file
+        db.session.delete(file)
+        db.session.commit()
+    except:
+        flash("删除出错")
+        files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
+        form = ShareForm()
+        return render_template("file.html", files=files, form=form)
+
+    # 删除分享记录
+    try:
+        file = Share_File.query.filter(Share_File.file_id == file_id).delete()
+
+        # db.session.delete(file)
+        db.session.commit()
+        try:
+            path = current_app.instance_path + '/upload'
+            os.remove(os.path.join(path, name))
+            files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
+            form = ShareForm()
+            return render_template("file.html", files=files, form=form)
+        except:
+            flash("找不到文件")
+            files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
+            form = ShareForm()
+            return render_template("file.html", files=files, form=form)
+    except:
+        try:
+            path = current_app.instance_path + '/upload'
+            os.remove(os.path.join(path, name))
+            flash("成功删除")
+
+            files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
+            form = ShareForm()
+            return render_template("file.html", files=files, form=form)
+        except:
+            flash("找不到文件")
+            files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
+            form = ShareForm()
+            return render_template("file.html", files=files, form=form)

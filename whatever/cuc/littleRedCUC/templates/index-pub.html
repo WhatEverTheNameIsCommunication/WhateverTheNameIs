@@ -1,100 +1,25 @@
 <!DOCTYPE html>
         <html>
-        
+
         <head>
             <!-- 页面meta -->
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        
-        
-        
-        
-            <title>中传放心传 - 共享文件</title>
+
+
+
+
+            <title>中传放心传 - 公开文件</title>
             <meta name="description" content="中传放心传">
             <meta name="keywords" content="中传放心传">
-        
-        
-        
-        
+
+
+
+
             <!-- Tell the browser to be responsive to screen width -->
             <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
-            <!-- Bootstrap 3.3.6 -->
-            <!-- Font Awesome -->
-            <!-- Ionicons -->
-            <!-- iCheck -->
-            <!-- Morris chart -->
-            <!-- jvectormap -->
-            <!-- Date Picker -->
-            <!-- Daterange picker -->
-            <!-- Bootstrap time Picker -->
-            <!--<link rel="stylesheet" href="/static/plugins/timepicker/bootstrap-timepicker.min.css">-->
-            <!-- bootstrap wysihtml5 - text editor -->
-            <!--数据表格-->
-            <!-- 表格树 -->
-            <!-- select2 -->
-            <!-- Bootstrap Color Picker -->
-            <!-- bootstrap wysihtml5 - text editor -->
-            <!--bootstrap-markdown-->
-            <!-- Theme style -->
-            <!-- AdminLTE Skins. Choose a skin from the css/skins
-               folder instead of downloading all of them to reduce the load. -->
-            <!-- Ion Slider -->
-            <!-- ion slider Nice -->
-            <!-- bootstrap slider -->
-            <!-- bootstrap-datetimepicker -->
-        
-            <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-            <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-            <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-          <![endif]-->
-        
-        
-        
-        
-        
-        
-        
-        
-            <!-- jQuery 2.2.3 -->
-            <!-- jQuery UI 1.11.4 -->
-            <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-            <!-- Bootstrap 3.3.6 -->
-            <!-- Morris.js charts -->
-            <!-- Sparkline -->
-            <!-- jvectormap -->
-            <!-- jQuery Knob Chart -->
-            <!-- daterangepicker -->
-            <!-- datepicker -->
-            <!-- Bootstrap WYSIHTML5 -->
-            <!-- Slimscroll -->
-            <!-- FastClick -->
-            <!-- iCheck -->
-            <!-- AdminLTE App -->
-            <!-- 表格树 -->
-            <!-- select2 -->
-            <!-- bootstrap color picker -->
-            <!-- bootstrap time picker -->
-            <!--<script src="/static/plugins/timepicker/bootstrap-timepicker.min.js"></script>-->
-            <!-- Bootstrap WYSIHTML5 -->
-            <!--bootstrap-markdown-->
-            <!-- CK Editor -->
-            <!-- InputMask -->
-            <!-- DataTables -->
-            <!-- ChartJS 1.0.1 -->
-            <!-- FLOT CHARTS -->
-            <!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
-            <!-- FLOT PIE PLUGIN - also used to draw donut charts -->
-            <!-- FLOT CATEGORIES PLUGIN - Used to draw bar charts -->
-            <!-- jQuery Knob -->
-            <!-- Sparkline -->
-            <!-- Morris.js charts -->
-            <!-- Ion Slider -->
-            <!-- Bootstrap slider -->
-            <!-- bootstrap-datetimepicker -->
-            <!-- 页面meta /-->
-        
+
+
             <link rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap.min.css">
             <link rel="stylesheet" href="/static/plugins/font-awesome/css/font-awesome.min.css">
             <link rel="stylesheet" href="/static/plugins/ionicons/css/ionicons.min.css">
@@ -118,15 +43,15 @@
             <link rel="stylesheet" href="/static/plugins/bootstrap-slider/slider.css">
             <link rel="stylesheet" href="/static/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.css">
         </head>
-        
+
         <body class="hold-transition skin-blue-light sidebar-mini">
-        
+
             <div class="wrapper">
-        
+
                 <!-- 页面头部 -->
                 <header class="main-header">
-        
-        
+
+
                     <!-- Logo -->
                     <a href="layout.html" class="logo">
                         <!-- mini logo for sidebar mini 50x50 pixels -->
@@ -134,15 +59,15 @@
                         <!-- logo for regular state and mobile devices -->
                         <span class="logo-lg"><b>中传</b>放心传</span>
                     </a>
-        
-        
+
+
                     <!-- Header Navbar: style can be found in header.less -->
                     <nav class="navbar navbar-static-top">
                         <!-- Sidebar toggle button-->
                         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                     <span class="sr-only">Toggle navigation</span>
                 </a>
-        
+
                         <div class="navbar-custom-menu">
                             <ul class="nav navbar-nav">
                                 <!-- Messages: style can be found in dropdown.less-->
@@ -353,13 +278,13 @@
                                         <!-- User image -->
                                         <li class="user-header">
                                             <img src="/static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-        
+
                                             <p>
                                                 年轻的小白杨 - 程序猿
                                                 <small>最后登录 11:20AM</small>
                                             </p>
                                         </li>
-                                        <!-- Menu Body 
+                                        <!-- Menu Body
                                 <li class="user-body">
                                     <div class="row">
                                         <div class="col-xs-4 text-center">
@@ -384,13 +309,13 @@
                                         </li>
                                     </ul>
                                 </li>
-        
+
                             </ul>
                         </div>
                     </nav>
                 </header>
                 <!-- 页面头部 /-->
-        
+
                 <!-- 导航侧栏 -->
                 <aside class="main-sidebar">
                     <!-- sidebar: style can be found in sidebar.less -->
@@ -416,128 +341,119 @@
                     </div>
                 </form>-->
                         <!-- /.search form -->
-        
-        
+
+
                         <!-- sidebar menu: -->
                         <ul class="sidebar-menu">
                             <li class="header">菜单</li>
-        
-                            <li id="admin-index"><a href="{{ url_for('auth.home') }}"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
-        
+
+                            <li id="admin-index"><a href="/"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
+
                             <!-- 菜单 -->
-        
+
                             <li class="treeview">
                                 <a href="{{ url_for('auth.login') }}">
                                     <i class="fa fa-user"></i> <span>登录</span>
                                 </a>
                             </li>
-        
+
                             <li class="treeview">
                                 <a href="{{ url_for('anony.signup') }}">
                                     <i class="fa fa-user-plus"></i> <span>注册</span>
                                 </a>
                             </li>
-                          
-        
+
+
                             <li class="treeview">
                                 <a href="{{ url_for('auth.upload_file') }}">
                                     <i class="fa fa-upload"></i> <span>文件上传</span>
                                 </a>
                             </li>
-        
+
                             <li class="treeview">
-                                <a href="{{ url_for('auth.display_file') }}">
+                                <a href="/auth/file">
                                     <i class="fa fa-folder"></i> <span>我的文件</span>
                                 </a>
                             </li>
-        
+
                             <li class="treeview">
-                                <a href="{{ url_for('auth.shared_file') }}">
+                                <a href="{{ url_for('auth.upload_file') }}">
                                     <i class="fa fa-cloud"></i> <span>共享文件</span>
                                 </a>
                             </li>
-        
+
                             <li class="treeview">
                                 <a href="{{ url_for('auth.logout') }}">
                                     <i class="fa fa-user-times"></i> <span>退出登录</span>
                                 </a>
                             </li>
-        
+
                         </ul>
                     </section>
                     <!-- /.sidebar -->
                 </aside>
                 <!-- 导航侧栏 /-->
-        
+
                 <!-- 内容区域 -->
                 <div class="content-wrapper">
                      <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    共享文件
-                    <small>Shared File</small>
+                    共享文件下载
+                    <small>Preview</small>
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="{{ url_for('auth.home') }}"><i class="fa fa-dashboard"></i> 首页</a></li>
-                    <li class="active">共享文件</li>
+                    <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+                    <li class="active">共享文件下载</li>
                 </ol>
             </section>
-        
+
                     <!-- 正文区域 -->
                     <section class="content">
                             <!-- general form elements -->
                             <div class="box box-primary">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title">共享文件</h3>
+                                    <h3 class="box-title">公开文件</h3>
                                 </div>
                                 <!-- /.box-header -->
                                 <!-- form start -->
-                                <form role="form">
+                                <div role="form">
                                     <div class="box-body">
                                         {% with messages = get_flashed_messages() %}
-                                        {% for message in messages %}
-                                            <p>{{message}}</p>
-                                        {% endfor %}
-                                    {% endwith %}
-                                    {% if files %}
-                                        <p>您当前有以下共享文件</p>
-                                        <ui>
-{#                                        {% for e in list %}#}
-{#                                            <li>#}
-{#                                                {{e[0]}} by {{e[1]}} (已加密)#}
-{#                                                <a href="/shared_file/download?filename={{e[0]}}&username={{e[1]}}&type=encrypted">下载</a>#}
-{#                                                <a href="/shared_file/download?filename={{e[0]}}&username={{e[1]}}&type=signature">下载签名文件</a>#}
-{#                                            </li>#}
-{#                                        {% endfor %}#}
-
+                                            {% for message in messages %}
+                                                <p>{{message}}</p>
+                                            {% endfor %}
+                                        {% endwith %}
+                                        <p>您好！</p>
                                         {% for file in files %}
-                                                <li>
-                                                    {{file.file}}(已加密)
-                                                    <a href="{{ url_for('auth.download',option=5,file_id=file.file_id) }}">下载</a>
-                                                    <a href="{{ url_for('auth.download',option=1,file_id=file.file_id) }}">下载加密文件哈希值</a>
-                                                    <a href="{{ url_for('auth.download',option=4,file_id=file.file_id) }}">解密并下载</a>
-                                                    <a href="{{ url_for('auth.download',option=2,file_id=file.file_id) }}">下载原始文件哈希值</a>
-                                                    <a href="{{ url_for('auth.download',option=3,file_id=file.file_id) }}">下载签名文件</a>
-                                                    <a href="{{ url_for('auth.share',id=file.file_id) }}">取消共享</a>
-                                                </li>
+                                            {% if file %}
+                                                <p>可公开下载的文件</p>
+                                                <ui>
+                                                    <li>
+                                                        {{file.file}}(已加密)
+                                                        <a href="#">下载</a>
+                                                        <a href="#">下载哈希值</a>
+                                                        <!-- <a href="#">解密并下载</a> -->
+                                                        <a href="#">下载签名文件</a>
+                                                    </li>
+                                                </ui>
+                                            {% else %}
+                                                <p>没有任何文件可供公开下载</p>
+                                            {% endif %}
                                         {% endfor %}
 
-
-                                        </ui>
-                                    {% else %}
-                                        <p>当前没有任何共享文件</p>
-                                    {% endif %}
-                                    <a href="/public_key">获取网站公钥</a>
                                     </div>
                                     <!-- /.box-body -->
-                                </form>
+                                </div>
                             </div>
                             <!-- /.box -->
-                            
+                            <div class="file_show">
+
+                            </div>
                         </section>
                 </div>
                 <!-- 内容区域 /-->
-        
+
                 <!-- 底部导航 -->
                 <footer class="main-footer">
                     <div class="pull-right hidden-xs">
@@ -546,10 +462,10 @@
                     <strong>Copyright &copy WhateverTheNameIs 2022.</strong> All rights reserved.
                 </footer>
                 <!-- 底部导航 /-->
-        
+
             </div>
-        
-        
+
+
             <script src="/static/plugins/jQuery/jquery-2.2.3.min.js"></script>
             <script src="/static/plugins/jQueryUI/jquery-ui.min.js"></script>
             <script>
@@ -599,14 +515,14 @@
                 $(document).ready(function() {
                     // 选择框
                     $(".select2").select2();
-        
+
                     // WYSIHTML5编辑器
                     $(".textarea").wysihtml5({
                         locale: 'zh-CN'
                     });
                 });
-        
-        
+
+
                 // 设置激活菜单
                 function setSidebarActive(tagUri) {
                     var liObj = $("#" + tagUri);
@@ -615,16 +531,28 @@
                         liObj.addClass("active");
                     }
                 }
-        
-        
+
+
                 $(document).ready(function() {
                     // 激活导航位置
                     setSidebarActive("admin-index");
                 });
+
+
+            </script>
+            <script>
+                $(document).ready(
+                    function(){
+                        $('.i').click(
+                            function(){
+                                $(this).parent().next().toggle();
+                            }
+                        );
+                    }
+                );
             </script>
         </body>
-        
+
         </html>
         <!---->
 
-       
