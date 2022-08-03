@@ -72,7 +72,18 @@ class Post_File(db.Model):
     times=db.Column(db.Integer)
 
 
-
+class Share_File(db.Model):
+    share_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer)
+    file_id = db.Column(db.Integer, nullable=False)
+    share_code = db.Column(db.String, nullable=False)  # hash
+    TTL = db.Column(db.Integer)  # 限制次数
+    DDL = db.Column(db.Integer)  # 限制时间
+    share_time = db.Column(db.DateTime, default=datetime.now)
+    url = db.Column(db.String)
+    iv = db.Column(db.String)
+    tag = db.Column(db.String)
+    hmac = db.Column(db.String, nullable=False)
 
 
 
