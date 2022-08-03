@@ -518,23 +518,23 @@
                                             <ui>
                                             {% for file in files %}
                                                 <tr>
-                                                    <th style="width: 10px">※</th>
-                                                    <th>{{file.file}}(已加密)</th>
-                                                    <th>{% if file.if_share %}
+                                                    <td style="width: 10px">※</td>
+                                                    <td>{{file.file}}(已加密)</td>
+                                                    <td>{% if file.if_share %}
                                                     【已共享】
                                                     {% else %}
                                                     【未共享】
                                                     {% endif %}
-                                                    </th>
+                                                    </td>
 
-                                                <th>
+                                                <td>
                                                     {% if file.if_pub %}
                                                     【全传公开】
                                                     {% else %}
                                                     【私密文件】
                                                     {% endif %}
-                                                </th>
-                                                <th>
+                                                </td>
+                                                <td>
                                                     <a href="{{ url_for('auth.download',option=5,file_id=file.file_id) }}">下载</a>
                                                     <a href="{{ url_for('auth.download',option=1,file_id=file.file_id) }}">下载加密文件哈希值</a>
                                                     <a href="{{ url_for('auth.download',option=4,file_id=file.file_id) }}">解密并下载</a>
@@ -556,15 +556,17 @@
 
 
                                                     <a href="{{ url_for('auth.delete',id=file.file_id) }}">删除</a>
-                                                </th>
+                                                </td>
 
-                                                <th>
+                                                <td>
                                                     {{ file.text }}
-                                                </th>
+                                                </td>
 
                                                 </tr>
-                                            <div id="share" style="display: none;">
 
+
+                                            <tr style="display: none;">
+                                            <td colspan="6">
                                                 <form action="/auth/share" method="Post">
                                                     <div class="form-group">
                                                         {{ form.date.label }}
@@ -577,13 +579,95 @@
                                                     <input type="hidden" name="fileid" value="{{ file.file_id }}">
                                                     <input class="btn btn-primary" type="submit" value="上传">
                                                 </form>
-                                            </div>
+                                            </td>
+                                                </tr>
                                             {% endfor %}
                                             </ui>
                                         {% else %}
                                             <p>您当前没有上传任何文件</p>
                                         {% endif %}
                                         </table>
+
+
+
+
+
+
+
+{#                                            <ui>#}
+{#                                            {% for file in files %}#}
+{##}
+{#                                                    <li>#}
+{#                                                    {{file.file}}(已加密)#}
+{#                                                    {% if file.if_share %}#}
+{#                                                    【已共享】#}
+{#                                                    {% else %}#}
+{#                                                    【未共享】#}
+{#                                                    {% endif %}#}
+{##}
+{##}
+{#                                                    {% if file.if_pub %}#}
+{#                                                    【全传公开】#}
+{#                                                    {% else %}#}
+{#                                                    【私密文件】#}
+{#                                                    {% endif %}#}
+{##}
+{##}
+{#                                                    <a href="{{ url_for('auth.download',option=5,file_id=file.file_id) }}">下载</a>#}
+{#                                                    <a href="{{ url_for('auth.download',option=1,file_id=file.file_id) }}">下载加密文件哈希值</a>#}
+{#                                                    <a href="{{ url_for('auth.download',option=4,file_id=file.file_id) }}">解密并下载</a>#}
+{#                                                    <a href="{{ url_for('auth.download',option=2,file_id=file.file_id) }}">下载原始文件哈希值</a>#}
+{#                                                    <a href="{{ url_for('auth.download',option=3,file_id=file.file_id) }}">下载签名文件</a>#}
+{##}
+{##}
+{#                                                    {% if file.if_share %}#}
+{#                                                    <a href="{{ url_for('auth.share',id=file.file_id) }}">取消共享</a>#}
+{#                                                    {% endif %}#}
+{#                                                    <input class="i" type="button" value="共享"/>#}
+{##}
+{##}
+{#                                                    {% if file.if_pub %}#}
+{#                                                    <a href="{{ url_for('auth.private',file_id=file.file_id) }}">设为私密</a>#}
+{#                                                    {% else %}#}
+{#                                                    <a href="{{ url_for('auth.public',file_id=file.file_id) }}">全传公开</a>#}
+{#                                                    {% endif %}#}
+{##}
+{##}
+{#                                                    <a href="{{ url_for('auth.delete',id=file.file_id) }}">删除</a>#}
+{##}
+{##}
+{##}
+{#                                                    {{ file.text }}#}
+{##}
+{#                                                    </li>#}
+{##}
+{#                                            <div style="display: none;">#}
+{##}
+{#                                                <form action="/auth/share" method="Post">#}
+{#                                                    <div class="form-group">#}
+{#                                                        {{ form.date.label }}#}
+{#                                                        {{ form.date(class_="form-control") }}#}
+{#                                                    </div>#}
+{#                                                    <div class="form-group">#}
+{#                                                        {{ form.times.label }}#}
+{#                                                        {{ form.times(class_="form-control") }}#}
+{#                                                    </div>#}
+{#                                                    <input type="hidden" name="fileid" value="{{ file.file_id }}">#}
+{#                                                    <input class="btn btn-primary" type="submit" value="上传">#}
+{#                                                </form>#}
+{#                                            </div>#}
+{#                                            {% endfor %}#}
+{#                                            </ui>#}
+{#                                        {% else %}#}
+{#                                            <p>您当前没有上传任何文件</p>#}
+{#                                        {% endif %}#}
+
+
+
+
+
+
+
 
                                     </div>
                                     <!-- /.box-body -->
@@ -686,7 +770,7 @@
                     function(){
                         $('.i').click(
                             function(){
-                                $('#share').toggle();
+                                $(this).parent().parent().next().toggle();
                             }
                         );
                     }

@@ -31,44 +31,50 @@
 </head>
 
 <body class="hold-transition login-page">
-    <div class="login-box">
+    
         <div class="login-logo">
-
-
             <a href="layout.html"><b>中传</b>放心传</a>
-
-
         </div>
         <!-- /.login-logo -->
-        <div class="login-box-body">
-            <p class="login-box-msg">加密文件上传</p>
-    
-            <form action="/encrypted_file_upload" method="post" enctype="multipart/form-data">
-                
-                <div class="form-group">
-                    <!-- 待解密的文件上传框 -->
-                    {{ form.Encry_file.label }}
-                    {{ form.Encry_file(class_="form-control") }}
-                    <p class="help-block">文件类型仅允许普通文件和Microsoft文档,大小限制在10M以内</p>
-                    <!-- 数字签名文件上传框 -->
-                    {{ form.S_file.label }}
-                    {{ form.S_file(class_="form-control") }}
-                    <p class="help-block">文件类型仅允许普通文件和Microsoft文档,大小限制在10M以内</p>
-                    <!-- url输入框 -->
-                    {{ form.url.label }}
-                    {{ form.url(class_="form-control") }}
-                    <!-- 验证码输入框 -->
-                    {{ form.shared_code.label }}
-                    {{ form.shared_code(class_="form-control") }}
-                </div>
 
-                {{ form.csrf_token }}
-                <input class="btn btn-primary" type="submit" value="上传">
-        </form>
-        </div>
-        <!-- /.login-box-body -->
-    </div>
-    <!-- /.login-box -->
+        <!-- 正文区域 -->
+         <section class="content">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">加密文件上传</h3>
+                </div>
+                <!-- /.box-header -->
+              
+                <div class="box-body" style="padding:20px">
+                    <form action="/encrypted_file_upload" method="post" enctype="multipart/form-data">
+                
+                        <div class="form-group">
+                            <!-- 待解密的文件上传框 -->
+                            {{ form.Encry_file.label }}
+                            {{ form.Encry_file(class_="form-control") }}
+                            <p class="help-block">文件类型仅允许普通文件和Microsoft文档,大小限制在10M以内</p>
+                            <!-- 数字签名文件上传框 -->
+                            {{ form.S_file.label }}
+                            {{ form.S_file(class_="form-control") }}
+                            <p class="help-block">文件类型仅允许普通文件和Microsoft文档,大小限制在10M以内</p>
+                            <!-- url输入框 -->
+                            {{ form.url.label }}
+                            {{ form.url(class_="form-control") }}
+                            <!-- 验证码输入框 -->
+                            {{ form.shared_code.label }}
+                            {{ form.shared_code(class_="form-control") }}
+                        </div>
+            
+                        {{ form.csrf_token }}
+                        <input class="btn btn-primary" type="submit" value="上传">
+                    </form>
+                
+                </div>
+             </div>
+             <!-- /.box -->                    
+        </section>
+
 
     <!-- jQuery 2.2.3 -->
     <!-- Bootstrap 3.3.6 -->

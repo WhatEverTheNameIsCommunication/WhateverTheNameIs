@@ -246,7 +246,6 @@ def download():
 
         if file.TTL < 1:
             return '下载次数已用完'
-        # =============DDL有验证吗？？？？=================passphrase
 
         else:
             share_id = file.share_id

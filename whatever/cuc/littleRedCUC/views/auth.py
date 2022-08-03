@@ -325,6 +325,8 @@ def share():
         date = request.form["date"]
         times = request.form["times"]
         file_id = request.form["fileid"]
+        print(file_id)
+        print(times)
         date = list(map(int, date.split('-')))
         formdate = datetime.date.today().replace(date[0], date[1], date[2])
         today = datetime.date.today()
@@ -353,8 +355,10 @@ def share():
 
 
         ## 分享码加密文件
-        sharefile = Post_File.query.filter(file_id == file_id).first() # 这里是要分享的文件本身，即在postfile中
+        sharefile = Post_File.query.filter(Post_File.file_id == file_id).first() # 这里是要分享的文件本身，即在postfile中
         id_ = sharefile.file_id     # file_id != share_id
+        print('id_:')
+        print(id_)
         sad = share_and_download(id_)
         iv, share_bytes, tag, share_code,stamp = sad.share_encrypt()
         share_code = bcrypt.generate_password_hash(share_code)
