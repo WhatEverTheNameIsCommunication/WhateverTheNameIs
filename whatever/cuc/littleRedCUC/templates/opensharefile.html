@@ -459,6 +459,7 @@
                             <li class="treeview">
                                 <a href="/auth/logout"> 
                                     <i class="fa fa-user-times"></i> <span>退出登录</span>
+                                </a>
 
                         </ul>
                     </section>
@@ -485,7 +486,7 @@
                             <!-- general form elements -->
                             <div class="box box-primary">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title">我的文件</h3>
+                                    <h3 class="box-title">共享文件</h3>
                                 </div>
                                 <!-- /.box-header -->
                                 <!-- form start -->
@@ -498,28 +499,33 @@
                                         {% endwith %}
                                         <p>您好！</p>
                                         {% if file %}
-                                            <p>用户{{ user }}给您分享了以下文件</p>
+                                            <p>{{ user }}给您分享了以下文件</p>
+                                            <table class="table table-striped">
+                                        <tr>
+                                                <th style="width: 10px"> </th>
+                                                <th style="width: 300px">文件名</th>
+                                                <th style="width: 1000px">操作</th>
+                                                <th style="width: 600px">描述</th>
+                                            </tr>
                                             <ui>
-                                                <li>
-                                                    {{file.file}}(已加密)
-                                                    {% if file.if_pub %}
-                                                    (已共享)
-                                                    {% else %}
-                                                    (未共享)
-                                                    {% endif %}
+                                                <tr>
+                                                <th style="width: 10px">※</th>
+                                                    <th>{{file.file}}(已加密)</th>
+                                                    <th>
                                                     <a href="{{ url_for('anony.download',token=token) }}">下载</a>
                                                     <a href="{{ url_for('anony.download2',option=1,token=token) }}">下载加密文件哈希值</a>
-                                                    <a href="#">解密并下载</a>
+                                                    <a href="{{ url_for('anony.download2',option=4,token=token) }}">解密并下载</a>
                                                     <a href="{{ url_for('anony.download2',option=2,token=token) }}">下载原始文件哈希值</a>
                                                     <a href="{{ url_for('anony.download2',option=3,token=token) }}">下载签名文件</a>
 
-
-                                                </li>
+                                                </th>
+                                                    <th>{{ file.text }}</th>
+                                                </tr>
                                             </ui>
                                         {% else %}
                                             <p>您当前没有上传任何文件</p>
                                         {% endif %}
-
+                                        </table>
                                     </div>
                                     <!-- /.box-body -->
                                 </form>

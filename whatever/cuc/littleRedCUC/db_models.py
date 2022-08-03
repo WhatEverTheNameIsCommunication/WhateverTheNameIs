@@ -82,6 +82,7 @@ class Share_File(db.Model):
     iv = db.Column(db.String)
     tag = db.Column(db.String)
     hmac = db.Column(db.String, nullable=False)
+    stamp = db.Column(db.Integer)
 
 class Client(db.Model):
     id = db.Column(db.Integer,primary_key=True)
@@ -89,3 +90,4 @@ class Client(db.Model):
     share_id = db.Column(db.Integer)
     file_name = db.Column(db.String(300))
     S_file_name = db.Column(db.String(300))
+    post_fID = db.Column(db.Integer)

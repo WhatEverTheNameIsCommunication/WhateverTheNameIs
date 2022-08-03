@@ -15,8 +15,8 @@ if not Path('./instance').exists():
     Path('./instance').mkdir()
 if not system_path.exists():
     system_path.mkdir()
-pathSK='instance/system/SystemSK.pem'
-pathPK='instance/system/SystemPK.pem'
+pathSK='SystemSK.pem'
+pathPK='SystemPK.pem'
 # private_key = ed25519.Ed25519PrivateKey.generate()
 # private_bytes = private_key.private_bytes(
 #     encoding=serialization.Encoding.Raw,
