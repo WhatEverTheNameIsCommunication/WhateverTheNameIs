@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 
-    <title>中传放心传 - 忘记密码</title>
+    <title>中传放心传客户端 - 分享验证</title>
 
 
     <!-- Tell the browser to be responsive to screen width -->
@@ -35,24 +35,26 @@
         <div class="login-logo">
 
 
-            <a href="{{ url_for('auth.home') }}"><b>中传</b>放心传</a>
+            <a href="{{ url_for('auth.home') }}"><b>中传</b>放心分享</a>
 
 
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <p class="login-box-msg">忘记密码</p>
+            <p class="login-box-msg">分享验证</p>
 
 
-             <form action="/auth/find" method="post">
+             <form action="/verify" method="post">
             <div class="form-group">
-                {{ form.email.label }}
-                {{ form.email(class_="form-control") }}
+                {{ form.url.label }}
+                {{ form.url(class_="form-control") }}
+                {{ form.shared_code.label }}
+                {{ form.shared_code(class_="form-control") }}
             </div>
-
             {{ form.csrf_token }}
-            <input class="btn btn-primary" type="submit" value="提交">
-        </form>
+
+                 <input class="btn btn-primary" type="submit" value="提交">
+             </form>
         </div>
         <!-- /.login-box-body -->
     </div>

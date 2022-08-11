@@ -35,7 +35,7 @@
         <div class="login-logo">
 
 
-            <a href="index.html"><b>中传</b>放心传</a>
+            <a href="{{ url_for('auth.layout') }}"><b>中传</b>放心传</a>
 
 
         </div>
@@ -83,12 +83,7 @@
 <!--                </div>-->
 <!--            </form>-->
 
-            <div class="social-auth-links text-center">
-                <p>其他登录方式</p>
-                <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-qq"></i> QQ用户登录</a>
-                <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-weixin"></i> 微信用户登录</a>
-            </div>
-            <!-- /.social-auth-links -->
+           <br/>
 
             <a href="{{ url_for('auth.find') }}" class="text-center">忘记密码，点击此处修改密码！</a><br>
             <a href="{{ url_for('anony.signup') }}" class="text-center">还没有账号，点击注册！</a>

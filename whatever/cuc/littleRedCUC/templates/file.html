@@ -128,7 +128,7 @@
         
         
                     <!-- Logo -->
-                    <a href="layout.html" class="logo">
+                    <a href="{{ url_for('auth.home') }}" class="logo">
                         <!-- mini logo for sidebar mini 50x50 pixels -->
                         <span class="logo-mini"><b>中传</b></span>
                         <!-- logo for regular state and mobile devices -->
@@ -141,252 +141,7 @@
                         <!-- Sidebar toggle button-->
                         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                     <span class="sr-only">Toggle navigation</span>
-                </a>
-        
-                        <div class="navbar-custom-menu">
-                            <ul class="nav navbar-nav">
-                                <!-- Messages: style can be found in dropdown.less-->
-                                <li class="dropdown messages-menu">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-envelope-o"></i>
-                                <span class="label label-success">4</span>
-                            </a>
-                                    <ul class="dropdown-menu">
-                                        <li class="header">你有4个邮件</li>
-                                        <li>
-                                            <!-- inner menu: contains the actual data -->
-                                            <ul class="menu">
-                                                <li>
-                                                    <!-- start message -->
-                                                    <a href="#">
-                                                        <div class="pull-left">
-                                                            <img src="/static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                                                        </div>
-                                                        <h4>
-                                                            系统消息
-                                                            <small><i class="fa fa-clock-o"></i> 5 分钟前</small>
-                                                        </h4>
-                                                        <p>欢迎登录系统</p>
-                                                    </a>
-                                                </li>
-                                                <!-- end message -->
-                                                <li>
-                                                    <a href="#">
-                                                        <div class="pull-left">
-                                                            <img src="/static/img/user3-128x128.jpg" class="img-circle" alt="User Image">
-                                                        </div>
-                                                        <h4>
-                                                            团队消息
-                                                            <small><i class="fa fa-clock-o"></i> 2 小时前</small>
-                                                        </h4>
-                                                        <p>你有新的任务了</p>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <div class="pull-left">
-                                                            <img src="/static/img/user4-128x128.jpg" class="img-circle" alt="User Image">
-                                                        </div>
-                                                        <h4>
-                                                            Developers
-                                                            <small><i class="fa fa-clock-o"></i> Today</small>
-                                                        </h4>
-                                                        <p>Why not buy a new awesome theme?</p>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <div class="pull-left">
-                                                            <img src="/static/img/user3-128x128.jpg" class="img-circle" alt="User Image">
-                                                        </div>
-                                                        <h4>
-                                                            Sales Department
-                                                            <small><i class="fa fa-clock-o"></i> Yesterday</small>
-                                                        </h4>
-                                                        <p>Why not buy a new awesome theme?</p>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <div class="pull-left">
-                                                            <img src="/static/img/user4-128x128.jpg" class="img-circle" alt="User Image">
-                                                        </div>
-                                                        <h4>
-                                                            Reviewers
-                                                            <small><i class="fa fa-clock-o"></i> 2 days</small>
-                                                        </h4>
-                                                        <p>Why not buy a new awesome theme?</p>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="footer"><a href="#">See All Messages</a></li>
-                                    </ul>
-                                </li>
-                                <!-- Notifications: style can be found in dropdown.less -->
-                                <li class="dropdown notifications-menu">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-bell-o"></i>
-                                <span class="label label-warning">10</span>
-                            </a>
-                                    <ul class="dropdown-menu">
-                                        <li class="header">你有10个新消息</li>
-                                        <li>
-                                            <!-- inner menu: contains the actual data -->
-                                            <ul class="menu">
-                                                <li>
-                                                    <a href="#">
-                                                <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                                            </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                <i class="fa fa-warning text-yellow"></i> Very long description here that may not
-                                                fit into the page and may cause design problems
-                                            </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                <i class="fa fa-users text-red"></i> 5 new members joined
-                                            </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                                            </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                <i class="fa fa-user text-red"></i> You changed your username
-                                            </a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="footer"><a href="#">View all</a></li>
-                                    </ul>
-                                </li>
-                                <!-- Tasks: style can be found in dropdown.less -->
-                                <li class="dropdown tasks-menu">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-flag-o"></i>
-                                <span class="label label-danger">9</span>
-                            </a>
-                                    <ul class="dropdown-menu">
-                                        <li class="header">你有9个新任务</li>
-                                        <li>
-                                            <!-- inner menu: contains the actual data -->
-                                            <ul class="menu">
-                                                <li>
-                                                    <!-- Task item -->
-                                                    <a href="#">
-                                                        <h3>
-                                                            Design some buttons
-                                                            <small class="pull-right">20%</small>
-                                                        </h3>
-                                                        <div class="progress xs">
-                                                            <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                                                                <span class="sr-only">20% Complete</span>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <!-- end task item -->
-                                                <li>
-                                                    <!-- Task item -->
-                                                    <a href="#">
-                                                        <h3>
-                                                            Create a nice theme
-                                                            <small class="pull-right">40%</small>
-                                                        </h3>
-                                                        <div class="progress xs">
-                                                            <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                                                                <span class="sr-only">40% Complete</span>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <!-- end task item -->
-                                                <li>
-                                                    <!-- Task item -->
-                                                    <a href="#">
-                                                        <h3>
-                                                            Some task I need to do
-                                                            <small class="pull-right">60%</small>
-                                                        </h3>
-                                                        <div class="progress xs">
-                                                            <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                                                                <span class="sr-only">60% Complete</span>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <!-- end task item -->
-                                                <li>
-                                                    <!-- Task item -->
-                                                    <a href="#">
-                                                        <h3>
-                                                            Make beautiful transitions
-                                                            <small class="pull-right">80%</small>
-                                                        </h3>
-                                                        <div class="progress xs">
-                                                            <div class="progress-bar progress-bar-yellow" style="width: 80%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                                                                <span class="sr-only">80% Complete</span>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <!-- end task item -->
-                                            </ul>
-                                        </li>
-                                        <li class="footer">
-                                            <a href="#">View all tasks</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <!-- User Account: style can be found in dropdown.less -->
-                                <li class="dropdown user user-menu">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="/static/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                                <span class="hidden-xs">年轻的小白杨</span>
-                            </a>
-                                    <ul class="dropdown-menu">
-                                        <!-- User image -->
-                                        <li class="user-header">
-                                            <img src="/static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-        
-                                            <p>
-                                                年轻的小白杨 - 程序猿
-                                                <small>最后登录 11:20AM</small>
-                                            </p>
-                                        </li>
-                                        <!-- Menu Body 
-                                <li class="user-body">
-                                    <div class="row">
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Followers</a>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Sales</a>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Friends</a>
-                                        </div>
-                                    </div>
-                                </li>-->
-                                        <!-- Menu Footer-->
-                                        <li class="user-footer">
-                                            <div class="pull-left">
-                                                <a href="#" class="btn btn-default btn-flat">修改密码</a>
-                                            </div>
-                                            <div class="pull-right">
-                                                <a href="#" class="btn btn-default btn-flat">注销</a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-        
-                            </ul>
-                        </div>
+                </a>       
                     </nav>
                 </header>
                 <!-- 页面头部 /-->
@@ -401,7 +156,7 @@
                                 <img src="/static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                             </div>
                             <div class="pull-left info">
-                                <p>年轻的小白杨</p>
+                                <p>{{user}}</p>
                                 <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
                             </div>
                         </div>
@@ -422,7 +177,7 @@
                         <ul class="sidebar-menu">
                             <li class="header">菜单</li>
         
-                            <li id="admin-index"><a href="index.html"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
+                            <li id="admin-index"><a href="{{ url_for('auth.home') }}"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
         
                             <!-- 菜单 -->
         
@@ -440,25 +195,25 @@
                           
         
                             <li class="treeview">
-                                <a href="/file_upload">
-                                    <i class="fa fa-upload"></i> <span>文件上传</span>
-                                </a>
+                                <a href="{{ url_for('auth.upload_file') }}">
+                            <i class="fa fa-folder"></i> <span>文件上传</span>
+                        </a>
                             </li>
         
                             <li class="treeview">
-                                <a href="/file">
+                                <a href="{{ url_for('auth.display_file') }}">
                                     <i class="fa fa-folder"></i> <span>我的文件</span>
                                 </a>
                             </li>
         
                             <li class="treeview">
-                                <a href="/shared_file"> 
+                                <a href="{{ url_for('auth.shared_file') }}">
                                     <i class="fa fa-cloud"></i> <span>共享文件</span>
                                 </a>
                             </li>
         
                             <li class="treeview">
-                                <a href="/logout"> 
+                                <a href="{{ url_for('auth.logout') }}">
                                     <i class="fa fa-user-times"></i> <span>退出登录</span>
                                 </a>
                             </li>
@@ -478,7 +233,7 @@
                     <small>My File</small>
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+                    <li><a href="{{ url_for('auth.home') }}"><i class="fa fa-dashboard"></i> 首页</a></li>
                     <li class="active">我的文件</li>
                 </ol>
             </section>
@@ -488,59 +243,99 @@
                             <!-- general form elements -->
                             <div class="box box-primary">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title">我的文件</h3>
+                                    <h3 class="box-title">文件列表</h3>
                                 </div>
                                 <!-- /.box-header -->
                                 <!-- form start -->
-                                <form role="form">
+                                <div role="form">
                                     <div class="box-body">
-                                        {% with messages = get_flashed_messages() %} 
+                                        {% with messages = get_flashed_messages() %}
                                             {% for message in messages %}
                                                 <p>{{message}}</p>
                                             {% endfor %}
                                         {% endwith %}
-
+                                        <p>{{user}}，您好！</p>
                                         {% if files %}
-                                        <div class="box-header">
-                                            <h3 class="box-title">文件列表</h3>
-                                        </div>
-                                        <table class="table table-striped">
-                                            <tr>
+
+                                            <p>您当前上传了以下文件</p>
+                                            <table class="table table-striped">
+                                             <tr>
                                                 <th style="width: 10px"> </th>
-                                                <th style="width: 300px">文件名</th>
-                                                <th style="width: 100px">是否共享</th>
-                                                <th style="width: 600px">操作</th>
-                                                <th style="width: 700px">描述</th>
+                                                <th style="width: 250px">文件名（均已加密）</th>
+                                                <th style="width: 150px">是否共享</th>
+                                                 <th style="width: 150px">是否公开</th>
+                                                <th style="width: 990px">操作</th>
+                                                <th style="width: 700px">备注</th>
                                             </tr>
-                                               
+
                                             <ui>
                                             {% for file in files %}
                                                 <tr>
-                                                    <th style="width: 10px">#</th>
-                                                    <th>{{file.file}}(已加密)</th>
-                                                    <th>{% if file.shared %}
-                                                    (已共享)
+                                                    <td style="width: 10px">※</td>
+                                                    <td>{{file.file}}</td>
+                                                    <td>{% if file.if_share %}
+                                                    是
                                                     {% else %}
-                                                    (未共享)
+                                                    否
                                                     {% endif %}
-                                                    </th>
+                                                    </td>
+
+                                                <td>
+                                                    {% if file.if_pub %}
+                                                    是
+                                                    {% else %}
+                                                    否
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <a href="{{ url_for('auth.download',option=5,file_id=file.file_id) }}">下载</a>
+                                                    <a href="{{ url_for('auth.download',option=3,file_id=file.file_id) }}">下载签名文件</a>
+                                                    <a href="{{ url_for('auth.download',option=2,file_id=file.file_id) }}">下载原始文件哈希值</a>
+                                                    <a href="{{ url_for('auth.download',option=1,file_id=file.file_id) }}">下载加密文件哈希值</a>
+                                                    <a href="{{ url_for('auth.download',option=4,file_id=file.file_id) }}">解密并下载</a>
                                                     
-                                                    <th>
-                                                    <a href="#">下载</a>
-                                                    <a href="#">下载哈希值</a>
-                                                    <a href="#">解密并下载</a>
-                                                    <a href="#">下载签名文件</a>
-                                                    <a href="#">
-                                                    {% if file.shared %}
-                                                        取消共享
+                                                    
+                                                    {% if file.if_pub %}
+                                                    <a href="{{ url_for('auth.private',file_id=file.file_id) }}">设为私密</a>
                                                     {% else %}
-                                                        进行共享
+                                                    <a href="{{ url_for('auth.public',file_id=file.file_id) }}">全传公开</a>
                                                     {% endif %}
-                                                    </a>
-                                                    <a href="#">删除</a>
-                                                    </th> 
-                                                    <!-- 展示描述内容 -->
-                                                    <th>描述内容</th>  
+
+
+                                                    <a href="{{ url_for('auth.delete',id=file.file_id) }}">删除</a>
+
+
+                                                    {% if file.if_share %}
+                                                    <a href="{{ url_for('auth.share',id=file.file_id) }}">取消共享</a>
+                                                    {% else %}
+                                                    <input class="i" type="button" value="共享"/>
+                                                    {% endif %}
+
+
+                                                </td>
+
+                                                <td>
+                                                    {{ file.text }}
+                                                </td>
+
+                                                </tr>
+
+
+                                            <tr style="display: none;">
+                                            <td colspan="6">
+                                                <form action="/auth/share" method="Post">
+                                                    <div class="form-group">
+                                                        {{ form.date.label }}
+                                                        {{ form.date(class_="form-control") }}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        {{ form.times.label }}
+                                                        {{ form.times(class_="form-control") }}
+                                                    </div>
+                                                    <input type="hidden" name="fileid" value="{{ file.file_id }}">
+                                                    <input class="btn btn-primary" type="submit" value="上传">
+                                                </form>
+                                            </td>
                                                 </tr>
                                             {% endfor %}
                                             </ui>
@@ -548,11 +343,14 @@
                                             <p>您当前没有上传任何文件</p>
                                         {% endif %}
                                         </table>
+
+
                                     </div>
                                     <!-- /.box-body -->
-                                </form>
+                                </div>
                             </div>
                             <!-- /.box -->
+                          
                         </section>
                 </div>
                 <!-- 内容区域 /-->
@@ -641,8 +439,21 @@
                     setSidebarActive("admin-index");
                 });
             </script>
+        <script>
+                $(document).ready(
+                    function(){
+                        $('.i').click(
+                            function(){
+                                $(this).parent().parent().next().toggle();
+                            }
+                        );
+                    }
+                );
+            </script>
         </body>
-        
+        </body>
+
+
         </html>
         <!---->
 

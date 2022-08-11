@@ -277,7 +277,7 @@ def upload_file():
             flash('请注意您上传文件的有效性。')
             return render_template('file_upload.html', form=form)
 
-    flash('文件类型仅允许普通文件和Microsoft文档,大小限制在10M以内')
+    # flash('文件类型仅允许普通文件和Microsoft文档,大小限制在10M以内')
     return render_template('file_upload.html', form=form)
 
 

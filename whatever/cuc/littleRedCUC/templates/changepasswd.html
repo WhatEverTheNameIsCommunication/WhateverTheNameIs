@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 
@@ -36,51 +35,13 @@
         <div class="register-logo">
 
 
-            <a href="index.html"><b>中传</b>放心传</a>
+            <a href="{{ url_for('auth.layout') }}"><b>中传</b>放心传</a>
 
 
         </div>
 
         <div class="register-box-body">
             <p class="login-box-msg">修改密码</p>
-
-<!--            <form action="/signup" method="post">-->
-<!--                <div class="form-group has-feedback">-->
-<!--                    <input type="user_name" class="form-control" placeholder="昵称">-->
-<!--                    <span class="glyphicon glyphicon-user form-control-feedback"></span>-->
-<!--                </div>-->
-<!--                <div class="form-group has-feedback">-->
-<!--                    <input type="email" class="form-control" placeholder="Email">-->
-<!--                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>-->
-<!--                </div>-->
-<!--                <div class="form-group has-feedback">-->
-
-<!--                    <input type="password" class="form-control" placeholder="密码">-->
-<!--                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>-->
-<!--                </div>-->
-<!--                <div class="form-group has-feedback">-->
-<!--                    <input type="password" class="form-control" placeholder="确认密码">-->
-<!--                    <span class="glyphicon glyphicon-log-in form-control-feedback"></span>-->
-<!--                </div>-->
-<!--                <div class="row">-->
-<!--                    <div class="col-xs-8">-->
-<!--                        <div class="checkbox icheck">-->
-<!--                            <label>-->
-<!--                     <input type="checkbox"> 我同意 <a href="#">协议</a>-->
-<!--                         </label>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    &lt;!&ndash; /.col &ndash;&gt;-->
-<!--                     {{ form.csrf_token }}-->
-
-<!--                    <div class="col-xs-4" >-->
-<!--                        <input  type="submit" class="btn btn-primary btn-block btn-flat">注册</input>-->
-<!--                    </div>-->
-<!--                    &lt;!&ndash; /.col &ndash;&gt;-->
-<!--                </div>-->
-<!--            </form>-->
-
-
 
              <form action="/auth/changepasswd" method="post">
 

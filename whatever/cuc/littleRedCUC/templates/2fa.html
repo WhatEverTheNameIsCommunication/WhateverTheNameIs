@@ -35,13 +35,13 @@
         <div class="login-logo">
 
 
-            <a href="index.html"><b>中传</b>放心传</a>
+            <a href="{{ url_for('auth.layout') }}"><b>中传</b>放心传</a>
 
 
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <p class="login-box-msg">用户登录</p>
+            <p class="login-box-msg">用户验证</p>
 
 
              <form action="/auth/2fa" method="post">
@@ -58,29 +58,6 @@
             {{ form.csrf_token }}
             <input class="btn btn-primary" type="submit" value="提交">
         </form>
-
-<!--            <form action="/auth/login" method="post">-->
-<!--                <div class="form-group has-feedback">-->
-<!--                    <input type="email" class="form-control" placeholder="Email">-->
-<!--                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>-->
-<!--                </div>-->
-<!--                <div class="form-group has-feedback">-->
-<!--                    <input type="password" class="form-control" placeholder="密码">-->
-<!--                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>-->
-<!--                </div>-->
-<!--                <div class="row">-->
-<!--                    <div class="col-xs-8">-->
-<!--                        <div class="checkbox icheck">-->
-<!--                            <label><input type="checkbox"> 记住 下次自动登录</label>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    &lt;!&ndash; /.col &ndash;&gt;-->
-<!--                    <div class="col-xs-4">-->
-<!--                        <button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>-->
-<!--                    </div>-->
-<!--                    &lt;!&ndash; /.col &ndash;&gt;-->
-<!--                </div>-->
-<!--            </form>-->
 
         </div>
         <!-- /.login-box-body -->
