@@ -128,7 +128,7 @@
         
         
                     <!-- Logo -->
-                    <a href="{{ url_for('auth.layout') }}" class="logo">
+                    <a href="{{ url_for('auth.home') }}" class="logo">
                         <!-- mini logo for sidebar mini 50x50 pixels -->
                         <span class="logo-mini"><b>中传</b></span>
                         <!-- logo for regular state and mobile devices -->
@@ -221,7 +221,7 @@
                             <small>File Input</small>
                         </h1>
                         <ol class="breadcrumb">
-                            <li><a href="{{ url_for('auth.layout') }}"><i class="fa fa-dashboard"></i> 首页</a></li>
+                            <li><a href="{{ url_for('auth.home') }}"><i class="fa fa-dashboard"></i> 首页</a></li>
                             <li class="active">文件上传</li>
                         </ol>
                     </section>
@@ -254,7 +254,8 @@
                                             {{ form.text.label }}
                                             {{ form.text(class_="form-control") }}
                                         </div>
-                                        <p class="help-block">文件类型仅允许普通文件和Microsoft文档,大小限制在10M以内。</p>
+{#                                        <p class="help-block">文件类型仅允许普通文件和Microsoft文档,大小限制在10M以内。</p>#}
+{#                                        <p class="help-block">文件名应为全英文。</p>#}
                                         <div class="form-group">
                                             {{ form.file.label }}
                                             {{ form.file(class_="form-control") }}

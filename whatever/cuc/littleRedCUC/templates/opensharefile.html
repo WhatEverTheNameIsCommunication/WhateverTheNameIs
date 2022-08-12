@@ -112,6 +112,8 @@
             <link rel="stylesheet" href="/static/plugins/adminLTE/css/AdminLTE.css">
             <link rel="stylesheet" href="/static/plugins/adminLTE/css/skins/_all-skins.min.css">
             <link rel="stylesheet" href="/static/css/style.css">
+            <link rel="stylesheet" href="/static/css/style2.css">
+
             <link rel="stylesheet" href="/static/plugins/ionslider/ion.rangeSlider.css">
             <link rel="stylesheet" href="/static/plugins/ionslider/ion.rangeSlider.skinNice.css">
             <link rel="stylesheet" href="/static/plugins/bootstrap-slider/slider.css">
@@ -215,16 +217,29 @@
                 <!-- 内容区域 -->
                 <div class="content-wrapper">
                      <!-- Content Header (Page header) -->
-            <section class="content-header">
+            <div class="content-header">
                 <h1>
                     共享文件下载
                     <small>Open File Download</small>
+                    <button
+                            style="border-radius: 10px;
+                            background: LightCoral;
+                            padding: 5px 15px;
+                            color: #fff;
+                            border:none;
+                            font-size: 18px"
+                            id="important">重要说明
+                    </button>
                 </h1>
+
+
+
                 <ol class="breadcrumb">
                     <li><a href="{{ url_for('auth.home') }}"><i class="fa fa-dashboard"></i> 首页</a></li>
                     <li class="active">共享文件下载</li>
                 </ol>
-            </section>
+            </div>
+
 
                     <!-- 正文区域 -->
                     <section class="content">
@@ -273,14 +288,76 @@
                                     </div>
                                     <!-- /.box-body -->
                                 </form>
+
                             </div>
                             <!-- /.box -->
                             <div class="file_show">
 
                             </div>
                         </section>
+
+
+
+
+<section style="display: none; text-align: center;" class="card" id="notes">
+  <div   class="alert_content" >
+{#    <h1>Modal</h1>#}
+{#    <label id="important" class="modal-open modal-label" for="modal-open">#}
+{#           <p style="font-weight: 800 ;">重要说明</p>#}
+{#       </label>#}
+{#    <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio" />#}
+{#    <div class="modal">#}
+{#      <label class="modal-label overlay" class="box box-primary">#}
+{#                <input type="radio" name="modal" value="close" class="modal-radio"/>#}
+{#            </label>#}
+      <div class="alert_content" id="significant">
+        <div class="top">
+          <div class="box-header with-border">
+           <h3 style="text-align:center">重要说明</h3>
+                                </div>
+
+{#          <label class="modal-label close-btn">#}
+{#                    <input type="radio" name="modal" value="close" class="modal-radio"/>#}
+{#                </label>#}
+        </div>
+          <ul style="padding-right: 20px">
+              <li>
+                  <p style="text-align: left"> 以上为保证文件安全，为您带来的不便，敬请谅解</p>
+              </li>
+              <li><p style="text-align: left">“下载”默认为下载加密文件</p></li>
+              <li><p style="text-align: left">只有已登录用户可“解密并下载”；匿名用户将自动跳转登录</p></li>
+              <li>
+                  <p style="font-weight: bold; text-align: left">下载次数按照“下载”“解密并下载”计算，一旦下载次数使用完毕，则所有文件均不可下载！！！</p>
+              </li>
+              <li>
+                   <p style="font-size: small; color: LightCoral;font-weight:bold;font-size: 15px;text-align: left">如下载次数为1，请务必先下载hash值等文件，最后所需下载文件本身（加密或解密）</p>
+            </li>
+
+
+          </ul>
+
+      </div>
+    </div>
+  </div>
+</section>
+
                 </div>
                 <!-- 内容区域 /-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 <!-- 底部导航 -->
                 <footer class="main-footer">
@@ -292,6 +369,25 @@
                 <!-- 底部导航 /-->
 
             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             <script src="/static/plugins/jQuery/jquery-2.2.3.min.js"></script>
@@ -379,6 +475,57 @@
                     }
                 );
             </script>
+
+
+
+
+            <script>
+                $(document).ready(
+                    function(){
+                        $('#important').click(
+                            function(){
+                                $('#notes').toggle();
+                            }
+                        );
+                    }
+                );
+            </script>
+
+
+
+
+
+
+
+
+{#           <div class="card">#}
+{#  <div class="alert_content">#}
+{#    <h1>Modal</h1>#}
+{#    <label id="important" class="modal-open modal-label" for="modal-open">#}
+{#           <p style="font-weight: 800 ;">重要说明</p>#}
+{#       </label>#}
+{#    <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio" />#}
+{#    <div class="modal">#}
+{#      <label class="modal-label overlay">#}
+{#                <input type="radio" name="modal" value="close" class="modal-radio"/>#}
+{#            </label>#}
+{#      <div class="alert_content" id="significant">#}
+{#        <div class="top">#}
+{#          <h2>重要说明</h2>#}
+{#          <label class="modal-label close-btn">#}
+{#                    <input type="radio" name="modal" value="close" class="modal-radio"/>#}
+{#                </label>#}
+{#        </div>#}
+{#        <p>下载次数按照“下载文件”“解密并下载”计算，一旦下载次数使用完毕，则所有文件均不可下载！！！</p>#}
+{#        <p style="font-size: small; color: LightCoral;font-weight:bold;font-size: 15px;">如下载次数为1，请务必先下载hash值等文件，最后下载需要的文件</p>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#</div>#}
+
+
+
+
         </body>
 
         </html>

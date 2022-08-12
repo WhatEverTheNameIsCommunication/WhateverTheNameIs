@@ -13,6 +13,7 @@ import pandas as pd
 import numpy as np
 import csv
 import os
+from flask import current_app
 
 # t_str = "中国传媒大学"
 # t_bytes = t_str.encode('utf8')
@@ -27,33 +28,32 @@ import os
 # https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ed25519/
 
 def get_hmac(symmetric_key,Ciphertext): #Bytes
-    m=hmac(symmetric_key, Ciphertext, 'sha256')
-    m=m.digest() # 字节流
-    m=hmac.hexdigest() # str
+    m=hmac.digest(symmetric_key, Ciphertext, 'sha256')
+    # m=m.digest() # 字节流
+    # m=m.hexdigest() # str
     return m
 
 def Vertify_hmac(mes,symmetric_key,Ciphertext): #Bytes
-    m=hmac(symmetric_key, Ciphertext, 'sha256').digest()
-    hmac.compare_digest(m, mes)
+    m=hmac.digest(symmetric_key, Ciphertext, 'sha256')
     try:
         hmac.compare_digest(m, mes)# Ciphertext字节流/str
-        return True
+        return 1
     except Exception as err:
-        return False
+        return 0
 
-def Signature(private_key,symmetric_key,Ciphertext):
+def Signature(private_key,Ciphertext):
     loaded_private_key = ed25519.Ed25519PrivateKey.from_private_bytes(private_key) #已解密的私钥
     # 对加密文件的hmac进行签名,HMAC 采用EtM，使用对称加密的密钥
-    m= get_hmac(symmetric_key,Ciphertext) # 字节
-    signature = loaded_private_key.sign(m)
+    # m= get_hmac(symmetric_key,Ciphertext) 
+    signature = loaded_private_key.sign(Ciphertext)
     return signature
 
 def VertifySignature(public_key,signature,Ciphertext):
     try:
         public_key.verify(signature, Ciphertext)# Ciphertext字节流
-        return True
+        return 1
     except Exception as err:
-        return False
+        return 0
     # public_key = private_key.public_key()
     # # Raises InvalidSignature if verification fails
     # public_key.verify(signature, b"my authenticated message")
@@ -95,9 +95,12 @@ def generateSPK(emaildata):
 def Encode_SK(private_bytes):
     # 使用系统公钥对私钥进行加密
     # 提取csv文件 
-    matrix=pd.read_csv('System.csv')  # 请更改为自己电脑上的完整路径
+    file_name='System.csv'
+    file_path=os.path.join(current_app.config["SYSTEM_FOLDER"], file_name)
+    matrix=pd.read_csv(file_path)
     matrix=np.array(matrix)
     PK=matrix[0,0]
+    PK=os.path.join(current_app.config["SYSTEM_FOLDER"], PK)
     with open(PK, "rb") as key_file:
         public_key = serialization.load_pem_public_key(
         key_file.read()
@@ -116,9 +119,12 @@ def Encode_SK(private_bytes):
 def Decode_SK(private_bytes):
     # 使用系统私钥对私钥进行解密
     # 提取csv文件 
-    matrix=pd.read_csv('D:/homework-2022-s/XiaoXueQI/zcfxc/CUC/whatever/cuc/System.csv')  # 请更改为自己电脑上的完整路径
+    file_name='System.csv'
+    file_path=os.path.join(current_app.config["SYSTEM_FOLDER"], file_name)
+    matrix=pd.read_csv(file_path)
     matrix=np.array(matrix)
     SK=matrix[0,1] 
+    SK=os.path.join(current_app.config["SYSTEM_FOLDER"], SK)
     with open(SK, "rb") as key_file:
         private_key = serialization.load_pem_private_key(
             key_file.read(),
@@ -136,19 +142,14 @@ def Decode_SK(private_bytes):
 
 if __name__ == "__main__":
     
-    matrix=pd.read_csv('D:/homework-2022-s/XiaoXueQI/zcfxc/CUC/whatever/cuc/UserSPK.csv')  # 请更改为自己电脑上的完整路径
-    matrix=np.array(matrix)
-    SK=matrix[3,2] 
-    print(SK)
-    # string=list[0].decode()
 
-    # print(string)
-    # print(string.encode())
-    # # https://cryptography.io/en/latest/fernet/#implementation
-    # symmetric_key = base64.urlsafe_b64encode(key)#AES-GCM-256
-    # f = Fernet(symmetric_key)
-    # token = f.encrypt(b"Secret message!") #b''
-    # # token
-    # # b'...'
-    # decodeSK=f.decrypt(SK)
-    # # b'Secret message!'
+
+    signature_path=r'D:/homework-2022-s/XiaoXueQI/zcfxc/第三阶段3/whatever/cuc/instance/download/2-we_should_all_be_feminism-uploadsignature.txt'
+    with open(signature_path, "rb") as f:
+                f_bytes = f.read()
+                f.close()
+    hmac_text=b'\x13D\x8bO\xfb\x156)\xcf\xbc\x81\nY\xa3\x99\x13\xa4\x9b4\xb6\xef\xe6\t\xe0I\x9b\x9d\xde8\x9bT\x93'
+    public_key=b'\xb0\x18\xd2\xa3\x9d\xabE]\xe7Y\xc9\xf2\xe3a\xba(\xcc\x7f\x82\\,\xb8x\x1c\x8bE\xb8\x80\x81\x06B7'
+    loaded_public_key = ed25519.Ed25519PublicKey.from_public_bytes(public_key)
+    m=VertifySignature(loaded_public_key,f_bytes,hmac_text)
+    print(m)
