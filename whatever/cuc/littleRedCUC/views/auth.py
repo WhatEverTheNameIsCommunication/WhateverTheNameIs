@@ -259,8 +259,31 @@ def upload_file():
             key = generate_key(password, id, email)
             iv, cipher_bytes, en_tag = sym_encrypt(file_bytes, key)
             db_filename=secure_filename(file.filename)
+
+            # 添加重复文件“快传策略”
+            repeat = Post_File.query.filter_by(user_id =current_user.id,file=db_filename).first()
             file_name = str(user.id) + '-' + secure_filename(file.filename)
             file_path = str(Path(current_app.config['UPLOAD_FOLDER']) / file_name)
+            # print(2222222222222222222)
+            # print(repeat)
+            if repeat is not None:
+                ## 计算原始文件散列值
+
+                new_hash = hashlib.sha256(file_bytes)
+                new_hash = new_hash.hexdigest()
+                hash_text = repeat.hashtext
+                print(new_hash)
+                print(11111)
+                print(hash_text)
+                if new_hash == hash_text:
+                    flash('该文件已上传云端，无需重复上传')
+                    return render_template('file_upload.html', form=form)
+                else:
+                    flag = 1
+
+
+
+
             file_object = open(file_path, 'wb')
             file_object.write(cipher_bytes)
             file_object.close()
@@ -281,6 +304,10 @@ def upload_file():
             hash_text=hash_text.hexdigest() 
             ##
 
+            if flag==1:
+                temp = db_filename.split('.')
+                db_filename = temp[0]+'-new.'+temp[1]
+                print(db_filename)
             post = Post_File(user_id=current_user.id,
                              user_name=current_user.name,
                              text=text,
@@ -294,12 +321,16 @@ def upload_file():
 
             db.session.add(post)
             db.session.commit()
-            flash('上传成功')
 
+            flash('上传成功')
+            flash('您已有同名文件（内容不同），已自动为您添加后缀“-new”')
             files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
             form = ShareForm()
             user = current_user.id
             user = User.query.filter_by(id=user).first()
+
+
+
             return render_template('file.html', files=files, form=form, user=user.name)
 
             # return redirect(url_for('auth.display_file'))
