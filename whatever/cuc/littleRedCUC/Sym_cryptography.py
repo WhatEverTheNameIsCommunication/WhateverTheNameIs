@@ -1,3 +1,5 @@
+# 对称加密模块
+
 import base64
 import os
 from cryptography.hazmat.primitives.ciphers import algorithms
@@ -34,15 +36,12 @@ def generate_key(keyword,label_,context_):
 def sym_encrypt(plaintext,k):
 
     iv = os.urandom(12)
-    # print(key)
     encryptor = Cipher(
         algorithms.AES(key=k),
         modes.GCM(iv),
     ).encryptor()
 
     ciphertext = encryptor.update(plaintext) + encryptor.finalize()
-    # print('^^^^^^^^^^^^^^^^^^^')
-    # print(encryptor.tag)
     return iv, ciphertext, encryptor.tag
 
 

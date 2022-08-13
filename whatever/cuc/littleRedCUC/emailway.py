@@ -9,30 +9,13 @@ import os
 
 # 生成一次性密钥
 def generateToken():
-    # totp = TOTP(key=None,format="base32", new=True,digits = 6, alg = "sha512",period=60)
-    # # (key=None, format="base32", *, new=False, **kwdspasslib.totp.TOTP)
-    # totp.generate()
-    # password = totp.generate().token
-    # time=totp.generate().expire_time
-    # print (password)    
-    # print (totp.generate().expire_time)
-    # return totp
     totp=TotpFactory.new()
     data=totp.to_json()
     return data
-    #totp = TotpFactory.from_source(data)
-    # >>> totp.base32_key
-    # 'FLEQC3VO6SIT3T7GN2GIG6ONPXADG5CZ'
+
  
 # 认证
 def vertifToken(token,source):
-    # try:
-    #     totp.match(code,time=totp.generate().expire_time) #使用
-    #     print ('success')
-    #     return True
-    # except Exception as err:
-    #     print ("False")
-    #     return False
     try:
         match = TotpFactory.verify(token, source)
         # totp.match(token,time=totp.generate().expire_time) #使用

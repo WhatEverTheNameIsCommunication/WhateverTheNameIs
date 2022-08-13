@@ -59,22 +59,22 @@ class Post_File(db.Model):
     file = db.Column(db.String(255), nullable=False)
     if_pub = db.Column(db.Boolean, default=False)
     if_share = db.Column(db.Boolean, default=False)
-    key = db.Column(db.String, nullable=False)  # 这是用系统公钥加密过的用来加密文件的对称密钥
-    iv = db.Column(db.String)  # 这个也加密一下吧
-    text = db.Column(db.String(300))
-    tag = db.Column(db.String)  # 这个也加密一下吧
-    # 增加一个hmac值
-    hmac_text = db.Column(db.String, nullable=False)
-    # 增加一个原始文件哈希值
-    hashtext = db.Column(db.String, nullable=False)
 
+    # 这是用系统公钥加密过的用来加密文件的对称密钥
+    key = db.Column(db.String, nullable=False)
+    iv = db.Column(db.String)
+    text = db.Column(db.String(300))
+    tag = db.Column(db.String)
+
+    hmac_text = db.Column(db.String, nullable=False)
+    hashtext = db.Column(db.String, nullable=False)
 
 
 class Share_File(db.Model):
     share_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer)
     file_id = db.Column(db.Integer, nullable=False)
-    share_code = db.Column(db.String, nullable=False)  # hash
+    share_code = db.Column(db.String, nullable=False)  # 存放hash
     TTL = db.Column(db.Integer)  # 限制次数
     DDL = db.Column(db.Integer)  # 限制时间
     share_time = db.Column(db.DateTime, default=datetime.now)

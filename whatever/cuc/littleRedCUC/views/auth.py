@@ -1,14 +1,11 @@
 import datetime
-from email import message
-from flask import render_template, redirect, url_for, request, send_from_directory, current_app, flash, make_response, \
-    send_file
-import flask
+
+from flask import render_template, redirect, url_for, request, send_from_directory, current_app, flash
 from flask_login import login_required, login_user, logout_user, current_user
-from flask_restful import reqparse
+
 from itsdangerous import URLSafeTimedSerializer
 
 from littleRedCUC.forms import SignInForm, VertifyForm, FindForm, ChangepasswdForm, PostForm, ShareForm
-
 from littleRedCUC.db_models import User, db, UserRole, Post_File, Share_File
 from littleRedCUC.blueprints import auth
 from littleRedCUC.extensions import login_manager
@@ -18,19 +15,17 @@ from littleRedCUC.DigitalSignature import Encode_SK
 from littleRedCUC.Sym_cryptography import sym_encrypt, generate_key
 from littleRedCUC.share import share_and_download
 import csv
-import os
 import pandas as pd
 import numpy as np
 import re
 from littleRedCUC.extensions import bcrypt
-import hashlib 
-import base64
+import hashlib
 import os
 from pathlib import Path
 from cryptography.hazmat.primitives.ciphers import algorithms
 from cryptography.hazmat.primitives.kdf.kbkdf import CounterLocation, KBKDFCMAC, Mode
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from littleRedCUC.DigitalSignature import Decode_SK,Signature,get_hmac
+from littleRedCUC.DigitalSignature import Decode_SK, Signature, get_hmac
 import time
 
 from werkzeug.utils import secure_filename
@@ -41,11 +36,10 @@ def load_user(userid):
     return User.query.filter(User.id == userid).first()
 
 
-
 @auth.route('/')
 def home():
     files = Post_File.query.filter(Post_File.if_pub == True).all()
-    return render_template('layout.html',files=files)
+    return render_template('layout.html', files=files)
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -59,27 +53,27 @@ def login():
                 print('login ')
                 next = request.args.get('next')
                 return redirect(next or url_for('auth.home'))
-            #     if form.emailway.data:
-            #         totp=TotpFactory.new()
-            #         data=totp.to_json()
-            #         # totp = TOTP.from_source(data)
-            #         sendMail(totp.generate().token,'','','',form.email.data,'')
-            #         # 存文件cv2???里传参....
-            #         headers=['email_address','totp']
-            #         data = [form.email.data, data]
-            #         file_name='2FA.csv'
-            #         file_path=os.path.join(current_app.config["SYSTEM_FOLDER"], file_name)
-            #         with open(file_path, mode='a', newline='', encoding='utf-8-sig') as f:
-            #                 csv_writer = csv.writer(f, delimiter=',')
-            #                 if not os.path.getsize('2FA.csv'):
-            #                     csv_writer.writerow(headers)
-            #                 csv_writer.writerow(data)
-            #     return redirect(url_for('auth.authentic'))
+                if form.emailway.data:
+                    totp = TotpFactory.new()
+                    data = totp.to_json()
+
+                    sendMail(totp.generate().token, '', '', '', form.email.data, '')
+
+                    headers = ['email_address', 'totp']
+                    data = [form.email.data, data]
+                    file_name = '2FA.csv'
+                    file_path = os.path.join(current_app.config["SYSTEM_FOLDER"], file_name)
+                    with open(file_path, mode='a', newline='', encoding='utf-8-sig') as f:
+                        csv_writer = csv.writer(f, delimiter=',')
+                        if not os.path.getsize('2FA.csv'):
+                            csv_writer.writerow(headers)
+                        csv_writer.writerow(data)
+                return redirect(url_for('auth.authentic'))
 
         return render_template('login.html', form=form)
     except:
         flash('用户名或密码错误！')
-        return render_template('login.html',form = form)
+        return render_template('login.html', form=form)
 
 
 @auth.route('/2fa', methods=['GET', 'POST'])
@@ -87,8 +81,8 @@ def authentic():
     form = VertifyForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        file_name='2FA.csv'
-        file_path=os.path.join(current_app.config["SYSTEM_FOLDER"], file_name)
+        file_name = '2FA.csv'
+        file_path = os.path.join(current_app.config["SYSTEM_FOLDER"], file_name)
         matrix = pd.read_csv(file_path)
         matrix = np.array(matrix)
         a = matrix.shape[0]
@@ -96,12 +90,9 @@ def authentic():
             if matrix[i][0] == form.email.data:
                 key = matrix[i][1]
                 break
-        print(key)
-        print(form.vc.data)
-        # if vertifToken(form.vc.data,key):
+
         try:
             match = TotpFactory.verify(form.vc.data, key)
-            # totp.match(token,time=totp.generate().expire_time) #使用
             login_user(user)
             return redirect(url_for('auth.home'))
         except Exception as err:
@@ -118,13 +109,13 @@ def find():
         if user:
             totp = TotpFactory.new()
             data = totp.to_json()
-            # totp = TOTP.from_source(data)
+
             sendMail(totp.generate().token, '', '', '', form.email.data, '')
-            # 存文件cv2???里传参....
+
             headers = ['email_address', 'totp']
             data = [form.email.data, data]
-            file_name='2FA.csv'
-            file_path=os.path.join(current_app.config["SYSTEM_FOLDER"], file_name)
+            file_name = '2FA.csv'
+            file_path = os.path.join(current_app.config["SYSTEM_FOLDER"], file_name)
             with open(file_path, mode='a', newline='', encoding='utf-8-sig') as f:
                 csv_writer = csv.writer(f, delimiter=',')
                 if not os.path.getsize('2FA.csv'):
@@ -142,21 +133,19 @@ def changepasswd():
     form = VertifyForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        file_name='2FA.csv'
-        file_path=os.path.join(current_app.config["SYSTEM_FOLDER"], file_name)
-        matrix = pd.read_csv(file_path)  
+        file_name = '2FA.csv'
+        file_path = os.path.join(current_app.config["SYSTEM_FOLDER"], file_name)
+        matrix = pd.read_csv(file_path)
         matrix = np.array(matrix)
         a = matrix.shape[0]
         for i in range(a - 1, -1, -1):
             if matrix[i][0] == form.email.data:
                 key = matrix[i][1]
                 break
-        print(key)
-        print(form.vc.data)
+
         # if vertifToken(form.vc.data,key):
         try:
             match = TotpFactory.verify(form.vc.data, key)
-            # totp.match(token,time=totp.generate().expire_time) #使用
             return redirect(url_for('auth.changepasswd2'))
         except Exception as err:
             return redirect(url_for('auth.changepasswd'))
@@ -202,21 +191,11 @@ def changepasswd2():
     return render_template('changepasswd.html', form=form)
 
 
-# @auth.route('/layout')
-# def layout():
-#     return render_template('layout.html')
-
-
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
     return 'Logged out successfully!'
-
-
-# @auth.route('/')
-# def layout2():
-#     return render_template('layout.html')
 
 
 @auth.route('/file')
@@ -231,7 +210,7 @@ def display_file():
     form = ShareForm()
     user = current_user.id
     user = User.query.filter_by(id=user).first()
-    return render_template('file.html', files=files,form=form,user = user.name)
+    return render_template('file.html', files=files, form=form, user=user.name)
 
 
 @auth.route('/file_upload', methods=['GET', 'POST'])
@@ -239,9 +218,6 @@ def display_file():
 def upload_file():
     try:
         user = User.query.filter_by(id=current_user.id).first()
-        print(current_user.id)
-        print(user)
-        print(user.password)
     except:
         flash('Please login first.')
         return redirect(url_for('auth.login'))
@@ -258,31 +234,31 @@ def upload_file():
             id = user.id
             key = generate_key(password, id, email)
             iv, cipher_bytes, en_tag = sym_encrypt(file_bytes, key)
-            db_filename=secure_filename(file.filename)
+            db_filename = secure_filename(file.filename)
 
             # 添加重复文件“快传策略”
-            repeat = Post_File.query.filter_by(user_id =current_user.id,file=db_filename).first()
-            file_name = str(user.id) + '-' + secure_filename(file.filename)
-            file_path = str(Path(current_app.config['UPLOAD_FOLDER']) / file_name)
-            # print(2222222222222222222)
-            # print(repeat)
+            repeat = Post_File.query.filter_by(user_id=current_user.id, file=db_filename).first()
             if repeat is not None:
-                ## 计算原始文件散列值
-
                 new_hash = hashlib.sha256(file_bytes)
                 new_hash = new_hash.hexdigest()
                 hash_text = repeat.hashtext
-                print(new_hash)
-                print(11111)
-                print(hash_text)
+
                 if new_hash == hash_text:
                     flash('该文件已上传云端，无需重复上传')
                     return render_template('file_upload.html', form=form)
+
                 else:
-                    flag = 1
+                    for i in range(1, 100):
+                        temp = db_filename.split('.')
+                        new_db_filename = temp[0] + '(' + str(i) + ').' + temp[1]
+                        repeat = Post_File.query.filter_by(user_id=current_user.id, file=new_db_filename).first()
+                        if repeat is None:
+                            db_filename = new_db_filename
+                            break
+                    flash('您已有同名文件（内容不同），已自动为您添加后缀重命名为' + db_filename)
 
-
-
+            file_name = str(user.id) + '-' + db_filename
+            file_path = str(Path(current_app.config['UPLOAD_FOLDER']) / file_name)
 
             file_object = open(file_path, 'wb')
             file_object.write(cipher_bytes)
@@ -290,50 +266,37 @@ def upload_file():
             key = Encode_SK(key)
             iv = Encode_SK(iv)
             en_tag = Encode_SK(en_tag)
-            # key = key
-            # iv = iv
-            # en_tag = en_tag
-            ## 计算hmac
-            private_key=Decode_SK(user.sec_key)
-            symmetric_key=key
-            m=get_hmac(symmetric_key,cipher_bytes)
-            # m=Signature(private_key,symmetric_key,cipher_bytes)
-            ##
-            ## 计算原始文件散列值
-            hash_text= hashlib.sha256(file_bytes)
-            hash_text=hash_text.hexdigest() 
-            ##
 
-            if flag==1:
-                temp = db_filename.split('.')
-                db_filename = temp[0]+'-new.'+temp[1]
-                print(db_filename)
+            ## 计算hmac
+            private_key = Decode_SK(user.sec_key)
+            symmetric_key = key
+            m = get_hmac(symmetric_key, cipher_bytes)
+
+            ## 计算原始文件散列值
+            hash_text = hashlib.sha256(file_bytes)
+            hash_text = hash_text.hexdigest()
+
             post = Post_File(user_id=current_user.id,
                              user_name=current_user.name,
                              text=text,
                              file=db_filename,
-                             key=key, # 加密存储
+                             key=key,  # 加密存储
                              iv=iv,
                              tag=en_tag,
                              hashtext=hash_text,
-                             hmac_text = m #字节流
-                            )
+                             hmac_text=m  # 字节流
+                             )
 
             db.session.add(post)
             db.session.commit()
-
             flash('上传成功')
-            flash('您已有同名文件（内容不同），已自动为您添加后缀“-new”')
             files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
             form = ShareForm()
             user = current_user.id
             user = User.query.filter_by(id=user).first()
 
-
-
             return render_template('file.html', files=files, form=form, user=user.name)
 
-            # return redirect(url_for('auth.display_file'))
         else:
             flash('请注意您上传文件的有效性。')
             return render_template('file_upload.html', form=form)
@@ -346,9 +309,9 @@ def upload_file():
 @auth.route('/shared_file.html', methods=['GET', 'POST'])
 @login_required
 def shared_file():
-    user_id= current_user.id
-    files = Post_File.query.filter(Share_File.user_id==user_id,Post_File.if_share==True).all()
-    return render_template('shared_file.html',files=files)
+    user_id = current_user.id
+    files = Post_File.query.filter(Share_File.user_id == user_id, Post_File.if_share == True).all()
+    return render_template('shared_file.html', files=files)
 
 
 @auth.route('/share', methods=['POST', 'GET'])
@@ -386,38 +349,33 @@ def share():
         token = signer.dumps(requirement)
         url = 'https://' + current_app.config['SERVER_NAME'] + '/verify?token=' + token
 
-
         ## 分享码加密文件
-        sharefile = Post_File.query.filter(Post_File.file_id == file_id).first() # 这里是要分享的文件本身，即在postfile中
-        id_ = sharefile.file_id     # file_id != share_id
-        print(id_)
+        sharefile = Post_File.query.filter(Post_File.file_id == file_id).first()  # 这里是要分享的文件本身，即在postfile中
+        id_ = sharefile.file_id  # file_id != share_id
         sad = share_and_download(id_)
-        iv, share_bytes, tag, share_code,stamp = sad.share_encrypt()
+        iv, share_bytes, tag, share_code, stamp = sad.share_encrypt()
         share_code = bcrypt.generate_password_hash(share_code)
         en_iv = Encode_SK(iv)
         en_tag = Encode_SK(tag)
 
-
         # 生成分享文本
-        msg = sad.sharing_text(url)
-        flash(msg)
-
+        msg1,msg2 = sad.sharing_text(url)
+        flash(msg1)
+        flash(msg2)
 
         # 把 if_share 字段设置为true
         post = Post_File.query.filter(Post_File.file_id == id_).first()
         post.if_share = True
 
         key = sad.hash_needed_key()
-        # key = Encode_SK(key)
-        
+
         ## 计算hmac
-        user=User.query.filter_by(id = current_user.id).first()
-        print('user:',user)
+        user = User.query.filter_by(id=current_user.id).first()
+        print('user:', user)
         sec_key = user.sec_key
-        private_key=Decode_SK(sec_key)
-        symmetric_key=key
-        m=get_hmac(symmetric_key,share_bytes)
-        # m=Signature(private_key,symmetric_key,share_bytes)
+        private_key = Decode_SK(sec_key)
+        symmetric_key = key
+        m = get_hmac(symmetric_key, share_bytes)
 
         share = Share_File(
             user_id=current_user.id,
@@ -429,20 +387,16 @@ def share():
             hmac=m,
             iv=en_iv,
             tag=en_tag,
-            stamp = stamp
+            stamp=stamp
         )
         db.session.add(share)
         db.session.commit()
 
         # 用分享码加密的文件保存下来，文件名： share_id-user_id-文件名（上传时）
-        l = len(str(id_))
-        shared = Share_File.query.filter_by(file_id = id_)[-1]
-        # print(shared)
+        shared = Share_File.query.filter_by(file_id=id_)[-1]
         name = post.file
-        name = str(post.user_id)+'-'+name
-        # name = name[l + 1:]
+        name = str(post.user_id) + '-' + name
         share_id = shared.share_id
-        # print(share_id)
         name = str(share_id) + '-' + name
         path_f = str(Path(current_app.config["SHARED_FOLDER"]) / name)
         path = str(Path(current_app.config["SHARED_FOLDER"]))
@@ -453,6 +407,7 @@ def share():
         files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
         form = ShareForm()
         return render_template('file.html', files=files, form=form)
+
     # 取消分享
     else:
         file_id = request.args["id"]
@@ -470,48 +425,45 @@ def share():
         user = current_user.id
         user = User.query.filter_by(id=user).first()
         return render_template('file.html', files=files, form=form, user=user.name)
-        # return render_template('file.html', files=files, form=form)
 
 
-@auth.route('/file/<option>/' ,methods=['GET']) # {{ url_for('auth.download',option=1,file_id=file.file_id) }} 
+
+@auth.route('/file/<option>/', methods=['GET'])  # {{ url_for('auth.download',option=1,file_id=file.file_id) }}
 @login_required
-def download(option): # 上传者下载
+def download(option):  # 上传者下载
 
     # 下载加密文件哈希值
-    if option=='1':
+    if option == '1':
         try:
             file_id = request.args["file_id"]
-            str_list=''.join(file_id)
-            file_id=int(str_list)
+            str_list = ''.join(file_id)
+            file_id = int(str_list)
             post = Post_File.query.filter_by(file_id=file_id).first()
             file_name = post.file
             file_name = str(post.user_id) + '-' + file_name
-            file_name = file_name.split('.',1)[0]
-            hashfile_name = file_name + '-' +'uploadEhash.txt'
-            hashfile_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) /hashfile_name)
-            print(hashfile_path)
+            file_name = file_name.split('.', 1)[0]
+            hashfile_name = file_name + '-' + 'uploadEhash.txt'
+            hashfile_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) / hashfile_name)
+
             if not Path(hashfile_path).exists():
                 file_name = str(post.user_id) + '-' + post.file
-                file_path=os.path.join(current_app.config["UPLOAD_FOLDER"], file_name)
-                print(file_path)
+                file_path = os.path.join(current_app.config["UPLOAD_FOLDER"], file_name)
+
                 with open(file_path, "rb") as f:
                     f_bytes = f.read()
                     f.close()
 
-                hash_text= hashlib.sha256(f_bytes)
-                hash_text=hash_text.hexdigest() #加密后文件哈希值
-                print(hash_text)
-                file_object = open(hashfile_path, 'w',encoding='UTF-8')
+                hash_text = hashlib.sha256(f_bytes)
+                hash_text = hash_text.hexdigest()  # 加密后文件哈希值
+
+                file_object = open(hashfile_path, 'w', encoding='UTF-8')
                 file_object.write(hash_text)
                 file_object.close()
-            # return make_response(send_file(
-            #   signature_path,
-            #   attachment_filename="uploadEhash.txt",
-            #   as_attachment=True
-            # ))
+
             user_id = post.user_id
             fname = hashfile_name[len(str(user_id)) + 1:]
-            return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=hashfile_name,as_attachment=True,attachment_filename=fname)
+            return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=hashfile_name, as_attachment=True,
+                                       attachment_filename=fname)
         except Exception as err:
             flash('下载加密文件哈希值')
             files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
@@ -521,28 +473,28 @@ def download(option): # 上传者下载
             return render_template('file.html', files=files, form=form, user=user.name)
 
     # 下载原始文件哈希值
-    if option=='2':
+    if option == '2':
         try:
             file_id = request.args["file_id"]
-            str_list=''.join(file_id)
-            file_id=int(str_list)
+            str_list = ''.join(file_id)
+            file_id = int(str_list)
             post = Post_File.query.filter_by(file_id=file_id).first()
-            file_name=post.file
+            file_name = post.file
             file_name = str(post.user_id) + '-' + file_name
             file_name = file_name.split('.', 1)[0]
-            hashfile_name = file_name + '-' +'uploadhash.txt'
-            hashfile_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) /hashfile_name)
+            hashfile_name = file_name + '-' + 'uploadhash.txt'
+            hashfile_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) / hashfile_name)
             if not Path(hashfile_path).exists():
-                hash_text=post.hashtext #原始文件哈希值
-                file_object = open(hashfile_path, 'w',encoding='UTF-8')
+                hash_text = post.hashtext  # 原始文件哈希值
+                file_object = open(hashfile_path, 'w', encoding='UTF-8')
                 file_object.write(hash_text)
                 file_object.close()
             user_id = post.user_id
             fname = hashfile_name[len(str(user_id)) + 1:]
-            return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=hashfile_name,as_attachment=True,attachment_filename=fname)
+            return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=hashfile_name, as_attachment=True,
+                                       attachment_filename=fname)
         except Exception as err:
             flash('下载原始文件哈希值')
-            # return redirect('/auth/file')
             files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
             form = ShareForm()
             user = current_user.id
@@ -550,31 +502,30 @@ def download(option): # 上传者下载
             return render_template('file.html', files=files, form=form, user=user.name)
 
     # 下载签名文件
-    if option=='3':
+    if option == '3':
         try:
             file_id = request.args["file_id"]
-            str_list=''.join(file_id)
-            file_id=int(str_list)
+            str_list = ''.join(file_id)
+            file_id = int(str_list)
             post = Post_File.query.filter_by(file_id=file_id).first()
             file_name = post.file
-            file_name=str(post.user_id) + '-' + file_name
+            file_name = str(post.user_id) + '-' + file_name
             file_name = file_name.split('.', 1)[0]
-            signature_name = file_name + '-' +'uploadsignature.txt'
-            signature_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) /signature_name)
-            print(signature_path)
+            signature_name = file_name + '-' + 'uploadsignature.txt'
+            signature_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) / signature_name)
             if not Path(signature_path).exists():
-                m=post.hmac_text
+                m = post.hmac_text
                 user_id = post.user_id
-                user=User.query.filter_by(id=user_id).first()
-                private_key=Decode_SK(user.sec_key)
-                print(private_key)
-                m=Signature(private_key,m) # 对hmac签名
+                user = User.query.filter_by(id=user_id).first()
+                private_key = Decode_SK(user.sec_key)
+                m = Signature(private_key, m)  # 对hmac签名
                 file_object = open(signature_path, 'wb')
                 file_object.write(m)
                 file_object.close()
             user_id = post.user_id
-            fname = signature_name[len(str(user_id))+1:]
-            return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=signature_name,as_attachment=True,attachment_filename=fname)
+            fname = signature_name[len(str(user_id)) + 1:]
+            return send_from_directory(current_app.config["DOWNLOAD_FOLDER"], path=signature_name, as_attachment=True,
+                                       attachment_filename=fname)
         except Exception as err:
             flash('下载签名文件错误')
             files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
@@ -585,24 +536,22 @@ def download(option): # 上传者下载
             # return redirect('/auth/file')
 
     # 解密并下载
-    if option=='4':
+    if option == '4':
         try:
             file_id = request.args["file_id"]
             dl = share_and_download(file_id)
             path, name = dl.plain_download(False)
             return send_from_directory(path, name, as_attachment=True)
         except:
-            print('ERROR!!!!!!!!!!!!!!!!!!!')
             flash('解密并下载错误')
             files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
             form = ShareForm()
             user = current_user.id
             user = User.query.filter_by(id=user).first()
             return render_template('file.html', files=files, form=form, user=user.name)
-            # return redirect('/auth/file')
 
     # 下载(加密文件）
-    if option=='5':
+    if option == '5':
         try:
             file_id = request.args["file_id"]
             post = Post_File.query.filter_by(file_id=file_id).first()
@@ -610,14 +559,14 @@ def download(option): # 上传者下载
             name = str(post.user_id) + '-' + name
 
             l = len(str(post.user_id))
-            fname = 'en-'+name[l+1:]
+            fname = 'en-' + name[l + 1:]
 
             file_path = str(Path(current_app.config['UPLOAD_FOLDER']) / name)
             path = str(Path(current_app.config['UPLOAD_FOLDER']))
 
-            return send_from_directory(path, name, as_attachment=True,attachment_filename=fname)
+            return send_from_directory(path, name, as_attachment=True, attachment_filename=fname)
+
         except:
-            print('ERROR!!!!!!!!!!!!!!!!!!!')
             flash('下载加密文件错误')
             files = Post_File.query.filter(Post_File.user_id == current_user.id).all()
             form = ShareForm()
@@ -639,7 +588,8 @@ def public():
     db.session.commit()
     user = current_user.id
     user = User.query.filter_by(id=user).first()
-    return render_template('file.html', files=files, form=form,user=user.name)
+    return render_template('file.html', files=files, form=form, user=user.name)
+
 
 @auth.route('/private')
 @login_required
@@ -654,6 +604,7 @@ def private():
     db.session.commit()
     return render_template('file.html', files=files, form=form)
 
+
 @auth.route('/delete')
 @login_required
 def delete():
@@ -661,7 +612,6 @@ def delete():
 
     post = Post_File.query.filter(Post_File.file_id == file_id).first()
     share = Share_File.query.filter(Share_File.file_id == file_id).all()
-    print(post,share)
     file_name = post.file
     file_name = str(post.user_id) + '-' + file_name
 
@@ -683,22 +633,17 @@ def delete():
             Ehashfile_name = dl_fname + '-' + 'uploadEhash.txt'
             hashfile_path = str(Path(current_app.config['DOWNLOAD_FOLDER']) / hashfile_name)
             os.remove(os.path.join(path, signature_name))
-            print('s 删除成功')
             os.remove(os.path.join(path, hashfile_name))
-            print('hash 删除成功')
             os.remove(os.path.join(path, Ehashfile_name))
-            print('EHASH ')
-
-
 
             # 删除shared中的所有有关文件
             for i in share:
                 shared_id = i.share_id
 
-                share_name = str(shared_id)+'-'+file_name
+                share_name = str(shared_id) + '-' + file_name
                 path = str(Path(current_app.config["SHARED_FOLDER"]))
                 os.remove(os.path.join(path, share_name))
-                print('shared')
+
         except:
             # 认为没有share过，没有download过，所以直接放弃
             pass
