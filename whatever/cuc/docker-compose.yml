@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+
+
+    es_python_app:
+        image: es_python_image
+        restart: always
+        ports:
+        - 8080:80
+        volumes:
+        - ./cuc:/cuc
+        command: python main.py 
+
+networks:
+  overlay:
