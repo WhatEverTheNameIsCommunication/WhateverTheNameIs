@@ -422,7 +422,7 @@
                         <ul class="sidebar-menu">
                             <li class="header">菜单</li>
         
-                            <li id="admin-index"><a href="index.html"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
+                            <li id="admin-index"><a href="{{ url_for('auth.home') }}"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
         
                             <!-- 菜单 -->
         
@@ -440,25 +440,25 @@
                           
         
                             <li class="treeview">
-                                <a href="/file_upload">
+                                <a href="{{ url_for('auth.upload_file') }}">
                                     <i class="fa fa-upload"></i> <span>文件上传</span>
                                 </a>
                             </li>
         
                             <li class="treeview">
-                                <a href="/file">
+                                <a href="{{ url_for('auth.display_file') }}">
                                     <i class="fa fa-folder"></i> <span>我的文件</span>
                                 </a>
                             </li>
         
                             <li class="treeview">
-                                <a href="/shared_file"> 
+                                <a href="{{ url_for('auth.shared_file') }}">
                                     <i class="fa fa-cloud"></i> <span>共享文件</span>
                                 </a>
                             </li>
         
                             <li class="treeview">
-                                <a href="/logout"> 
+                                <a href="{{ url_for('auth.logout') }}">
                                     <i class="fa fa-user-times"></i> <span>退出登录</span>
                                 </a>
                             </li>
@@ -478,7 +478,7 @@
                     <small>Shared File</small>
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+                    <li><a href="{{ url_for('auth.home') }}"><i class="fa fa-dashboard"></i> 首页</a></li>
                     <li class="active">共享文件</li>
                 </ol>
             </section>
@@ -499,21 +499,47 @@
                                             <p>{{message}}</p>
                                         {% endfor %}
                                     {% endwith %}
-                                    {% if list %}
-                                        <p>当前有以下共享文件</p>
+                                    {% if files %}
+                                        <p>您当前有以下共享文件</p>
+                                        <table class="table table-striped">
+                                        <tr>
+                                                <th style="width: 10px"></th>
+                                                <th style="width: 300px">文件名</th>
+                                                <th style="width: 1000px">操作</th>
+                                                <th style="width: 600px">描述</th>
+                                            </tr>
                                         <ui>
-                                        {% for e in list %}
-                                            <li>
-                                                {{e[0]}} by {{e[1]}} (已加密)
-                                                <a href="/shared_file/download?filename={{e[0]}}&username={{e[1]}}&type=encrypted">下载</a>
-                                                <a href="/shared_file/download?filename={{e[0]}}&username={{e[1]}}&type=signature">下载签名文件</a>
-                                            </li>
+{#                                        {% for e in list %}#}
+{#                                            <li>#}
+{#                                                {{e[0]}} by {{e[1]}} (已加密)#}
+{#                                                <a href="/shared_file/download?filename={{e[0]}}&username={{e[1]}}&type=encrypted">下载</a>#}
+{#                                                <a href="/shared_file/download?filename={{e[0]}}&username={{e[1]}}&type=signature">下载签名文件</a>#}
+{#                                            </li>#}
+{#                                        {% endfor %}#}
+
+                                        {% for file in files %}
+                                                <tr>
+                                                    <th style="width: 10px">※</th>
+                                                    <th>{{file.file}}(已加密)</th>
+                                                    <th>
+                                                    <a href="{{ url_for('auth.download',option=5,file_id=file.file_id) }}">下载</a>
+                                                    <a href="{{ url_for('auth.download',option=1,file_id=file.file_id) }}">下载加密文件哈希值</a>
+                                                    <a href="{{ url_for('auth.download',option=4,file_id=file.file_id) }}">解密并下载</a>
+                                                    <a href="{{ url_for('auth.download',option=2,file_id=file.file_id) }}">下载原始文件哈希值</a>
+                                                    <a href="{{ url_for('auth.download',option=3,file_id=file.file_id) }}">下载签名文件</a>
+                                                    <a href="{{ url_for('auth.share',id=file.file_id) }}">取消共享</a>
+                                                    </th>
+                                                    <th>{{ file.text }}</th>
+                                                </tr>
                                         {% endfor %}
+
+
                                         </ui>
                                     {% else %}
                                         <p>当前没有任何共享文件</p>
                                     {% endif %}
-                                    <a href="/public_key">获取网站公钥</a>
+                                        </table>
+{#                                    <a href="/public_key">获取网站公钥</a>#}
                                     </div>
                                     <!-- /.box-body -->
                                 </form>

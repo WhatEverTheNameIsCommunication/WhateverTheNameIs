@@ -85,10 +85,15 @@ def create_app():
     @click.argument('password')
     
     def create_admin(email, name, password):
+        PK=flask_app.instance_path+'system/SystemPK.pem'
+        SK=flask_app.instance_path+'system/SystemSK.pem'
         user = User(email=email,
                     # email_confirmed=True,
                     name=name,
-                    role=UserRole.ADMIN)
+                    role=UserRole.ADMIN,
+                    pub_key=PK,
+                    sec_key=SK
+                    )
         user.password = password
 
         db.session.add(user)

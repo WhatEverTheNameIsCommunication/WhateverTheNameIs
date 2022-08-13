@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 
+
 <head>
     <!-- 页面meta -->
     <meta charset="utf-8">
@@ -119,7 +120,7 @@
     <link rel="stylesheet" href="/static/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.css">
 </head>
 
-<body class="hold-transition skin-blue-light sidebar-mini">
+<body  class="hold-transition skin-blue-light sidebar-mini">
 
     <div class="wrapper">
 
@@ -422,7 +423,7 @@
                 <ul class="sidebar-menu">
                     <li class="header">菜单</li>
 
-                    <li id="admin-index"><a href="index.html"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
+                    <li id="admin-index"><a href="{{ url_for('auth.home') }}"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
 
                     <!-- 菜单 -->
 
@@ -434,9 +435,9 @@
 
                     <li class="treeview">
                         <a href="{{ url_for('anony.signup') }}">
-                    <i class="fa fa-user-plus"></i> <span>注册</span>
+                    <i class="fa fa-user-plus"></i> <span>注册</span></a>
                     </li>
-                  </a>
+
 
                     <li class="treeview">
                         <a href="{{ url_for('auth.upload_file') }}">
@@ -451,16 +452,14 @@
                     </li>
 
                     <li class="treeview">
-                        <a href="{{ url_for('auth.shared_file') }}"> 
+                        <a href="{{ url_for('auth.shared_file') }}">
                             <i class="fa fa-cloud"></i> <span>共享文件</span>
                         </a>
                     </li>
 
                     <li class="treeview">
-                        <a href="{{ url_for('auth.logout') }}"> 
-                            <i class="fa fa-user-times"></i> <span>退出登录</span>
-                        </a>
-                    </li>
+                        <a href="{{ url_for('auth.logout') }}">
+                            <i class="fa fa-user-times"></i> <span>退出登录</span></a>
 
                 </ul>
             </section>
@@ -471,8 +470,78 @@
         <!-- 内容区域 -->
         <div class="content-wrapper">
 
+            <section class="content-header">
+                <h1>
+                    公开文件
+                    <small>Public</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="{{ url_for('auth.home') }}"><i class="fa fa-dashboard"></i> 首页</a></li>
+                    <li class="active">公开文件下载</li>
+                </ol>
+            </section>
+
             <!-- 正文区域 -->
-           <img src="/static/img/photo1.png" width="100%" height="100%"/>
+{#           <img src="/static/img/photo1.png" width="100%" height="100%"/>#}
+            <section class="content">
+                            <!-- general form elements -->
+                            <div class="box box-primary">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">公开文件</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <!-- form start -->
+                                <div role="form">
+                                    <div class="box-body">
+                                        {% with messages = get_flashed_messages() %}
+                                            {% for message in messages %}
+                                                <p>{{message}}</p>
+                                            {% endfor %}
+                                        {% endwith %}
+                                        <p>您好，小白杨！欢迎来到中传放心传！</p>
+
+                                        {% if files %}
+
+
+                                                    <p>可公开下载的文件</p>
+                                                    <table class="table table-striped">
+                                        <tr>
+                                                <th style="width: 10px"> </th>
+                                                <th style="width: 300px">文件名</th>
+                                                <th style="width: 1000px">操作</th>
+                                                <th style="width: 600px">描述</th>
+                                            </tr>
+                                                    <ui>
+                                                    {% for file in files %}
+                                                        <tr>
+                                                        <th style="width: 10px">※</th>
+                                                            <th>{{file.file}}</th>
+                                                            <th>
+                                                            <a href="{{ url_for('anony.pub_DL',option=1,file_id=file.file_id) }}">下载</a>
+                                                            <a href="{{ url_for('anony.pub_DL',option=2,file_id=file.file_id) }}">下载哈希值</a>
+                                                            <!-- <a href="#">解密并下载</a> -->
+                                                            <a href="{{ url_for('anony.pub_DL',option=3,file_id=file.file_id) }}">下载签名文件</a>
+                                                        </th>
+                                                            <th>{{ file.text }}</th>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </ui>
+                                                {% else %}
+                                                    <p>暂无公开文件噢~   赶快试试去共享叭！</p>
+                                                    {% endif %}
+                                        </table>
+
+
+
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+                            </div>
+                            <!-- /.box -->
+                            <div class="file_show">
+
+                            </div>
+                        </section>
         </div>
         <!-- 内容区域 /-->
 
@@ -560,6 +629,29 @@
             setSidebarActive("admin-index");
         });
     </script>
+    <script>
+                $(document).ready(
+                    function(){
+                        $('.i').click(
+                            function(){
+                                $(this).parent().next().toggle();
+                            }
+                        );
+                    }
+                );
+            </script>
+    <script>
+                $(document).ready(
+                    function(){
+                        $('.i').click(
+                            function(){
+                                $(this).parent().next().toggle();
+                            }
+                        );
+                    }
+                );
+            </script>
+
 </body>
 
 </html>
