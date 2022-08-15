@@ -1939,22 +1939,14 @@
       <change beforePath="$PROJECT_DIR$/../demo/cuc/x.509/key.pem" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../demo/cuc/x.509/self-signed/key.pem" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../demo/cuc/x.509/self-signed/self-signed-key.pem" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ae59e1c1-403f-483c-810f-5e4e151dbd17.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/ae59e1c1-403f-483c-810f-5e4e151dbd17.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/DigitalSignature.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/DigitalSignature.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/Sym_cryptography.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/Sym_cryptography.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/db_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/db_models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/emailway.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/emailway.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/share.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/share.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/data-dev.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/data-dev.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/templates/2fa.html" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/templates/2fa.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/templates/file.html" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/templates/file.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/templates/layout.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/templates/opensharefile.html" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/templates/opensharefile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/templates/shared_file.html" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/templates/shared_file.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/views/anony.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/views/anony.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/views/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuc/littleRedCUC/views/auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cuc/littleRedCUC/views/test.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -2014,7 +2006,9 @@
       <workItem from="1659599306225" duration="4330000" />
       <workItem from="1660302497005" duration="14058000" />
       <workItem from="1660327796059" duration="3147000" />
-      <workItem from="1660401096642" duration="8138000" />
+      <workItem from="1660401096642" duration="8503000" />
+      <workItem from="1660420877116" duration="10798000" />
+      <workItem from="1660550057156" duration="520000" />
     </task>
     <servers />
   </component>

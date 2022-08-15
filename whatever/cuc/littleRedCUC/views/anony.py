@@ -86,7 +86,6 @@ def signup():
                 format=serialization.PrivateFormat.Raw,
                 encryption_algorithm=serialization.NoEncryption()
             )
-            print(private_bytes)
             new_private_bytes = Encode_SK(private_bytes)
             # loaded_private_key = ed25519.Ed25519PrivateKey.from_private_bytes(private_bytes)
             public_key = private_key.public_key()
@@ -158,12 +157,10 @@ def changepasswd2():
 def verify():
     if request.method == 'GET':
         p = request.args["token"]
-        print(p)
         app.logger.info('get token:%s', p)
         decoder = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
         decoded = decoder.loads(p)
         trueDecoded = decoder.loads(p, decoded['expireIn'])
-        print(trueDecoded)
         app.logger.info('token is right')
         code = VerifyForm()
         if trueDecoded:
@@ -179,18 +176,13 @@ def verify():
         user = User.query.filter(User.id == userid).first()
         user = user.name
 
-        print(code)
         # url = 'https://' + current_app.config['SERVER_NAME'] + '/verify?token=' + p
         temp = 'https://' + current_app.config['SERVER_NAME'] + '/verify?token='
         sad = share_and_download(file.file_id)
         p = url_.replace(temp, '')
-        print(url_)
-        print(code)
         if sad.is_THE_ONE(url_, code):
-            print(33333)
             return render_template('opensharefile.html', file=file, form=form, user=user, token=p)
         else:
-            print(44444)
             code = VerifyForm()
             return render_template('verify.html', form=code)
 
@@ -505,14 +497,11 @@ def upload_file():
 def vertify():  # 客户端进行数字签名验证
     try:
         file = request.args["file"]
-        print(file)
-        print(type(file))
         client_id = int(file.replace('<Client ', '').replace('>', ''))
-        print(client_id)
         client = Client.query.filter_by(id=client_id)[-1]
         share_id = client.share_id
         file_name = client.file_name  # 用户上传的文件名
-        file_path = str(Path(current_app.config['UPLOAD_FOLDER']) / file_name)  # 存放上传文件的路径
+        file_path = str(Path(current_app.config['UPLOAD_FOLDER']) / file_name)  # 存放上传文件 的路径
 
         with open(file_path, "rb") as f:
             file_bytes = f.read()

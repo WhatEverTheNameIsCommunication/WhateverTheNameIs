@@ -50,9 +50,8 @@ def login():
             user = User.query.filter_by(email=form.email.data).first_or_404()
             if user.is_correct_password(form.password.data):
                 login_user(user)
-                print('login ')
                 next = request.args.get('next')
-                return redirect(next or url_for('auth.home'))
+                # return redirect(next or url_for('auth.home'))
                 if form.emailway.data:
                     totp = TotpFactory.new()
                     data = totp.to_json()
@@ -301,7 +300,7 @@ def upload_file():
             flash('请注意您上传文件的有效性。')
             return render_template('file_upload.html', form=form)
 
-    flash('文件类型仅允许普通文件和Microsoft文档,大小限制在10M以内')
+    flash('文件类型仅允许普通图片和Microsoft文档,大小限制在10M以内')
     flash('文件名应为全英文')
     return render_template('file_upload.html', form=form)
 
